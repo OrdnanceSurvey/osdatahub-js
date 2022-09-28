@@ -1,0 +1,26 @@
+{
+  "name": "osfetch",
+  "version": "1.0.0",
+  "description": "A JavaScript wrapper for the Ordnance Survey Names API, Places API, and NGD Features API.",
+  "main": "src/index.mjs",
+  "scripts": {
+    "main": "node src/index.mjs"
+  },
+  "keywords": [
+    "OrdnanceSurvey",
+    "OS",
+    "API",
+    "Wrapper",
+    "NamesAPI",
+    "PlacesAPI",
+    "NGDFeaturesAPI",
+    "JavaScript",
+    "GeoJSON"
+  ],
+  "author": "https://github.com/OrdnanceSurvey",
+  "license": "ISC",
+  "dependencies": {
+    "node-fetch": "^3.2.10",
+    "proj4": "^2.8.0"
+  }
+}
