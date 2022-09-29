@@ -1,8 +1,8 @@
 // src/handlers/handlePlaces.mjs
 
-import { coords } from './utils/coords.mjs'
-import { request } from './utils/request.mjs'
-import { geojson } from './utils/geojson.mjs'
+import { coords } from './utils/coords.js'
+import { request } from './utils/request.js'
+import { geojson } from './utils/geojson.js'
 
 export {
     handlePlaces

@@ -1,7 +1,7 @@
 
 import fs from 'fs'
 
-import { osfetch } from '../src/index.mjs'
+import { osfetch } from '../build/index.js'
 
 const sampleGeoJSON = {
     "type": "FeatureCollection",
