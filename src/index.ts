@@ -1,4 +1,4 @@
-// src/index.mjs
+// src/index.ts
 
 /*
 
@@ -12,11 +12,11 @@
 
 */
 
-import { sanitiseParams } from './utils/sanitise.mjs'
+import { sanitiseParams } from './utils/sanitise.js'
 
-import { handleNGD } from './handleNGD.mjs'
-import { handleNames } from './handleNames.mjs'
-import { handlePlaces } from './handlePlaces.mjs'
+import { handleNGD } from './handleNGD.js'
+import { handleNames } from './handleNames.js'
+import { handlePlaces } from './handlePlaces.js'
 
 export {
     osfetch
