@@ -68,7 +68,7 @@ async function handlePlaces(params) {
 
     }
 
-    let responseObject = await request.new(config)
+    let responseObject = await request(config)
 
     let responseObjectGeoJSON = geojson.into(responseObject)
 
