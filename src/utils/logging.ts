@@ -1,4 +1,4 @@
-// src/utils/logging.mjs
+// src/utils/logging.ts
 
 export {
     logging
