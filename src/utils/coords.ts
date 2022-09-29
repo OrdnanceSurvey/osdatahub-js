@@ -1,4 +1,4 @@
-// src/utils/coords.mjs
+// src/utils/coords.ts
 
 import proj4 from 'proj4'
 
