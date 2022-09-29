@@ -2,7 +2,7 @@
 import fs from 'fs'
 import * as dotenv from 'dotenv'
 
-import { osfetch } from '../src/index.mjs'
+import { osfetch } from '../build/index.js'
 
 dotenv.config()
 
