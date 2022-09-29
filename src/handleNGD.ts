@@ -1,4 +1,4 @@
-// src/handlers/handleNGD.mjs
+// src/handlers/handleNGD.ts
 
 import { request } from './utils/request.js'
 

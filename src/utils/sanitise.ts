@@ -1,4 +1,4 @@
-// src/utils/sanitise.mjs
+// src/utils/sanitise.ts
 
 export {
     sanitiseParams
