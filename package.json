@@ -1,12 +1,16 @@
 {
-  "name": "osfetch",
+  "name": "osfetch-new",
   "version": "1.0.0",
   "description": "A JavaScript wrapper for the Ordnance Survey Names API, Places API, and NGD Features API.",
-  "main": "src/index.mjs",
+  "main": "index.js",
   "type": "module",
   "scripts": {
-    "main": "node src/index.mjs",
-    "test": "jest"
+    "test": "jest",
+    "build": "npx tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OrdnanceSurvey/osfetch-new.git"
   },
   "keywords": [
     "OrdnanceSurvey",
@@ -21,8 +25,21 @@
   ],
   "author": "https://github.com/OrdnanceSurvey",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/OrdnanceSurvey/osfetch-new/issues"
+  },
+  "homepage": "https://github.com/OrdnanceSurvey/osfetch-new#readme",
+  "devDependencies": {
+    "@tsconfig/node16": "^1.0.3",
+    "@types/node": "^18.7.23",
+    "typescript": "^4.8.4"
+  },
   "dependencies": {
     "node-fetch": "^3.2.10",
+    "proj4": "^2.8.0"
+  },
+  "devDependencies": {
+    "dotenv": "^16.0.2",
     "proj4": "^2.8.0",
     "rewire": "^6.0.0"
   },
