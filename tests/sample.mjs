@@ -1,7 +1,10 @@
 
 import fs from 'fs'
+import * as dotenv from 'dotenv'
 
 import { osfetch } from '../src/index.mjs'
+
+dotenv.config()
 
 const sampleGeoJSON = {
     "type": "FeatureCollection",
@@ -50,9 +53,11 @@ const sampleGeoJSON = {
 
 async function getData() {
 
+    console.log(process.env.API_KEY)
+
     let theData = await osfetch.places({
         findBy: ['radius', '-0.114619,51.520516', '300'],
-        apiKey: '',
+        apiKey: process.env.API_KEY,
         paging: [0, 2000]
     })
 
