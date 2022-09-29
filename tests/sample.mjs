@@ -53,11 +53,10 @@ const sampleGeoJSON = {
 
 async function getData() {
 
-    console.log(process.env.API_KEY)
 
     let theData = await osfetch.places({
         findBy: ['radius', '-0.114619,51.520516', '300'],
-        apiKey: process.env.API_KEY,
+        apiKey: process.env.OS_API_KEY,
         paging: [0, 2000]
     })
 
