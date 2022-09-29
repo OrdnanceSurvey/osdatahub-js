@@ -42,7 +42,7 @@ async function handleNames(params) {
 
     }
     
-    let responseObject = await request.new(config)
+    let responseObject = await request(config)
 
     let coordsTemp
     for (let i = 0; i < responseObject.results.length; i++) {
