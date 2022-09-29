@@ -1,4 +1,4 @@
-// src/utils/geojson.mjs
+// src/utils/geojson.ts
 
 export {
     geojson

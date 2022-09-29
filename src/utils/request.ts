@@ -1,6 +1,6 @@
-// src/utils/request.mjs
+// src/utils/request.ts
 
-import { logging } from '../utils/logging.mjs'
+import { logging } from './logging.js'
 
 import fetch from 'node-fetch' // not required in Node17.5 (LTS) onwards
 
