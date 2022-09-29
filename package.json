@@ -3,8 +3,10 @@
   "version": "1.0.0",
   "description": "A JavaScript wrapper for the Ordnance Survey Names API, Places API, and NGD Features API.",
   "main": "src/index.mjs",
+  "type": "module",
   "scripts": {
-    "main": "node src/index.mjs"
+    "main": "node src/index.mjs",
+    "test": "jest"
   },
   "keywords": [
     "OrdnanceSurvey",
@@ -21,6 +23,10 @@
   "license": "ISC",
   "dependencies": {
     "node-fetch": "^3.2.10",
-    "proj4": "^2.8.0"
+    "proj4": "^2.8.0",
+    "rewire": "^6.0.0"
+  },
+  "devDependencies": {
+    "jest": "^29.1.1"
   }
 }
