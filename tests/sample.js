@@ -1,7 +1,7 @@
 
 import fs from 'fs'
 
-import { osfetch } from '../src/index.mjs'
+import { osfetch } from '../build/index.js'
 
 const sampleGeoJSON = {
     "type": "FeatureCollection",
@@ -52,7 +52,7 @@ async function getData() {
 
     let theData = await osfetch.places({
         findBy: ['radius', '-0.114619,51.520516', '300'],
-        apiKey: '',
+        apiKey: process.env.OS_API_KEY,
         paging: [0, 2000]
     })
 
