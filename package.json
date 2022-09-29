@@ -37,5 +37,8 @@
   "dependencies": {
     "node-fetch": "^3.2.10",
     "proj4": "^2.8.0"
+  },
+  "devDependencies": {
+    "dotenv": "^16.0.2"
   }
 }
