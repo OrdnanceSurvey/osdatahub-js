@@ -1,4 +1,4 @@
-// src/index.mjs
+// src/index.ts
 
 /*
 
