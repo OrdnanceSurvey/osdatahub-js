@@ -1,10 +1,10 @@
 // src/utils/sanitise.ts
 
 export {
-    sanitiseParams
+    validateParams
 }
 
-function sanitiseParams (params) {
+function validateParams (params) {
 
     if (!params.apiKey) {
         throw new Error('No API key supplied. Aborting')
@@ -13,6 +13,8 @@ function sanitiseParams (params) {
     if (!params.findBy) {
         throw new Error('No searchable extent provided. Aborting.')
     }
+    
+    // need to add swivel
 
     if (params.findBy[0] == 'radius' && params.findBy[2] > 1000) {
         throw new Error('Radius is too large, maximum size in 1000. Aborting.')

@@ -12,8 +12,6 @@
 
 */
 
-import { sanitiseParams } from "./utils/sanitise.js";
-
 import { handleNGD } from "./ngd.js";
 import { handleNames } from "./names.js";
 import { handlePlaces } from "./places.js";
@@ -22,17 +20,14 @@ export { osfetch };
 
 const osfetch = {
   ngd: function (params) {
-    sanitiseParams(params);
     return handleNGD(params);
   },
 
   names: function (params) {
-    sanitiseParams(params);
     return handleNames(params);
   },
 
   places: function (params) {
-    sanitiseParams(params);
     return handlePlaces(params);
   },
 
