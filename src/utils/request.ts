@@ -8,6 +8,7 @@ import fetch from "node-fetch"; // not required in Node17.5 (LTS) onwards
 export { request };
 
 async function post(endpoint: string, key: string, body: string) {
+  logging.info("🔍 " + endpoint);
   return await fetch(endpoint, {
     method: "post",
     headers: {
@@ -19,6 +20,7 @@ async function post(endpoint: string, key: string, body: string) {
 }
 
 async function get(endpoint: string, key: string) {
+  logging.info("🔍 " + endpoint);
   return await fetch(endpoint, {
     method: "get",
     headers: {
@@ -27,7 +29,7 @@ async function get(endpoint: string, key: string) {
   });
 }
 
-function getOffsetEndpoint(config: Config) {
+function getOffsetEndpoint(config: Config): string {
   return config.url + "&offset=" + config.paging.position;
 }
 
@@ -46,43 +48,7 @@ function checkStatusCode(statusCode: number): void {
   }
 }
 
-async function request(config: Config) {
-  let response, responseObject, responseObjectTemp, endpoint: string;
-
-  while (
-    config.paging.isNextPage &&
-    config.paging.position < config.paging.limitValue
-  ) {
-    endpoint = config.paging.enabled ? getOffsetEndpoint(config) : config.url;
-    
-    response =
-      config.method == "get"
-        ? await get(endpoint, config.key)
-        : await post(endpoint, config.key, config.body);
-    logging.info("🔍 " + endpoint);
-
-    checkStatusCode(response.status)
-
-    responseObjectTemp = await response.json();
-
-    if (config.paging.position == config.paging.startValue) {
-      responseObject = responseObjectTemp;
-    } else {
-      responseObject.results = responseObject.results.concat(
-        responseObjectTemp.results
-      );
-    }
-
-    if (
-      !responseObjectTemp.results ||
-      responseObjectTemp.results.length == 100
-    ) {
-      config.paging.position += 100;
-    } else {
-      config.paging.isNextPage = false;
-    }
-  }
-
+function logEndConditions(config: Config): void {
   if (config.paging.position == config.paging.limitValue) {
     logging.warn(
       `🔸 The hard limit (${config.paging.limitValue} features) was reached. Additional features may be available to collect.`
@@ -94,6 +60,40 @@ async function request(config: Config) {
       }) have been collected.`
     );
   }
+}
 
-  return responseObject;
+async function request(config: Config) {
+  let response, outputJson, responseJson, endpoint: string;
+
+  while (
+    config.paging.isNextPage &&
+    config.paging.position < config.paging.limitValue
+  ) {
+    endpoint = config.paging.enabled ? getOffsetEndpoint(config) : config.url;
+
+    response =
+      config.method == "get"
+        ? await get(endpoint, config.key)
+        : await post(endpoint, config.key, config.body);
+
+    checkStatusCode(response.status);
+
+    responseJson = await response.json();
+
+    if (config.paging.position == config.paging.startValue) {
+      outputJson = responseJson;
+    } else {
+      outputJson.results = outputJson.results.concat(responseJson.results);
+    }
+
+    if (!responseJson.results || responseJson.results.length == 100) {
+      config.paging.position += 100;
+    } else {
+      config.paging.isNextPage = false;
+    }
+  }
+
+  logEndConditions(config);
+
+  return outputJson;
 }
