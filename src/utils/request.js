@@ -1,13 +1,12 @@
 // src/utils/request.ts
 
 import { logging } from "./logging";
-import { type Config } from "../types";
 
 import fetch from "node-fetch"; // not required in Node17.5 (LTS) onwards
 
 export { request };
 
-async function post(endpoint: string, key: string, body: string) {
+async function post(endpoint, key, body) {
   logging.info("🔍 " + endpoint);
   return await fetch(endpoint, {
     method: "post",
@@ -19,7 +18,7 @@ async function post(endpoint: string, key: string, body: string) {
   });
 }
 
-async function get(endpoint: string, key: string) {
+async function get(endpoint, key) {
   logging.info("🔍 " + endpoint);
   return await fetch(endpoint, {
     method: "get",
@@ -29,11 +28,11 @@ async function get(endpoint: string, key: string) {
   });
 }
 
-function getOffsetEndpoint(config: Config): string {
+function getOffsetEndpoint(config) {
   return config.url + "&offset=" + config.paging.position;
 }
 
-function checkStatusCode(statusCode: number): void {
+function checkStatusCode(statusCode) {
   if (statusCode != 200) {
     switch (statusCode) {
       case 400:
@@ -48,7 +47,7 @@ function checkStatusCode(statusCode: number): void {
   }
 }
 
-function logEndConditions(config: Config): void {
+function logEndConditions(config) {
   if (config.paging.position == config.paging.limitValue) {
     logging.warn(
       `🔸 The hard limit (${config.paging.limitValue} features) was reached. Additional features may be available to collect.`
@@ -62,8 +61,8 @@ function logEndConditions(config: Config): void {
   }
 }
 
-async function request(config: Config) {
-  let response, outputJson, responseJson, endpoint: string;
+async function request(config) {
+  let response, outputJson, responseJson, endpoint;
 
   while (
     config.paging.isNextPage &&

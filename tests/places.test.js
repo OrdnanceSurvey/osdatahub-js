@@ -1,58 +1,40 @@
-import {describe, expect, test} from '@jest/globals';
-import * as dotenv from 'dotenv';
-import {places} from '../build/places'
+import { describe, expect, test } from "@jest/globals";
+import * as dotenv from "dotenv";
+import { places } from "../src/places";
 
 dotenv.config();
 
 const sampleGeoJson = {
-    "type": "FeatureCollection",
-    "features": [
-        {
-            "type": "Feature",
-            "properties": {},
-            "geometry": {
-                "type": "Polygon",
-                "coordinates": [
-                    [
-                        [
-                            -1.4730370044708252,
-                            50.936113462996616
-                        ],
-                        [
-                            -1.4670073986053467,
-                            50.936113462996616
-                        ],
-                        [
-                            -1.4670073986053467,
-                            50.93952096686167
-                        ],
-                        [
-                            -1.4730370044708252,
-                            50.93952096686167
-                        ],
-                        [
-                            -1.4730370044708252,
-                            50.936113462996616
-                        ]
-                    ]
-                ]
-            }
-        }
-    ]
-}
+  type: "FeatureCollection",
+  features: [
+    {
+      type: "Feature",
+      properties: {},
+      geometry: {
+        type: "Polygon",
+        coordinates: [
+          [
+            [-1.4730370044708252, 50.936113462996616],
+            [-1.4670073986053467, 50.936113462996616],
+            [-1.4670073986053467, 50.93952096686167],
+            [-1.4730370044708252, 50.93952096686167],
+            [-1.4730370044708252, 50.936113462996616],
+          ],
+        ],
+      },
+    },
+  ],
+};
 
 describe("Polygon Endpoint", () => {
-    test("Polygon Endpoint Passes", async () => {
-        let response = await places.polygon({
-            apiKey: process.env.OS_API_KEY,
-            polygon: sampleGeoJson
-        })
-        expect(response.features.length).toBeGreaterThanOrEqual(1)
-    })
-    // test("Polygon Endpoint Fails", () => {
-
-    // })
-})
+  test("Polygon Endpoint Passes", async () => {
+    let response = await places.polygon(
+      process.env.OS_API_KEY || "",
+      sampleGeoJson
+    );
+    expect(response?.features?.length || 0).toBeGreaterThanOrEqual(1);
+  });
+});
 
 // describe("BBox Endpoint", () => {
 //     test("BBox Endpoint Passes", () => {
