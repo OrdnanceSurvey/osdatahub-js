@@ -4,13 +4,14 @@ import { coords } from './utils/coords.js'
 import { request } from './utils/request.js'
 import { geojson } from './utils/geojson.js'
 
+import { type Config } from './types'
+
 export {
     places
 }
 
-async function handlePlaces(apiKey: string, params) {
-
-    let config = {
+function initialiseConfig(apiKey: string, params: any): Config {
+    return {
         url: '',
         key: apiKey,
         body: '',
@@ -23,8 +24,38 @@ async function handlePlaces(apiKey: string, params) {
             isNextPage: true
         }
     }
+}
 
-    let rectifiedCoords
+async function requestPlaces(config: Config) {
+
+    let responseObject = await request(config)
+
+    let responseObjectGeoJSON = geojson.into(responseObject)
+
+    return responseObjectGeoJSON
+
+}
+
+const places = {
+
+    polygon: async (apiKey: string, polygon, params) => {
+
+        let config = initialiseConfig(apiKey, params)
+
+        config.url = `https://api.os.uk/search/places/v1/polygon?srs=WGS84`
+        config.method = 'post'
+        config.body = JSON.stringify(geojson.from(polygon))
+
+        return await requestPlaces(config)
+    },
+
+    
+
+}
+
+
+
+
 
     // switch (params.findBy[0]) {
 
@@ -67,20 +98,3 @@ async function handlePlaces(apiKey: string, params) {
     //         throw new Error('Invalid findBy type supplied. Aborting.')
 
     // }
-
-    let responseObject = await request(config)
-
-    let responseObjectGeoJSON = geojson.into(responseObject)
-
-    return responseObjectGeoJSON
-
-}
-
-
-const places = {
-    polygon: (apiKey: string, polygon, params) {
-        config.url = `https://api.os.uk/search/places/v1/polygon?srs=WGS84`
-        config.method = 'post'
-        config.body = JSON.stringify(geojson.from(polygon))
-    }
-}
