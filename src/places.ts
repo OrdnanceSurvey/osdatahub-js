@@ -4,13 +4,14 @@ import { coords } from './utils/coords.js'
 import { request } from './utils/request.js'
 import { geojson } from './utils/geojson.js'
 
-import { type Config } from './types'
+import { type Config, Options } from './types'
+import { osfetch } from './index.js'
 
 export {
     places
 }
 
-function initialiseConfig(apiKey: string, params: any): Config {
+function initialiseConfig(apiKey: string, options: Options): Config {
     return {
         url: '',
         key: apiKey,
@@ -18,29 +19,24 @@ function initialiseConfig(apiKey: string, params: any): Config {
         method: 'get',
         paging: {
             enabled: true,
-            position: params.paging[0],
-            startValue: params.paging[0],
-            limitValue: params.paging[1],
+            position: options.paging[0],
+            startValue: options.paging[0],
+            limitValue: options.paging[1],
             isNextPage: true
         }
     }
 }
 
 async function requestPlaces(config: Config) {
-
     let responseObject = await request(config)
-
     let responseObjectGeoJSON = geojson.into(responseObject)
-
     return responseObjectGeoJSON
-
 }
 
 const places = {
 
-    polygon: async (apiKey: string, polygon, params) => {
-
-        let config = initialiseConfig(apiKey, params)
+    polygon: async (apiKey: string, polygon, options: Options) => {
+        let config = initialiseConfig(apiKey, options)
 
         config.url = `https://api.os.uk/search/places/v1/polygon?srs=WGS84`
         config.method = 'post'
@@ -48,12 +44,7 @@ const places = {
 
         return await requestPlaces(config)
     },
-
-    
-
 }
-
-
 
 
 
