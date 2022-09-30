@@ -9,16 +9,8 @@ function validateParams (params) {
     if (!params.apiKey) {
         throw new Error('No API key supplied. Aborting')
     }
-
-    if (!params.findBy) {
-        throw new Error('No searchable extent provided. Aborting.')
-    }
     
     // need to add swivel
-
-    if (params.findBy[0] == 'radius' && params.findBy[2] > 1000) {
-        throw new Error('Radius is too large, maximum size in 1000. Aborting.')
-    }
 
     if (!params.paging) {
         params.paging = [0, 1000]
