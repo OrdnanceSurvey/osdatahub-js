@@ -14,9 +14,9 @@
 
 import { sanitiseParams } from "./utils/sanitise.js";
 
-import { handleNGD } from "./handleNGD.js";
-import { handleNames } from "./handleNames.js";
-import { handlePlaces } from "./handlePlaces.js";
+import { handleNGD } from "./ngd.js";
+import { handleNames } from "./names.js";
+import { handlePlaces } from "./places.js";
 
 export { osfetch };
 
