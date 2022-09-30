@@ -1,8 +1,19 @@
 export {
     Config,
-    Options
+    Options,
+    FeatureCollection,
+    Feature
 }
 
+// Request Configuration
+
+interface Config {
+  url: string;
+  key: string;
+  body: string;
+  method: Method;
+  paging: Paging;
+}
 
 type Method = "post" | "get";
 
@@ -14,16 +25,28 @@ interface Paging {
   isNextPage: boolean;
 }
 
-interface Config {
-  url: string;
-  key: string;
-  body: string;
-  method: Method;
-  paging: Paging;
-}
-
+// Optional User Input
 
 interface Options {
-  paging: [number, number];
+  paging?: [number, number];
   filter?: string;
+}
+
+// GeoJSON
+// todo: Potentially switch to GeoJSON types
+
+interface FeatureCollection {
+    type: string;
+    features: Array<Feature>
+}
+
+interface Feature {
+    type: string;
+    properties?: any;
+    geometry: Geometry
+}
+
+interface Geometry {
+    type: string;
+    coordinates: Array<any>
 }

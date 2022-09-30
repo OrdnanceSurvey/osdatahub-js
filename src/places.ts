@@ -1,11 +1,11 @@
 // src/handlers/handlePlaces.ts
 
-import { coords } from './utils/coords.js'
+import { coords } from './utils/coords.js' // no longer required as coords.swivel moved
 import { request } from './utils/request.js'
 import { geojson } from './utils/geojson.js'
+import { validateParams } from './utils/sanitise.js'
 
-import { type Config, Options } from './types'
-import { osfetch } from './index.js'
+import { type Config, Options, FeatureCollection, Feature } from './types'
 
 export {
     places
@@ -35,7 +35,10 @@ async function requestPlaces(config: Config) {
 
 const places = {
 
-    polygon: async (apiKey: string, polygon, options: Options) => {
+    polygon: async (apiKey: string, polygon: FeatureCollection | Feature, options: Options) => {
+
+        validateParams({ apiKey, polygon, ...options })
+
         let config = initialiseConfig(apiKey, options)
 
         config.url = `https://api.os.uk/search/places/v1/polygon?srs=WGS84`
@@ -43,7 +46,21 @@ const places = {
         config.body = JSON.stringify(geojson.from(polygon))
 
         return await requestPlaces(config)
+
     },
+
+    radius: undefined,
+
+    bbox: undefined,
+
+    nearest: undefined,
+
+    uprn: undefined,
+
+    postcode: undefined,
+
+    find: undefined,
+
 }
 
 

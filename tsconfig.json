@@ -4,6 +4,7 @@
         "outDir": "build",
         "module": "es6",
         "target": "es6",
+        "allowJs": true
     },
     "include": ["src"],
     "exclude": ["node_modules"]
