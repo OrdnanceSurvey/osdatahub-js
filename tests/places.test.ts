@@ -1,6 +1,6 @@
 import {describe, expect, test} from '@jest/globals';
 import * as dotenv from 'dotenv';
-import { places } from '../build/places.js';
+import {places} from '../build/places'
 
 dotenv.config();
 
