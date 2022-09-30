@@ -1,7 +1,7 @@
 // src/utils/request.ts
 
-import { logging } from "./logging.js";
-import { type Config } from "../types.js";
+import { logging } from "./logging";
+import { type Config } from "../types";
 
 import fetch from "node-fetch"; // not required in Node17.5 (LTS) onwards
 

@@ -1,9 +1,9 @@
 // src/handlers/handlePlaces.ts
 
-import { coords } from './utils/coords.js' // no longer required as coords.swivel moved
-import { request } from './utils/request.js'
-import { geojson } from './utils/geojson.js'
-import { validateParams } from './utils/sanitise.js'
+import { coords } from './utils/coords' // no longer required as coords.swivel moved
+import { request } from './utils/request'
+import { geojson } from './utils/geojson'
+import { validateParams } from './utils/sanitise'
 
 import { type Config, Options, FeatureCollection, Feature } from './types'
 
