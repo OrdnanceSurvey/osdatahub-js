@@ -19,7 +19,6 @@ describe("Polygon Endpoint", () => {
     })
 })
 
-
 describe("BBox Endpoint", () => {
     test("BBox Endpoint Passes", () => {
         const bbox = [-1.475335, 50.936159, -1.466924, 50.939569];

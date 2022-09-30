@@ -1,5 +1,6 @@
 export {
-    Config
+    Config,
+    Options
 }
 
 
@@ -19,4 +20,10 @@ interface Config {
   body: string;
   method: Method;
   paging: Paging;
+}
+
+
+interface Options {
+  paging: [number, number];
+  filter?: string;
 }
