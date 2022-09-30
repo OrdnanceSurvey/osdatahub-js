@@ -6,3 +6,13 @@ describe("osfetch", () => {
         expect(5 + 5).toEqual(10)
     });
 });
+
+
+describe("Names API", () => {
+
+})
+
+
+describe("NGD Features API" () => {
+
+})
