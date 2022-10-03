@@ -1,4 +1,4 @@
-// src/index.ts
+// src/index.js
 
 /*
 
@@ -12,9 +12,9 @@
 
 */
 
-import { handleNGD } from "./ngd.js";
-import { handleNames } from "./names.js";
-import { handlePlaces } from "./places.js";
+import { handleNGD } from "./ngd";
+import { handleNames } from "./names";
+import { handlePlaces } from "./places";
 
 export { osfetch };
 

@@ -1,10 +1,10 @@
+import fs from "fs";
+import * as dotenv from "dotenv";
 
-import fs from 'fs'
-import * as dotenv from 'dotenv'
+// import { osfetch } from '../build/index'
+import { places } from "../src/places.js";
 
-import { osfetch } from '../src/index'
-
-dotenv.config()
+dotenv.config();
 
 const sampleGeoJSON = {
   type: "FeatureCollection",
@@ -31,23 +31,15 @@ const sampleGeoJSON = {
 };
 
 async function getData() {
+  let theData = await places.polygon(process.env.OS_API_KEY, sampleGeoJSON);
 
+  let theDataParsed = JSON.stringify(theData);
 
-    let theData = await osfetch.places({
-        findBy: ['radius', '-0.114619,51.520516', '300'],
-        apiKey: process.env.OS_API_KEY,
-        paging: [0, 2000]
-    })
-
-    let theDataParsed = JSON.stringify(theData)
-    console.log(Object.keys(theData))
-
-    // fs.writeFile('tests/output.geojson', theDataParsed, function (err, data) {
-    //     if (err) {
-    //         return console.log(err)
-    //     }
-    // })
-
+  fs.writeFile("tests/output.geojson", theDataParsed, function (err, data) {
+    if (err) {
+      return console.log(err);
+    }
+  });
 }
 
-getData()
+getData();
