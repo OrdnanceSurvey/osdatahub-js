@@ -7,8 +7,7 @@ import { validateParams } from "./utils/sanitise.js";
 
 export { places };
 
-function initialiseConfig(apiKey, paging) {
-  paging = paging || [0, 1000];
+function initialiseConfig(apiKey, paging=[0, 1000]) {
   return {
     url: "",
     key: apiKey,
@@ -31,10 +30,10 @@ async function requestPlaces(config) {
 }
 
 const places = {
-  polygon: async (apiKey, polygon, options = {}) => {
-    validateParams({ apiKey, polygon, ...options });
+  polygon: async (apiKey, polygon, {paging=[0, 1000]}) => {
+    validateParams({ apiKey, polygon, paging});
 
-    let config = initialiseConfig(apiKey, options.paging);
+    let config = initialiseConfig(apiKey, paging);
 
     config.url = `https://api.os.uk/search/places/v1/polygon?srs=WGS84`;
     config.method = "post";
@@ -43,10 +42,10 @@ const places = {
     return await requestPlaces(config);
   },
 
-  radius: async (apiKey, center, radius, options = {}) => {
-    validateParams({ apiKey, center, radius, ...options });
+  radius: async (apiKey, center, radius, {paging=[0, 1000]}) => {
+    validateParams({ apiKey, center, radius, paging});
 
-    let config = initialiseConfig(apiKey, options.paging);
+    let config = initialiseConfig(apiKey, paging);
 
     center = coords.swivel(center);
     config.url = `https://api.os.uk/search/places/v1/radius?srs=WGS84&point=${center}&radius=${radius}`;
@@ -54,10 +53,10 @@ const places = {
     return await requestPlaces(config);
   },
 
-  bbox: async (apiKey, bbox, options = {}) => {
-    validateParams({ apiKey, bbox, ...options });
+  bbox: async (apiKey, bbox, {paging=[0, 1000]}) => {
+    validateParams({ apiKey, bbox});
 
-    let config = initialiseConfig(apiKey, options.paging);
+    let config = initialiseConfig(apiKey, paging);
 
     bbox = coords.swivel(bbox);
     config.url = `https://api.os.uk/search/places/v1/bbox?srs=WGS84&bbox=${bbox}`;
@@ -65,8 +64,8 @@ const places = {
     return await requestPlaces(config);
   },
 
-  nearest: async (apiKey, point, options = {}) => {
-    validateParams({ apiKey, point, ...options });
+  nearest: async (apiKey, point) => {
+    validateParams({ apiKey, point });
 
     let config = initialiseConfig(apiKey);
 
@@ -77,8 +76,8 @@ const places = {
     return await requestPlaces(config);
   },
 
-  uprn: async (apiKey, uprn, options = {}) => {
-    validateParams({ apiKey, uprn, ...options });
+  uprn: async (apiKey, uprn) => {
+    validateParams({ apiKey, uprn});
 
     let config = initialiseConfig(apiKey);
 
@@ -88,10 +87,10 @@ const places = {
     return await requestPlaces(config);
   },
 
-  postcode: async (apiKey, postcode, options = {}) => {
-    validateParams({ apiKey, postcode, ...options });
+  postcode: async (apiKey, postcode, {paging=[0, 1000]}) => {
+    validateParams({ apiKey, postcode, paging });
 
-    let config = initialiseConfig(apiKey, options.paging);
+    let config = initialiseConfig(apiKey, paging);
 
     postcode = encodeURIComponent(postcode);
     config.url = `https://api.os.uk/search/places/v1/postcode?output_srs=WGS84&postcode=${postcode}`;
@@ -99,10 +98,10 @@ const places = {
     return await requestPlaces(config);
   },
 
-  find: async (apiKey, search, options = {}) => {
-    validateParams({ apiKey, search, ...options });
+  find: async (apiKey, search, {paging=[0, 1000]}) => {
+    validateParams({ apiKey, search, paging });
 
-    let config = initialiseConfig(apiKey, options.paging);
+    let config = initialiseConfig(apiKey, paging);
 
     search = encodeURIComponent(search);
     config.url = `https://api.os.uk/search/places/v1/find?output_srs=WGS84&query=${search}`;
