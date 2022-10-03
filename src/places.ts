@@ -5,13 +5,23 @@ import { request } from './utils/request'
 import { geojson } from './utils/geojson'
 import { validateParams } from './utils/sanitise'
 
-import { type Config, Options, FeatureCollection, Feature } from './types'
+import {type Config, Options, FeatureCollection, Feature, OSDataHubResponse} from './types'
 
 export {
     places
 }
 
-function initialiseConfig(apiKey: string, options: Options): Config {
+function initialiseConfig(apiKey: string, options?: Options): Config {
+
+    let startValue: number;
+    let limitValue: number;
+    if ((typeof options === "undefined") || !(options.paging)) {
+        startValue = 0;
+        limitValue = 100;
+    } else {
+        startValue = options.paging[0]
+        limitValue = options.paging[1]
+    }
     return {
         url: '',
         key: apiKey,
@@ -19,33 +29,31 @@ function initialiseConfig(apiKey: string, options: Options): Config {
         method: 'get',
         paging: {
             enabled: true,
-            position: options.paging[0],
-            startValue: options.paging[0],
-            limitValue: options.paging[1],
+            position: startValue,
+            startValue: startValue,
+            limitValue: limitValue,
             isNextPage: true
         }
     }
 }
 
-async function requestPlaces(config: Config) {
-    let responseObject = await request(config)
-    let responseObjectGeoJSON = geojson.into(responseObject)
-    return responseObjectGeoJSON
+async function requestPlaces(config: Config): Promise<OSDataHubResponse> {
+    let responseObject =  request(config)
+    return responseObject
 }
 
 const places = {
 
-    polygon: async (apiKey: string, polygon: FeatureCollection | Feature, options: Options) => {
+    polygon: async (apiKey: string, polygon: FeatureCollection | Feature, options?: Options): Promise<OSDataHubResponse> => {
 
-        validateParams({ apiKey, polygon, ...options })
-
+        validateParams({ apiKey: apiKey, findBy: polygon, ...options })
         let config = initialiseConfig(apiKey, options)
 
         config.url = `https://api.os.uk/search/places/v1/polygon?srs=WGS84`
         config.method = 'post'
         config.body = JSON.stringify(geojson.from(polygon))
 
-        return await requestPlaces(config)
+        return requestPlaces(config)
 
     },
 
