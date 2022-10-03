@@ -1,4 +1,4 @@
-// src/utils/request.ts
+// src/utils/request.js
 
 import { logging } from "./logging.js";
 

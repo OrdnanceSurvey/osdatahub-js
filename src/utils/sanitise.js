@@ -1,4 +1,4 @@
-// src/utils/sanitise.ts
+// src/utils/sanitise.js
 
 export {
     validateParams

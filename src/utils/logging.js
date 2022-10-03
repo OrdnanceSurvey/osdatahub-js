@@ -1,4 +1,4 @@
-// src/utils/logging.ts
+// src/utils/logging.js
 
 export {
     logging
