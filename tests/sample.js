@@ -2,7 +2,7 @@ import fs from "fs";
 import * as dotenv from "dotenv";
 
 // import { osfetch } from '../build/index'
-import { places } from "../build/places";
+import { places } from "../src/places.js";
 
 dotenv.config();
 
