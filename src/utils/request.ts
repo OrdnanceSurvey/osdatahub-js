@@ -1,13 +1,12 @@
 // src/utils/request.ts
 
 import { logging } from "./logging";
-import { type Config } from "../types";
-
-import fetch from "node-fetch"; // not required in Node17.5 (LTS) onwards
+import {type Config, type OSDataHubResponse} from "../types";
+import fetch, {type Response} from "node-fetch"; // not required in Node17.5 (LTS) onwards
 
 export { request };
 
-async function post(endpoint: string, key: string, body: string) {
+async function post(endpoint: string, key: string, body: string): Promise<Response> {
   logging.info("🔍 " + endpoint);
   return await fetch(endpoint, {
     method: "post",
@@ -19,7 +18,7 @@ async function post(endpoint: string, key: string, body: string) {
   });
 }
 
-async function get(endpoint: string, key: string) {
+async function get(endpoint: string, key: string): Promise<Response> {
   logging.info("🔍 " + endpoint);
   return await fetch(endpoint, {
     method: "get",
@@ -62,8 +61,10 @@ function logEndConditions(config: Config): void {
   }
 }
 
-async function request(config: Config) {
-  let response, outputJson, responseJson, endpoint: string;
+async function request(config: Config): Promise<OSDataHubResponse>{
+  let response, endpoint: string;
+  let output: OSDataHubResponse;
+
 
   while (
     config.paging.isNextPage &&
@@ -71,22 +72,25 @@ async function request(config: Config) {
   ) {
     endpoint = config.paging.enabled ? getOffsetEndpoint(config) : config.url;
 
-    response =
+    let response: Response =
       config.method == "get"
         ? await get(endpoint, config.key)
         : await post(endpoint, config.key, config.body);
 
     checkStatusCode(response.status);
+    // @ts-ignore
+    let responseJson: OSDataHubResponse = response.json()
 
-    responseJson = await response.json();
-
-    if (config.paging.position == config.paging.startValue) {
-      outputJson = responseJson;
+    // @ts-ignore
+    if (!output) {
+      output = responseJson;
     } else {
-      outputJson.results = outputJson.results.concat(responseJson.results);
+      output.results = output.results.concat(responseJson.results);
+
     }
 
-    if (!responseJson.results || responseJson.results.length == 100) {
+
+    if ((!responseJson.results) || responseJson.results.length == 100) {
       config.paging.position += 100;
     } else {
       config.paging.isNextPage = false;
@@ -94,6 +98,10 @@ async function request(config: Config) {
   }
 
   logEndConditions(config);
-
-  return outputJson;
+  // @ts-ignore
+  if (!output) {
+    throw Error("There is no output at the end of request")
+  } else {
+    return output;
+  }
 }

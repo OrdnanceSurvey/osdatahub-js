@@ -1,10 +1,11 @@
 // src/utils/sanitise.ts
+import {type validationParams} from '../types'
 
 export {
     validateParams
 }
 
-function validateParams (params) {
+function validateParams (params: validationParams) {
 
     if (!params.apiKey) {
         throw new Error('No API key supplied. Aborting')

@@ -1,8 +1,21 @@
-import {describe, expect, test} from '@jest/globals';
+import {describe, expect, test, beforeAll} from '@jest/globals';
 import * as dotenv from 'dotenv';
-import {places} from '../build/places'
+import {places} from '../src/places'
+import {FeatureCollection, OSDataHubResponse} from "../src/types";
 
 dotenv.config();
+
+
+let apiKey = "";
+beforeAll(() => {
+    if (typeof process.env.OS_API_KEY == "string") {
+        apiKey = process.env.OS_API_KEY ;
+    } else {
+        throw Error("Could not get api key from environment variable OS_API_KEY. Use .env or add an environment variable" +
+            "containing a valid api key to run tests")
+    }
+})
+
 
 const sampleGeoJson = {
     "type": "FeatureCollection",
@@ -43,11 +56,8 @@ const sampleGeoJson = {
 
 describe("Polygon Endpoint", () => {
     test("Polygon Endpoint Passes", async () => {
-        let response = await places.polygon({
-            apiKey: process.env.OS_API_KEY,
-            polygon: sampleGeoJson
-        })
-        expect(response.features.length).toBeGreaterThanOrEqual(1)
+        let response: OSDataHubResponse = await places.polygon(apiKey, sampleGeoJson) ;
+        expect(response.results.length).toBeGreaterThanOrEqual(1)
     })
     // test("Polygon Endpoint Fails", () => {
 

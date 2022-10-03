@@ -13,7 +13,7 @@ export {
 
 const logging = {
 
-    info: function (message) {
+    info: function (message: string) {
 
         if (!process.env.NODE_ENV || ['development', 'staging'].includes(process.env.NODE_ENV) || process.env.OSFETCH_FORCE_LOGGING) {
             console.log(`[ osfetch ] ${message}`)
@@ -21,7 +21,7 @@ const logging = {
 
     },
 
-    warn: function (message) {
+    warn: function (message: string) {
 
         if (!process.env.NODE_ENV || ['production', 'staging'].includes(process.env.NODE_ENV) || process.env.OSFETCH_FORCE_LOGGING) {
             console.warn(`[ osfetch ] ${message}`)
