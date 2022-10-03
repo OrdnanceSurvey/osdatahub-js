@@ -5,7 +5,8 @@ export {
     Feature,
     OSDataHubResponse,
     validationParams,
-    placesOptions
+    placesOptions,
+    BBox
 }
 
 // Request Configuration
@@ -80,4 +81,4 @@ interface placesOptions {
     paging?: [number, number],
 }
 
-
+type BBox = [number, number, number, number]
