@@ -62,7 +62,7 @@ function logEndConditions(config: Config): void {
 }
 
 async function request(config: Config): Promise<OSDataHubResponse>{
-  let response, endpoint: string;
+  let endpoint: string;
   let output: OSDataHubResponse;
 
 
@@ -86,7 +86,6 @@ async function request(config: Config): Promise<OSDataHubResponse>{
       output = responseJson;
     } else {
       output.results = output.results.concat(responseJson.results);
-
     }
 
 
