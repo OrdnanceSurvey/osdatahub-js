@@ -4,7 +4,8 @@ export {
     FeatureCollection,
     Feature,
     OSDataHubResponse,
-    validationParams
+    validationParams,
+    placesOptions
 }
 
 // Request Configuration
@@ -64,6 +65,19 @@ interface OSDataHubResponse {
 }
 
 interface validationParams extends Options {
-    apiKey: string,
-    findBy: any
+    apiKey: string
+    paging?: [number, number]
+    radius?: number
+    point?: [number, number]
+    polygon?: Feature | FeatureCollection
+    bbox?: [number, number, number, number]
+    uprn?: number
+    postcode?: string
+    query?: string
 }
+
+interface placesOptions {
+    paging?: [number, number],
+}
+
+
