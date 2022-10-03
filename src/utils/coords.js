@@ -8,7 +8,6 @@ export { coords };
 
     coords.fromBNG
     coords.toBNG
-    coords.swivel
     coords.swivelPoint
     coords.swivelBounds
 
@@ -43,17 +42,7 @@ const coords = {
     var ea = Number(point[0].toFixed(0));
     var no = Number(point[1].toFixed(0));
 
-    return { ea: ea, no: no };
-  },
-
-  swivel: (input) => {
-    const even = input.filter((_, index) => index % 2 !== 0);
-    const odd = input.filter((_, index) => index % 2 === 0);
-    const swivelled = even
-      .map((value, index) => [value, odd[index]])
-      .reduce((a, b) => a.concat(b));
-    let output = swivelled.toString();
-    return output.replaceAll(" ", "");
+    return [ea, no];
   },
 
   swivelPoint: (point) => {
