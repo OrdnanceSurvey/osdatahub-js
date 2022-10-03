@@ -2,10 +2,11 @@
 
 import {coords} from "./utils/coords.js"; // no longer required as coords.swivel moved
 import {request} from "./utils/request";
-import {geojson} from "./utils/geojson.js";
+import {geojson} from "./utils/geojson";
 import {validateParams} from "./utils/sanitise";
 import {buildUrl} from "./utils/url.js";
-import {Config, Feature, FeatureCollection} from "./types";
+import {Config, OSFeatureCollection} from "./types";
+import {FeatureCollection, Feature} from "geojson";
 
 export { places };
 
@@ -25,13 +26,13 @@ function initialiseConfig(apiKey: string, paging: [number, number] = [0, 1000]):
   };
 }
 
-async function requestPlaces(config: Config): Promise<FeatureCollection> {
+async function requestPlaces(config: Config): Promise<OSFeatureCollection> {
   let responseObject = await request(config);
   return geojson.into(responseObject);
 }
 
 const places = {
-  polygon: async (apiKey: string, polygon: FeatureCollection | Feature, { paging = [0, 1000] } : {paging?: [number, number]}= {}) => {
+  polygon: async (apiKey: string, polygon: Feature | FeatureCollection, { paging = [0, 1000] } : {paging?: [number, number]}= {}): Promise<OSFeatureCollection> => {
 
     validateParams({ apiKey, polygon, paging });
 
