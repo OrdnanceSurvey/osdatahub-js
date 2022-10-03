@@ -1,4 +1,4 @@
-// src/handlers/handleNames.ts
+// src/handlers/handleNames.js
 
 import { coords } from './utils/coords'
 import { request } from './utils/request'
