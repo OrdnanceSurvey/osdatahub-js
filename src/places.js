@@ -1,4 +1,4 @@
-// src/handlers/handlePlaces.ts
+// src/handlers/handlePlaces.js
 
 import { coords } from "./utils/coords.js"; // no longer required as coords.swivel moved
 import { request } from "./utils/request.js";
