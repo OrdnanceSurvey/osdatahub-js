@@ -69,7 +69,6 @@ async function request(config) {
     config.paging.position < config.paging.limitValue
   ) {
     endpoint = config.paging.enabled ? getOffsetEndpoint(config) : config.url;
-
     response =
       config.method == "get"
         ? await get(endpoint, config.key)

@@ -8,6 +8,7 @@ import { validateParams } from "./utils/sanitise.js";
 export { places };
 
 function initialiseConfig(apiKey, paging) {
+  paging = paging || [0, 1000];
   return {
     url: "",
     key: apiKey,
@@ -33,8 +34,7 @@ const places = {
   polygon: async (apiKey, polygon, options = {}) => {
     validateParams({ apiKey, polygon, ...options });
 
-    const paging = options.paging ? options.paging : [0, 1000];
-    let config = initialiseConfig(apiKey, paging);
+    let config = initialiseConfig(apiKey, options.paging);
 
     config.url = `https://api.os.uk/search/places/v1/polygon?srs=WGS84`;
     config.method = "post";
@@ -43,57 +43,70 @@ const places = {
     return await requestPlaces(config);
   },
 
-  radius: undefined,
+  radius: async (apiKey, center, radius, options = {}) => {
+    validateParams({ apiKey, center, radius, ...options });
 
-  bbox: undefined,
+    let config = initialiseConfig(apiKey, options.paging);
 
-  nearest: undefined,
+    center = coords.swivel(center);
+    config.url = `https://api.os.uk/search/places/v1/radius?srs=WGS84&point=${center}&radius=${radius}`;
 
-  uprn: undefined,
+    return await requestPlaces(config);
+  },
 
-  postcode: undefined,
+  bbox: async (apiKey, bbox, options = {}) => {
+    validateParams({ apiKey, bbox, ...options });
 
-  find: undefined,
+    let config = initialiseConfig(apiKey, options.paging);
+
+    bbox = coords.swivel(bbox);
+    config.url = `https://api.os.uk/search/places/v1/bbox?srs=WGS84&bbox=${bbox}`;
+
+    return await requestPlaces(config);
+  },
+
+  nearest: async (apiKey, point, options = {}) => {
+    validateParams({ apiKey, point, ...options });
+
+    let config = initialiseConfig(apiKey);
+
+    const rectifiedCoords = coords.swivel(point);
+    config.url = `https://api.os.uk/search/places/v1/nearest?srs=WGS84&point=${rectifiedCoords}`;
+    config.paging.enabled = false;
+
+    return await requestPlaces(config);
+  },
+
+  uprn: async (apiKey, uprn, options = {}) => {
+    validateParams({ apiKey, uprn, ...options });
+
+    let config = initialiseConfig(apiKey);
+
+    config.url = `https://api.os.uk/search/places/v1/uprn?output_srs=WGS84&uprn=${uprn}`;
+    config.paging.enabled = false;
+
+    return await requestPlaces(config);
+  },
+
+  postcode: async (apiKey, postcode, options = {}) => {
+    validateParams({ apiKey, postcode, ...options });
+
+    let config = initialiseConfig(apiKey, options.paging);
+
+    postcode = encodeURIComponent(postcode);
+    config.url = `https://api.os.uk/search/places/v1/postcode?output_srs=WGS84&postcode=${postcode}`;
+
+    return await requestPlaces(config);
+  },
+
+  find: async (apiKey, search, options = {}) => {
+    validateParams({ apiKey, search, ...options });
+
+    let config = initialiseConfig(apiKey, options.paging);
+
+    search = encodeURIComponent(search);
+    config.url = `https://api.os.uk/search/places/v1/find?output_srs=WGS84&query=${search}`;
+
+    return await requestPlaces(config);
+  },
 };
-
-// switch (params.findBy[0]) {
-
-//     case 'polygon':
-//         config.url = `https://api.os.uk/search/places/v1/polygon?srs=WGS84`
-//         config.method = 'post'
-//         config.body = JSON.stringify(geojson.from(params.findBy[1]))
-//         break
-
-//     case 'radius':
-//         rectifiedCoords = coords.swivel(params.findBy[1])
-//         config.url = `https://api.os.uk/search/places/v1/radius?srs=WGS84&point=${rectifiedCoords}&radius=${params.findBy[2]}`
-//         break
-
-//     case 'bbox':
-//         rectifiedCoords = coords.swivel(params.findBy[1])
-//         config.url = `https://api.os.uk/search/places/v1/bbox?srs=WGS84&bbox=${rectifiedCoords}`
-//         break
-
-//     case 'nearest':
-//         rectifiedCoords = coords.swivel(params.findBy[1])
-//         config.url = `https://api.os.uk/search/places/v1/nearest?srs=WGS84&point=${rectifiedCoords}`
-//         config.paging.enabled = false
-//         break
-
-//     case 'uprn':
-//         config.url = `https://api.os.uk/search/places/v1/uprn?output_srs=WGS84&uprn=${params.findBy[1]}`
-//         config.paging.enabled = false
-//         break
-
-//     case 'postcode':
-//         config.url = `https://api.os.uk/search/places/v1/postcode?output_srs=WGS84&postcode=${params.findBy[1]}`
-//         break
-
-//     case 'find':
-//         config.url = `https://api.os.uk/search/places/v1/find?output_srs=WGS84&query=${params.findBy[1]}`
-//         break
-
-//     default:
-//         throw new Error('Invalid findBy type supplied. Aborting.')
-
-// }
