@@ -2,7 +2,7 @@
 import fs from 'fs'
 import * as dotenv from 'dotenv'
 
-import { osfetch } from '../build/index.js'
+import { osfetch } from '../src/index'
 
 dotenv.config()
 
@@ -40,12 +40,13 @@ async function getData() {
     })
 
     let theDataParsed = JSON.stringify(theData)
+    console.log(Object.keys(theData))
 
-    fs.writeFile('tests/output.geojson', theDataParsed, function (err, data) {
-        if (err) {
-            return console.log(err)
-        }
-    })
+    // fs.writeFile('tests/output.geojson', theDataParsed, function (err, data) {
+    //     if (err) {
+    //         return console.log(err)
+    //     }
+    // })
 
 }
 

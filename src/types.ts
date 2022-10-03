@@ -2,7 +2,9 @@ export {
     Config,
     Options,
     FeatureCollection,
-    Feature
+    Feature,
+    OSDataHubResponse,
+    validationParams
 }
 
 // Request Configuration
@@ -49,4 +51,19 @@ interface Feature {
 interface Geometry {
     type: string;
     coordinates: Array<any>
+}
+
+interface OSDataHubResponseHeader {
+    uri: string,
+    query: string
+}
+
+interface OSDataHubResponse {
+    header: OSDataHubResponseHeader
+    results: Array<Object>
+}
+
+interface validationParams extends Options {
+    apiKey: string,
+    findBy: any
 }
