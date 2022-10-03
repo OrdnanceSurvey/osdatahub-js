@@ -1,7 +1,7 @@
 // src/handlers/handleNames.js
 
 import { coords } from './utils/coords'
-import { request } from './utils/request'
+import { request } from './utils/request.js'
 import { geojson } from './utils/geojson'
 
 export {

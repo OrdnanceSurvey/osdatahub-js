@@ -1,116 +1,119 @@
-// src/handlers/handlePlaces.ts
+// src/handlers/handlePlaces.js
 
-import { coords } from './utils/coords' // no longer required as coords.swivel moved
-import { request } from './utils/request'
-import { geojson } from './utils/geojson'
-import { validateParams } from './utils/sanitise'
+import {coords} from "./utils/coords.js"; // no longer required as coords.swivel moved
+import {request} from "./utils/request";
+import {geojson} from "./utils/geojson.js";
+import {validateParams} from "./utils/sanitise";
+import {buildUrl} from "./utils/url.js";
+import {Config, Feature, FeatureCollection} from "./types";
 
-import {type Config, Options, FeatureCollection, Feature, OSDataHubResponse} from './types'
+export { places };
 
-export {
-    places
+function initialiseConfig(apiKey: string, paging: [number, number] = [0, 1000]): Config {
+  return {
+    url: "",
+    key: apiKey,
+    body: "",
+    method: "get",
+    paging: {
+      enabled: true,
+      position: paging[0],
+      startValue: paging[0],
+      limitValue: paging[1],
+      isNextPage: true,
+    },
+  };
 }
 
-function initialiseConfig(apiKey: string, options?: Options): Config {
-
-    let startValue: number;
-    let limitValue: number;
-    if ((typeof options === "undefined") || !(options.paging)) {
-        startValue = 0;
-        limitValue = 100;
-    } else {
-        startValue = options.paging[0]
-        limitValue = options.paging[1]
-    }
-    return {
-        url: '',
-        key: apiKey,
-        body: '',
-        method: 'get',
-        paging: {
-            enabled: true,
-            position: startValue,
-            startValue: startValue,
-            limitValue: limitValue,
-            isNextPage: true
-        }
-    }
-}
-
-async function requestPlaces(config: Config): Promise<OSDataHubResponse> {
-    let responseObject =  request(config)
-    return responseObject
+async function requestPlaces(config: Config): Promise<FeatureCollection> {
+  let responseObject = await request(config);
+  return geojson.into(responseObject);
 }
 
 const places = {
+  polygon: async (apiKey: string, polygon: FeatureCollection | Feature, { paging = [0, 1000] } : {paging?: [number, number]}= {}) => {
 
-    polygon: async (apiKey: string, polygon: FeatureCollection | Feature, options?: Options): Promise<OSDataHubResponse> => {
+    validateParams({ apiKey, polygon, paging });
 
-        validateParams({ apiKey: apiKey, findBy: polygon, ...options })
-        let config = initialiseConfig(apiKey, options)
+    let config = initialiseConfig(apiKey, paging);
 
-        config.url = `https://api.os.uk/search/places/v1/polygon?srs=WGS84`
-        config.method = 'post'
-        config.body = JSON.stringify(geojson.from(polygon))
+    config.url = buildUrl("places", "polygon", { srs: "WGS84" });
+    config.method = "post";
+    config.body = JSON.stringify(geojson.from(polygon));
 
-        return requestPlaces(config)
+    return await requestPlaces(config);
+  },
 
-    },
+  radius: async (apiKey: string, point: [number, number], radius: number, { paging = [0, 1000] } : {paging?: [number, number]}= {}) => {
+    validateParams({ apiKey, point, radius, paging });
 
-    radius: undefined,
+    let config = initialiseConfig(apiKey, paging);
 
-    bbox: undefined,
+    point = coords.swivelPoint(point);
+    config.url = buildUrl("places", "radius", { srs: "WGS84", point, radius });
 
-    nearest: undefined,
+    return await requestPlaces(config);
+  },
 
-    uprn: undefined,
-
-    postcode: undefined,
-
-    find: undefined,
-
-}
-
+  bbox: async (apiKey: string, bbox: [number, number, number, number], { paging = [0, 1000] } : {paging?: [number, number]}= {}) => {
+    validateParams({ apiKey, bbox, paging });
 
 
-    // switch (params.findBy[0]) {
+    let config = initialiseConfig(apiKey, paging);
 
-    //     case 'polygon':
-    //         config.url = `https://api.os.uk/search/places/v1/polygon?srs=WGS84`
-    //         config.method = 'post'
-    //         config.body = JSON.stringify(geojson.from(params.findBy[1]))
-    //         break
+    bbox = coords.swivelBounds(bbox);
+    config.url = buildUrl("places", "bbox", { srs: "WGS84", bbox });
 
-    //     case 'radius':
-    //         rectifiedCoords = coords.swivel(params.findBy[1])
-    //         config.url = `https://api.os.uk/search/places/v1/radius?srs=WGS84&point=${rectifiedCoords}&radius=${params.findBy[2]}`
-    //         break
+    return await requestPlaces(config);
+  },
 
-    //     case 'bbox':
-    //         rectifiedCoords = coords.swivel(params.findBy[1])
-    //         config.url = `https://api.os.uk/search/places/v1/bbox?srs=WGS84&bbox=${rectifiedCoords}`
-    //         break
+  nearest: async (apiKey: string, point: [number, number]) => {
+    validateParams({ apiKey, point });
 
-    //     case 'nearest':
-    //         rectifiedCoords = coords.swivel(params.findBy[1])
-    //         config.url = `https://api.os.uk/search/places/v1/nearest?srs=WGS84&point=${rectifiedCoords}`
-    //         config.paging.enabled = false
-    //         break
-        
-    //     case 'uprn':
-    //         config.url = `https://api.os.uk/search/places/v1/uprn?output_srs=WGS84&uprn=${params.findBy[1]}`
-    //         config.paging.enabled = false
-    //         break
+    let config = initialiseConfig(apiKey);
 
-    //     case 'postcode':
-    //         config.url = `https://api.os.uk/search/places/v1/postcode?output_srs=WGS84&postcode=${params.findBy[1]}`
-    //         break
+    point = coords.swivelPoint(point);
+    config.url = buildUrl("places", "nearest", { srs: "WGS84", point });
 
-    //     case 'find':
-    //         config.url = `https://api.os.uk/search/places/v1/find?output_srs=WGS84&query=${params.findBy[1]}`
-    //         break
+    config.paging.enabled = false;
 
-    //     default:
-    //         throw new Error('Invalid findBy type supplied. Aborting.')
+    return await requestPlaces(config);
+  },
 
-    // }
+  uprn: async (apiKey: string, uprn: number) => {
+    validateParams({ apiKey, uprn });
+
+    let config = initialiseConfig(apiKey);
+
+    config.url = buildUrl("places", "uprn", { output_srs: "WGS84", uprn });
+    config.paging.enabled = false;
+
+    return await requestPlaces(config);
+  },
+
+  postcode: async (apiKey: string, postcode: string, { paging = [0, 1000] } : {paging?: [number, number]}= {}) => {
+    validateParams({ apiKey, postcode, paging });
+
+    let config = initialiseConfig(apiKey, paging);
+
+    postcode = encodeURIComponent(postcode);
+    config.url = buildUrl("places", "postcode", {
+      output_srs: "WGS84",
+      postcode,
+    });
+
+    return await requestPlaces(config);
+  },
+
+  find: async (apiKey: string, query: string, { paging = [0, 1000] } : {paging?: [number, number]}= {}) => {
+    validateParams({ apiKey, query, paging });
+
+    let config = initialiseConfig(apiKey, paging);
+
+    query = encodeURIComponent(query);
+    config.url = buildUrl("places", "find", { output_srs: "WGS84", query });
+
+    return await requestPlaces(config);
+  },
+};
+

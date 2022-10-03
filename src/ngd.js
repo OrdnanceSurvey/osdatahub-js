@@ -1,6 +1,6 @@
 // src/handlers/handleNGD.js
 
-import { request } from './utils/request'
+import { request } from './utils/request.js'
 
 export {
     handleNGD
