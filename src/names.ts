@@ -71,7 +71,7 @@ const names = {
     query: string,
     { paging = [0, 1000] }: { paging?: [number, number] } = {}
   ): Promise<FeatureCollection> => {
-    validateParams({ apiKey, point });
+    validateParams({ apiKey, query });
 
     let config = initialiseConfig(apiKey, paging);
 
