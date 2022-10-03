@@ -24,8 +24,6 @@ function initialiseConfig(apiKey, paging = [0, 1000]) {
   };
 }
 
-function constructUrl() {}
-
 async function requestPlaces(config) {
   let responseObject = await request(config);
   let responseObjectGeoJSON = geojson.into(responseObject);
@@ -50,7 +48,7 @@ const places = {
 
     let config = initialiseConfig(apiKey, paging);
 
-    point = coords.swivel(point);
+    point = coords.swivelPoint(point);
     config.url = buildUrl("places", "radius", { srs: "WGS84", point, radius });
 
     return await requestPlaces(config);
@@ -61,7 +59,7 @@ const places = {
 
     let config = initialiseConfig(apiKey, paging);
 
-    bbox = coords.swivel(bbox);
+    bbox = coords.swivelBounds(bbox);
     config.url = buildUrl("places", "bbox", { srs: "WGS84", bbox });
 
     return await requestPlaces(config);
@@ -72,7 +70,7 @@ const places = {
 
     let config = initialiseConfig(apiKey);
 
-    point = coords.swivel(point);
+    point = coords.swivelPoint(point);
     config.url = buildUrl("places", "nearest", { srs: "WGS84", point });
 
     config.paging.enabled = false;
@@ -97,7 +95,10 @@ const places = {
     let config = initialiseConfig(apiKey, paging);
 
     postcode = encodeURIComponent(postcode);
-    config.url = buildUrl("places", "postcode", { output_srs: "WGS84", postcode });
+    config.url = buildUrl("places", "postcode", {
+      output_srs: "WGS84",
+      postcode,
+    });
 
     return await requestPlaces(config);
   },
@@ -109,7 +110,6 @@ const places = {
 
     query = encodeURIComponent(query);
     config.url = buildUrl("places", "find", { output_srs: "WGS84", query });
-
 
     return await requestPlaces(config);
   },

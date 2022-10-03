@@ -98,5 +98,4 @@ async function handleNGD(params) {
     let responseObject = await request(config)
 
     return responseObject
-
 }
