@@ -1,8 +1,10 @@
 // src/utils/coords.js
 
+// @ts-ignore
 import proj4 from "proj4";
 
 export { coords };
+import { type BBox } from "../types";
 
 /*
 
@@ -14,7 +16,7 @@ export { coords };
 */
 
 const coords = {
-  fromBNG: (ea, no) => {
+  fromBNG: (ea: number, no: number): { lat: number; lng: number } => {
     proj4.defs(
       "EPSG:27700",
       "+proj=tmerc +lat_0=49 +lon_0=-2 +k=0.9996012717 +x_0=400000 +y_0=-100000 +ellps=airy +towgs84=446.448,-125.157,542.06,0.15,0.247,0.842,-20.489 +units=m +no_defs"
@@ -28,16 +30,13 @@ const coords = {
     return { lat: lat, lng: lng };
   },
 
-  toBNG: (lat, lng) => {
+  toBNG: (lat: number, lng: number): [number, number] => {
     proj4.defs(
       "EPSG:27700",
       "+proj=tmerc +lat_0=49 +lon_0=-2 +k=0.9996012717 +x_0=400000 +y_0=-100000 +ellps=airy +towgs84=446.448,-125.157,542.06,0.15,0.247,0.842,-20.489 +units=m +no_defs"
     );
 
-    var point = proj4("EPSG:4326", "EPSG:27700", [
-      parseFloat(lng),
-      parseFloat(lat),
-    ]);
+    var point = proj4("EPSG:4326", "EPSG:27700", [lng, lat]);
 
     var ea = Number(point[0].toFixed(0));
     var no = Number(point[1].toFixed(0));
@@ -45,12 +44,12 @@ const coords = {
     return [ea, no];
   },
 
-  swivelPoint: (point) => {
+  swivelPoint: (point: [number, number]): string => {
     point = [point[1], point[0]];
     return point.toString().replaceAll(" ", "");
   },
 
-  swivelBounds: (bbox) => {
+  swivelBounds: (bbox: BBox) => {
     bbox = [bbox[1], bbox[0], bbox[3], bbox[2]];
     return bbox.toString().replaceAll(" ", "");
   },

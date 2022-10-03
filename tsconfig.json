@@ -4,6 +4,7 @@
         "outDir": "build",
         "module": "es6",
         "target": "es6",
+        "lib": ["es2021"],
         "allowJs": true
     },
     "include": ["src"],
