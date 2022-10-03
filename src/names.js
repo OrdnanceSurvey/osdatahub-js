@@ -1,8 +1,8 @@
-// src/handlers/handleNames.ts
+// src/handlers/handleNames.js
 
-import { coords } from './utils/coords.js'
-import { request } from './utils/request.js'
-import { geojson } from './utils/geojson.js'
+import { coords } from './utils/coords'
+import { request } from './utils/request'
+import { geojson } from './utils/geojson'
 
 export {
     handleNames
