@@ -30,11 +30,7 @@ async function requestPlaces(config) {
 }
 
 const places = {
-  polygon: async (
-    apiKey,
-    polygon,
-    options = {}
-  ) => {
+  polygon: async (apiKey, polygon, options = {}) => {
     validateParams({ apiKey, polygon, ...options });
 
     const paging = options.paging ? options.paging : [0, 1000];
