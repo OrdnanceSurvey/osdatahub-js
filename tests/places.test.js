@@ -86,10 +86,10 @@ describe("Postcode Endpoint", () => {
 
 describe("Find Endpoint", () => {
   test("Find Endpoint Passes", async () => {
-    const search = "10 Downing Street, London, SW1";
+    const query = "10 Downing Street, London, SW1";
     const apiKey = process.env.OS_API_KEY;
     const options = { paging: [0, 100] };
-    let response = await places.find(apiKey, search, options);
+    let response = await places.find(apiKey, query, options);
     expect(response.features.length).toBeGreaterThanOrEqual(1);
   });
 });

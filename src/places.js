@@ -4,10 +4,11 @@ import { coords } from "./utils/coords.js"; // no longer required as coords.swiv
 import { request } from "./utils/request.js";
 import { geojson } from "./utils/geojson.js";
 import { validateParams } from "./utils/sanitise.js";
+import { buildUrl } from "./utils/url.js";
 
 export { places };
 
-function initialiseConfig(apiKey, paging=[0, 1000]) {
+function initialiseConfig(apiKey, paging = [0, 1000]) {
   return {
     url: "",
     key: apiKey,
@@ -23,6 +24,8 @@ function initialiseConfig(apiKey, paging=[0, 1000]) {
   };
 }
 
+function constructUrl() {}
+
 async function requestPlaces(config) {
   let responseObject = await request(config);
   let responseObjectGeoJSON = geojson.into(responseObject);
@@ -30,36 +33,36 @@ async function requestPlaces(config) {
 }
 
 const places = {
-  polygon: async (apiKey, polygon, {paging=[0, 1000]}) => {
-    validateParams({ apiKey, polygon, paging});
+  polygon: async (apiKey, polygon, { paging = [0, 1000] } = {}) => {
+    validateParams({ apiKey, polygon, paging });
 
     let config = initialiseConfig(apiKey, paging);
 
-    config.url = `https://api.os.uk/search/places/v1/polygon?srs=WGS84`;
+    config.url = buildUrl("places", "polygon", { srs: "WGS84" });
     config.method = "post";
     config.body = JSON.stringify(geojson.from(polygon));
 
     return await requestPlaces(config);
   },
 
-  radius: async (apiKey, center, radius, {paging=[0, 1000]}) => {
-    validateParams({ apiKey, center, radius, paging});
+  radius: async (apiKey, point, radius, { paging = [0, 1000] } = {}) => {
+    validateParams({ apiKey, point, radius, paging });
 
     let config = initialiseConfig(apiKey, paging);
 
-    center = coords.swivel(center);
-    config.url = `https://api.os.uk/search/places/v1/radius?srs=WGS84&point=${center}&radius=${radius}`;
+    point = coords.swivel(point);
+    config.url = buildUrl("places", "radius", { srs: "WGS84", point, radius });
 
     return await requestPlaces(config);
   },
 
-  bbox: async (apiKey, bbox, {paging=[0, 1000]}) => {
-    validateParams({ apiKey, bbox});
+  bbox: async (apiKey, bbox, { paging = [0, 1000] } = {}) => {
+    validateParams({ apiKey, bbox });
 
     let config = initialiseConfig(apiKey, paging);
 
     bbox = coords.swivel(bbox);
-    config.url = `https://api.os.uk/search/places/v1/bbox?srs=WGS84&bbox=${bbox}`;
+    config.url = buildUrl("places", "bbox", { srs: "WGS84", bbox });
 
     return await requestPlaces(config);
   },
@@ -69,42 +72,44 @@ const places = {
 
     let config = initialiseConfig(apiKey);
 
-    const rectifiedCoords = coords.swivel(point);
-    config.url = `https://api.os.uk/search/places/v1/nearest?srs=WGS84&point=${rectifiedCoords}`;
+    point = coords.swivel(point);
+    config.url = buildUrl("places", "nearest", { srs: "WGS84", point });
+
     config.paging.enabled = false;
 
     return await requestPlaces(config);
   },
 
   uprn: async (apiKey, uprn) => {
-    validateParams({ apiKey, uprn});
+    validateParams({ apiKey, uprn });
 
     let config = initialiseConfig(apiKey);
 
-    config.url = `https://api.os.uk/search/places/v1/uprn?output_srs=WGS84&uprn=${uprn}`;
+    config.url = buildUrl("places", "uprn", { output_srs: "WGS84", uprn });
     config.paging.enabled = false;
 
     return await requestPlaces(config);
   },
 
-  postcode: async (apiKey, postcode, {paging=[0, 1000]}) => {
+  postcode: async (apiKey, postcode, { paging = [0, 1000] } = {}) => {
     validateParams({ apiKey, postcode, paging });
 
     let config = initialiseConfig(apiKey, paging);
 
     postcode = encodeURIComponent(postcode);
-    config.url = `https://api.os.uk/search/places/v1/postcode?output_srs=WGS84&postcode=${postcode}`;
+    config.url = buildUrl("places", "postcode", { output_srs: "WGS84", postcode });
 
     return await requestPlaces(config);
   },
 
-  find: async (apiKey, search, {paging=[0, 1000]}) => {
-    validateParams({ apiKey, search, paging });
+  find: async (apiKey, query, { paging = [0, 1000] } = {}) => {
+    validateParams({ apiKey, search: query, paging });
 
     let config = initialiseConfig(apiKey, paging);
 
-    search = encodeURIComponent(search);
-    config.url = `https://api.os.uk/search/places/v1/find?output_srs=WGS84&query=${search}`;
+    query = encodeURIComponent(query);
+    config.url = buildUrl("places", "find", { output_srs: "WGS84", query });
+
 
     return await requestPlaces(config);
   },
