@@ -62,8 +62,8 @@ function logEndConditions(config: Config): void {
 }
 
 async function request(config: Config): Promise<OSDataHubResponse>{
-  let response, endpoint: string;
-  let output: OSDataHubResponse;
+  let endpoint: string;
+  let output: OSDataHubResponse | undefined;
 
 
   while (
@@ -78,19 +78,24 @@ async function request(config: Config): Promise<OSDataHubResponse>{
         : await post(endpoint, config.key, config.body);
 
     checkStatusCode(response.status);
-    // @ts-ignore
-    let responseJson: OSDataHubResponse = response.json()
 
-    // @ts-ignore
-    if (!output) {
-      output = responseJson;
+    let responseJson: OSDataHubResponse = <OSDataHubResponse> await response.json()
+
+    if (typeof output === "undefined") {
+      if (!('results' in responseJson)) {
+        output = {
+          header: responseJson.header,
+          results: []
+        }
+      } else {
+        output = responseJson
+      }
     } else {
-      output.results = output.results.concat(responseJson.results);
-
+       output.results = output.results.concat(responseJson.results);
     }
 
 
-    if ((!responseJson.results) || responseJson.results.length == 100) {
+    if ((responseJson.results) && responseJson.results.length == 100) {
       config.paging.position += 100;
     } else {
       config.paging.isNextPage = false;
@@ -98,8 +103,7 @@ async function request(config: Config): Promise<OSDataHubResponse>{
   }
 
   logEndConditions(config);
-  // @ts-ignore
-  if (!output) {
+  if (typeof output === "undefined") {
     throw Error("There is no output at the end of request")
   } else {
     return output;
