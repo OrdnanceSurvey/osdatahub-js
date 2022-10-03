@@ -1,6 +1,6 @@
-// src/handlers/handleNGD.ts
+// src/handlers/handleNGD.js
 
-import { request } from './utils/request.js'
+import { request } from './utils/request'
 
 export {
     handleNGD
@@ -98,5 +98,4 @@ async function handleNGD(params) {
     let responseObject = await request(config)
 
     return responseObject
-
 }
