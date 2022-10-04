@@ -1,11 +1,22 @@
 // src/utils/geojson.ts
 
-import {namesResponse, OSDataHubResponse, OSFeatureCollection, placesResponse} from "../types";
-import {FeatureCollection, Feature, Geometry, GeoJsonProperties, Point, Polygon} from "geojson";
+import {
+  NamesResponse,
+  OSDataHubResponse,
+  OSFeatureCollection,
+  PlacesResponse,
+  CoordinateGeometry,
+} from "../types";
+import {
+  FeatureCollection,
+  Feature,
+  Geometry,
+  GeoJsonProperties,
+} from "geojson";
+import { coords } from "./coords";
+import { logging } from "./logging";
 
-export {
-    geojson
-}
+export { geojson };
 
 /*
 
@@ -15,70 +26,98 @@ export {
 */
 
 const geojson = {
+  from: function (geoJson: Feature | FeatureCollection) {
+    try {
+      const isFeatureCollection: boolean = "features" in geoJson;
+      const featureCount = isFeatureCollection
+        ? (geoJson as FeatureCollection).features.length
+        : 1;
 
-    from: function (input: Feature | FeatureCollection | Polygon) {
-        try {
-            let output: Feature;
-            if ((<FeatureCollection>input).features) {
-                if ("features" in input) {
-                    output = input.features[0]
-                } else {
-                    throw Error("Input was a feature collection but had no features")
-                }
-            } else {
-                output = <Feature>input
-            }
-            // @ts-ignore
-            for (let i = 0; i < output.geometry.coordinates.length; i++) {
-                // for each polygon...
-                // @ts-ignore
-                for (let j = 0; j < output.geometry.coordinates[i].length; j++) {
-                    // ... swap each pair of coordinates
-                    // @ts-ignore
-                    [output.geometry.coordinates[i][j][0], output.geometry.coordinates[i][j][1]] = [output.geometry.coordinates[i][j][1], output.geometry.coordinates[i][j][0]];
-                }
-            }
-            return output
+      if (isFeatureCollection && featureCount === 0) {
+        throw new Error("Input feature collection has 0 features");
+      } else if (isFeatureCollection && featureCount > 1) {
+        throw new Error(
+          `Input feature collection has too many features. Expected 1, got ${
+            (geoJson as FeatureCollection).features.length
+          }`
+        );
+      }
 
-        } catch {
-            throw new Error('Failed to read GeoJSON input. Does the GeoJSON input adhere to specification?')
-        }
-    },
+      const output = isFeatureCollection
+        ? (geoJson as FeatureCollection).features[0]
+        : geoJson;
 
-    into: function (input: OSDataHubResponse): OSFeatureCollection {
+      ((output as Feature).geometry as CoordinateGeometry).coordinates = (
+        (output as Feature).geometry as CoordinateGeometry
+      ).coordinates.map((coordinate) =>
+        coords.swivelPoint(coordinate as [number, number])
+      );
 
-
-        if (input.results.length == 0) {
-
-            // No Features Returned
-            return {type: "FeatureCollection", features: [], header: input.header}
-        } else if (input as placesResponse) {
-            let features: Feature[] = (input as placesResponse).results.map((feature) => <Feature>{
-                type: "Feature",
-                geometry: <Geometry>{
-                    type: "Point",
-                    coordinates: [feature.DPA.LNG, feature.DPA.LAT]
-                },
-                properties: <GeoJsonProperties>feature.DPA
-            })
-
-            return {type: "FeatureCollection", features: features, header: input.header}
-
-        } else if (input as namesResponse) {
-            let features: Feature[] = (input as namesResponse).results.map((feature) => <Feature>{
-                type: "Feature",
-                geometry: <Geometry>{
-                    type: "Point",
-                    coordinates: [feature.GAZETTEER_ENTRY.LNG, feature.GAZETTEER_ENTRY.LAT]
-                },
-                properties: <GeoJsonProperties>feature.GAZETTEER_ENTRY
-            })
-            return {type: "FeatureCollection", features: features, header: input.header}
-        } else {
-            throw Error("Unknown response given from OS Data Hub")
-        }
+      return output;
+    } catch {
+      throw new Error(
+        "Failed to read GeoJSON input. Does the GeoJSON input adhere to specification?"
+      );
     }
+  },
 
+  into: function (response: OSDataHubResponse): OSFeatureCollection {
+    if (response.results.length == 0) {
+      return {
+        type: "FeatureCollection",
+        features: [],
+        header: response.header,
+      };
+    }
+    return responseToFeatureCollection(response);
+  },
+};
 
+function responseToFeatureCollection(
+  response: OSDataHubResponse
+): OSFeatureCollection {
+  let features: Feature[];
+  if ("DPA" in response.results[0]) {
+    features = placesResponseToFeatures(response as PlacesResponse);
+  } else if ("GAZETTEER_ENTRY" in response.results[0]) {
+    features = namesResponseToFeatures(response as NamesResponse);
+  } else {
+    throw new Error("Unknown response given from OS Data Hub");
+  }
+  return {
+    type: "FeatureCollection",
+    features: features,
+    header: response.header,
+  };
+}
 
+function namesResponseToFeatures(response: NamesResponse): Feature[] {
+  return response.results.map(
+    (feature) =>
+      <Feature>{
+        type: "Feature",
+        geometry: <Geometry>{
+          type: "Point",
+          coordinates: [
+            feature.GAZETTEER_ENTRY.LNG,
+            feature.GAZETTEER_ENTRY.LAT,
+          ],
+        },
+        properties: <GeoJsonProperties>feature.GAZETTEER_ENTRY,
+      }
+  );
+}
+
+function placesResponseToFeatures(response: PlacesResponse): Feature[] {
+  return response.results.map(
+    (feature) =>
+      <Feature>{
+        type: "Feature",
+        geometry: <Geometry>{
+          type: "Point",
+          coordinates: [feature.DPA.LNG, feature.DPA.LAT],
+        },
+        properties: <GeoJsonProperties>feature.DPA,
+      }
+  );
 }
