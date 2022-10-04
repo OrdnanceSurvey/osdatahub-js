@@ -14,6 +14,7 @@ import {
   GeoJsonProperties,
 } from "geojson";
 import { coords } from "./coords";
+import { logging } from "./logging";
 
 export { geojson };
 
@@ -26,12 +27,19 @@ export { geojson };
 
 const geojson = {
   from: function (geoJson: Feature | FeatureCollection) {
+    let output: Feature;
     try {
       if ("features" in geoJson && geoJson.features.length === 0) {
         throw new Error("Input was a feature collection but had no features");
       }
-      const output: Feature =
-        "features" in geoJson ? geoJson.features[0] : geoJson;
+      if ("features" in geoJson) {
+        output = geoJson.features[0];
+        if (geoJson.features.length > 1) {
+          logging.warn("Multiple features passed, only using the first one!");
+        }
+      } else {
+        output = geoJson;
+      }
 
       (output.geometry as CoordinateGeometry).coordinates = (
         output.geometry as CoordinateGeometry
@@ -54,20 +62,31 @@ const geojson = {
         features: [],
         header: response.header,
       };
-    } else if ("DPA" in response.results[0]) {
-      return placesResponseToFeatureCollection(response as PlacesResponse);
-    } else if ("GAZETTEER_ENTRY" in response.results[0]) {
-      return namesResponseToFeatureCollection(response as NamesResponse);
-    } else {
-      throw new Error("Unknown response given from OS Data Hub");
     }
+    return responseToFeatureCollection(response);
   },
 };
 
-function namesResponseToFeatureCollection(
-  response: NamesResponse
+function responseToFeatureCollection(
+  response: OSDataHubResponse
 ): OSFeatureCollection {
-  const features: Feature[] = response.results.map(
+  let features: Feature[];
+  if ("DPA" in response.results[0]) {
+    features = placesResponseToFeatures(response as PlacesResponse);
+  } else if ("GAZETTEER_ENTRY" in response.results[0]) {
+    features = namesResponseToFeatures(response as NamesResponse);
+  } else {
+    throw new Error("Unknown response given from OS Data Hub");
+  }
+  return {
+    type: "FeatureCollection",
+    features: features,
+    header: response.header,
+  };
+}
+
+function namesResponseToFeatures(response: NamesResponse): Feature[] {
+  return response.results.map(
     (feature) =>
       <Feature>{
         type: "Feature",
@@ -81,17 +100,10 @@ function namesResponseToFeatureCollection(
         properties: <GeoJsonProperties>feature.GAZETTEER_ENTRY,
       }
   );
-  return {
-    type: "FeatureCollection",
-    features: features,
-    header: response.header,
-  };
 }
 
-function placesResponseToFeatureCollection(
-  response: PlacesResponse
-): OSFeatureCollection {
-  const features: Feature[] = response.results.map(
+function placesResponseToFeatures(response: PlacesResponse): Feature[] {
+  return response.results.map(
     (feature) =>
       <Feature>{
         type: "Feature",
@@ -102,10 +114,4 @@ function placesResponseToFeatureCollection(
         properties: <GeoJsonProperties>feature.DPA,
       }
   );
-
-  return {
-    type: "FeatureCollection",
-    features: features,
-    header: response.header,
-  };
 }
