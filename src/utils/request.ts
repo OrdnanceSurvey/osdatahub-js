@@ -94,7 +94,6 @@ async function request(config: Config): Promise<OSDataHubResponse>{
       output.results = output.results.concat(responseJson.results);
     }
 
-
     if ((responseJson.results) && responseJson.results.length == 100) {
       config.paging.position += 100;
     } else {
