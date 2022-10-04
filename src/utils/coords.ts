@@ -48,9 +48,8 @@ const coords: {[key: string]: Function } = {
     return [point[1], point[0]];
   },
 
-  swivelBounds: (bbox: BBox) => {
-    bbox = [bbox[1], bbox[0], bbox[3], bbox[2]];
-    return bbox.toString().replaceAll(" ", "");
+  swivelBounds: (bbox: BBox): BBox => {
+    return [bbox[1], bbox[0], bbox[3], bbox[2]];
   },
 
   isLatLng: (coords: [number, number] | BBox): boolean => coords[0] > coords[1]

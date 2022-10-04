@@ -136,7 +136,7 @@ const places = {
 
     const config = initialiseConfig(apiKey, paging);
 
-    const bboxSwivelled = coords.swivelBounds(bbox);
+    const bboxSwivelled = coords.swivelBounds(bbox).toString().replaceAll(" ", "");
     config.url = buildUrl("places", "bbox", {
       srs: "WGS84",
       bbox: bboxSwivelled,
