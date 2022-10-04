@@ -93,7 +93,7 @@ describe("Polygon Endpoint", () => {
     expect(response.features.length).toBeGreaterThanOrEqual(1);
   })
 
-  test("Polygon endpoint passes with specific numbers of results results", async () => {
+  test("Polygon endpoint passes with specific numbers of results", async () => {
     const requiredProperties = ["features", "header", "type"]
 
     let response = await places.polygon(apiKey, featureCollection, { paging: [0, 10] });
