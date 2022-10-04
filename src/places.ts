@@ -3,7 +3,9 @@
 import {coords} from "./utils/coords.js"; // no longer required as coords.swivel moved
 import {request} from "./utils/request";
 import {geojson} from "./utils/geojson.js";
-import {validateParams} from "./utils/sanitise";
+
+import {validateParams} from "./utils/validate";
+
 import {buildUrl} from "./utils/url.js";
 import {Config, Feature, FeatureCollection} from "./types";
 

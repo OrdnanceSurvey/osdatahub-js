@@ -4,6 +4,8 @@ import { coords } from './utils/coords'
 import { request } from './utils/request.js'
 import { geojson } from './utils/geojson'
 
+import {validateParams} from "./utils/validate";
+
 export {
     handleNames
 }
