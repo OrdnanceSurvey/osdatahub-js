@@ -1,26 +1,40 @@
 // src/handlers/places.ts
 
-import { coords } from "./utils/coords"; // no longer required as coords.swivel moved
-import { request } from "./utils/request";
-import { geojson } from "./utils/geojson";
-import { validateParams } from "./utils/sanitise";
-import { buildUrl } from "./utils/url";
-import { Config, Feature, FeatureCollection } from "./types";
-import { initialiseConfig } from "./utils/config";
+import {coords} from "./utils/coords"; // no longer required as coords.swivel moved
+import {request} from "./utils/request";
+import {geojson} from "./utils/geojson";
+import {validateParams} from "./utils/validate";
+import {buildUrl} from "./utils/url";
+
+import {Config, OSFeatureCollection} from "./types";
+import {FeatureCollection, Feature} from "geojson";
 
 export { places };
 
-async function requestPlaces(config: Config): Promise<FeatureCollection> {
+function initialiseConfig(apiKey: string, paging: [number, number] = [0, 1000]): Config {
+  return {
+    url: "",
+    key: apiKey,
+    body: "",
+    method: "get",
+    paging: {
+      enabled: true,
+      position: paging[0],
+      startValue: paging[0],
+      limitValue: paging[1],
+      isNextPage: true,
+    },
+  };
+}
+
+async function requestPlaces(config: Config): Promise<OSFeatureCollection> {
   let responseObject = await request(config);
   return geojson.into(responseObject);
 }
 
 const places = {
-  polygon: async (
-    apiKey: string,
-    polygon: FeatureCollection | Feature,
-    { paging = [0, 1000] }: { paging?: [number, number] } = {}
-  ) => {
+  polygon: async (apiKey: string, polygon: Feature | FeatureCollection, { paging = [0, 1000] } : {paging?: [number, number]}= {}): Promise<OSFeatureCollection> => {
+
     validateParams({ apiKey, polygon, paging });
 
     const config = initialiseConfig(apiKey, paging);
