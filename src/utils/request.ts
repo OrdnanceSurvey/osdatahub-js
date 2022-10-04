@@ -91,7 +91,7 @@ async function request(config: Config): Promise<OSDataHubResponse>{
         output = responseJson
       }
     } else {
-       output.results = output.results.concat(responseJson.results);
+      output.results = output.results.concat(responseJson.results);
     }
 
 

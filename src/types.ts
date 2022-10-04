@@ -6,6 +6,7 @@ export {
     OSDataHubResponse,
     validationParams,
     placesOptions,
+    BBox,
     OSFeatureCollection,
     placesResponse,
     namesResponse
@@ -39,18 +40,6 @@ interface Options {
 }
 
 // GeoJSON
-// todo: Potentially switch to GeoJSON types
-
-// interface FeatureCollection {
-//     type: string;
-//     features: Array<Feature>
-// }
-
-// interface Feature {
-//     type: string;
-//     properties?: any;
-//     geometry: Geometry
-// }
 
 interface Geometry {
     type: string;
@@ -82,6 +71,8 @@ interface validationParams extends Options {
 interface placesOptions {
     paging?: [number, number],
 }
+
+type BBox = [number, number, number, number]
 
 interface OSFeatureCollection extends FeatureCollection {
     header: Object
