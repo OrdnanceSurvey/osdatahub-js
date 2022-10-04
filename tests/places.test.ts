@@ -33,7 +33,7 @@ describe("Polygon Endpoint", () => {
   test("Polygon Endpoint Passes", async () => {
     const apiKey = process.env.OS_API_KEY || "";
     const options: { paging?: [number, number] } = { paging: [0, 100] };
-    let response = await places.polygon(apiKey, polygon, options);
+    let response = await places.polygon(apiKey, <FeatureCollection>polygon, options);
     expect(response.features.length).toBeGreaterThanOrEqual(1);
   });
 });
