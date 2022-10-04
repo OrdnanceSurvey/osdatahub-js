@@ -17,8 +17,8 @@ export {
   PlacesOptions as placesOptions,
   BBox,
   OSFeatureCollection,
-  PlacesResponse as placesResponse,
-  NamesResponse as namesResponse,
+  PlacesResponse,
+  NamesResponse,
   CoordinateGeometry
 };
 

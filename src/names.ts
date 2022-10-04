@@ -5,14 +5,14 @@ import { request } from "./utils/request";
 import { geojson } from "./utils/geojson";
 import { buildUrl } from "./utils/url";
 import { validateParams } from "./utils/validate";
-import { Config, OSFeatureCollection, namesResponse } from "./types";
+import { Config, OSFeatureCollection, NamesResponse } from "./types";
 import { initialiseConfig } from "./utils/config";
 
 export { names };
 
 async function requestNames(config: Config): Promise<OSFeatureCollection> {
   let coordsTemp: {lat: number, lng: number};
-  let responseObject = await request(config) as namesResponse;
+  let responseObject = await request(config) as NamesResponse;
   responseObject.results.forEach((result) => {
     coordsTemp = coords.fromBNG(
       result.GAZETTEER_ENTRY.GEOMETRY_X,
