@@ -15,7 +15,7 @@ import { type BBox } from "../types";
 
 */
 
-const coords = {
+const coords: {[key: string]: Function } = {
   fromBNG: (ea: number, no: number): { lat: number; lng: number } => {
     proj4.defs(
       "EPSG:27700",
@@ -53,5 +53,5 @@ const coords = {
     return bbox.toString().replaceAll(" ", "");
   },
 
-  isLatLng: (coords: [number, number] | BBox) => coords[0] > coords[1],
+  isLatLng: (coords: [number, number] | BBox): boolean => coords[0] > coords[1]
 };

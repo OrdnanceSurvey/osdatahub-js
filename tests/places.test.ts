@@ -94,14 +94,15 @@ describe("Polygon Endpoint", () => {
   })
 
   test("Polygon endpoint passes with specific numbers of results results", async () => {
-    let response = await places.polygon(apiKey, <FeatureCollection>featureCollection, { paging: [0, 10] });
     const requiredProperties = ["features", "header", "type"]
+
+    let response = await places.polygon(apiKey, featureCollection, { paging: [0, 10] });
     requiredProperties.map((prop: string) => expect(response).toHaveProperty(prop))
     expect(response.features.length).toEqual(10);
 
-    response = await places.polygon(apiKey, <FeatureCollection>featureCollection, { paging: [0, 1] });
-    requiredProperties.map((prop: string) => expect(response).toHaveProperty(prop))
-    expect(response.features.length).toEqual(1);
+    let response2 = await places.polygon(apiKey, featureCollection, { paging: [0, 2] });
+    requiredProperties.map((prop: string) => expect(response2).toHaveProperty(prop))
+    expect(response2.features.length).toEqual(2);
   })
 
   test("Polygon endpoint fails with invalid paging", async () => {

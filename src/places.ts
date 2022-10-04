@@ -6,8 +6,8 @@ import {geojson} from "./utils/geojson";
 import {validateParams} from "./utils/validate";
 import {buildUrl} from "./utils/url";
 
-import {Config, OSFeatureCollection} from "./types";
-import {FeatureCollection, Feature, Polygon} from "geojson";
+import {Config, CoordinateGeometry, OSFeatureCollection, PlacesParams} from "./types";
+import {FeatureCollection, Feature, Polygon, Geometry, Position} from "geojson";
 
 export { places };
 
@@ -32,16 +32,77 @@ async function requestPlaces(config: Config): Promise<OSFeatureCollection> {
   return geojson.into(responseObject);
 }
 
+function isFeature(geojson: Feature | FeatureCollection | Polygon): geojson is Feature {
+    return (("type" in geojson) && (geojson.type == "Feature"))
+}
+
+function isFeatureCollection(geojson: Feature | FeatureCollection | Polygon): geojson is FeatureCollection {
+    return (("type" in geojson) && (geojson.type == "FeatureCollection"))
+}
+
+function isPolygon(geom: Geometry): geom is Polygon {
+    return (("type" in geom) && (geom.type == "Polygon"))
+}
+
+ function preprocessPlacesPolygon (geoJson: Feature | FeatureCollection |Polygon) {
+    try {
+      if ((isFeatureCollection(geoJson)) && (geoJson.features.length === 0)) {
+        throw new Error("Input feature collection has 0 features");
+      } else if (isFeatureCollection(geoJson) && geoJson.features.length > 1) {
+        throw new Error(
+          `Input feature collection has too many features. Expected 1, got ${
+            (geoJson as FeatureCollection).features.length
+          }`
+        );
+      }
+
+      let geom: Geometry;
+
+      if (isFeature(geoJson)) {
+          geom = geoJson.geometry;
+      } else if (isFeatureCollection(geoJson)) {
+          geom = geoJson.features[0].geometry;
+      } else {
+        geom = geoJson;
+      }
+
+      if (!isPolygon(geom)) {
+        throw Error("Input polygon is not a polygon.")
+      } else if (geom.coordinates.length === 0) {
+        throw Error("Input polygon is empty")
+      }
+
+      if (!coords.isLatLng(geom.coordinates[0][0])) {
+        // switches coordinates so that all long/lat points are now lat/long
+        geom.coordinates[0] = geom.coordinates[0].map((coordinate) =>
+          <Position>coords.swivelPoint(coordinate as [number, number])
+      );
+      }
+
+
+      return geom;
+    } catch {
+      throw new Error(
+        "Failed to read GeoJSON input. Does the GeoJSON input adhere to specification?"
+      );
+    }
+  }
+
 const places = {
   polygon: async (apiKey: string, polygon: Feature | FeatureCollection | Polygon, { paging = [0, 1000] } : {paging?: [number, number]}= {}): Promise<OSFeatureCollection> => {
 
     validateParams({ apiKey, polygon, paging });
 
     const config = initialiseConfig(apiKey, paging);
+    let params: PlacesParams = { srs: "WGS84" }
 
-    config.url = buildUrl("places", "polygon", { srs: "WGS84" });
+    if (config.paging.limitValue < 100) {
+      params.maxresults = config.paging.limitValue
+    }
+
+    config.url = buildUrl("places", "polygon", params);
     config.method = "post";
-    config.body = JSON.stringify(geojson.from(polygon));
+    config.body = JSON.stringify(preprocessPlacesPolygon(polygon));
 
     return await requestPlaces(config);
   },

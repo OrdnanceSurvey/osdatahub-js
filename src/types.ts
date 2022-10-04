@@ -19,7 +19,8 @@ export {
   OSFeatureCollection,
   PlacesResponse,
   NamesResponse,
-  CoordinateGeometry
+  CoordinateGeometry,
+  PlacesParams
 };
 
 // Request Configuration
@@ -119,3 +120,9 @@ type CoordinateGeometry =
   | MultiLineString
   | Polygon
   | MultiPolygon;
+
+
+interface PlacesParams {
+  srs?: string
+  maxresults?: number
+}
