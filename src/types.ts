@@ -1,16 +1,26 @@
-import {FeatureCollection, Feature} from "geojson";
+import {
+  FeatureCollection,
+  Feature,
+  Point,
+  Polygon,
+  MultiLineString,
+  MultiPoint,
+  MultiPolygon,
+  LineString,
+} from "geojson";
 
 export {
-    Config,
-    Options,
-    OSDataHubResponse,
-    validationParams,
-    placesOptions,
-    BBox,
-    OSFeatureCollection,
-    placesResponse,
-    namesResponse
-}
+  Config,
+  Options,
+  OSDataHubResponse,
+  ValidationParams as validationParams,
+  PlacesOptions as placesOptions,
+  BBox,
+  OSFeatureCollection,
+  PlacesResponse as placesResponse,
+  NamesResponse as namesResponse,
+  CoordinateGeometry
+};
 
 // Request Configuration
 
@@ -42,60 +52,70 @@ interface Options {
 // GeoJSON
 
 interface Geometry {
-    type: string;
-    coordinates: Array<any>
+  type: string;
+  coordinates: Array<any>;
 }
 
 interface OSDataHubResponseHeader {
-    uri: string,
-    query: string
+  uri: string;
+  query: string;
 }
 
 interface OSDataHubResponse {
-    header: OSDataHubResponseHeader
-    results: Array<Object>
+  header: OSDataHubResponseHeader;
+  results: Array<Object>;
 }
 
-interface validationParams extends Options {
-    apiKey: string
-    paging?: [number, number]
-    radius?: number
-    point?: [number, number]
-    polygon?: Feature | FeatureCollection
-    bbox?: [number, number, number, number]
-    uprn?: number
-    postcode?: string
-    query?: string
+interface ValidationParams extends Options {
+  apiKey: string;
+  paging?: [number, number];
+  radius?: number;
+  point?: [number, number];
+  polygon?: Feature | FeatureCollection;
+  bbox?: [number, number, number, number];
+  uprn?: number;
+  postcode?: string;
+  query?: string;
 }
 
-interface placesOptions {
-    paging?: [number, number],
+interface PlacesOptions {
+  paging?: [number, number];
 }
 
-type BBox = [number, number, number, number]
+type BBox = [number, number, number, number];
 
 interface OSFeatureCollection extends FeatureCollection {
-    header: Object
+  header: Object;
 }
 
-interface placesFeature {
-    DPA: {
-        LNG: number,
-        LAT: number
-    }
+interface PlacesFeature {
+  DPA: {
+    LNG: number;
+    LAT: number;
+  };
 }
 
-interface placesResponse extends OSDataHubResponse {
-    results: Array<placesFeature>
+interface PlacesResponse extends OSDataHubResponse {
+  results: Array<PlacesFeature>;
 }
 
-interface namesFeature {
-    GAZETTEER_ENTRY: {
-        LNG: number,
-        LAT: number
-    }
+interface NamesFeature {
+  GAZETTEER_ENTRY: {
+    LNG: number;
+    LAT: number;
+    GEOMETRY_X: number;
+    GEOMETRY_Y: number;
+  };
 }
 
-interface namesResponse extends OSDataHubResponse {
-    results: Array<namesFeature>
+interface NamesResponse extends OSDataHubResponse {
+  results: Array<NamesFeature>;
 }
+
+type CoordinateGeometry =
+  | Point
+  | MultiPoint
+  | LineString
+  | MultiLineString
+  | Polygon
+  | MultiPolygon;
