@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+htntps://github.com/OrdnanceSurvey/osfetch-new.git"
+    "url": "git+https://github.com/OrdnanceSurvey/osfetch-new.git"
   },
   "keywords": [
     "OrdnanceSurvey",
