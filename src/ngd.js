@@ -2,70 +2,13 @@
 
 import { request } from './utils/request.js'
 
+import {validateParams} from "./utils/validate";
+
 export {
     handleNGD
 }
 
-const allowedFeatureTypes = [
-    'bld-fts-buildingline',
-    'bld-fts-buildingpart',
-    'gnm-fts-namedpoint',
-    'lnd-fts-land',
-    'lnd-fts-landform',
-    'lnd-fts-landformline',
-    'lnd-fts-landformpoint',
-    'lnd-fts-landpoint',
-    'lus-fts-site',
-    'lus-fts-siteaccesslocation',
-    'lus-fts-siteroutingpoint',
-    'str-fts-compoundstructure',
-    'str-fts-structure',
-    'str-fts-structureline',
-    'str-fts-structurepoint',
-    'trn-fts-cartographicraildetail',
-    'trn-fts-rail',
-    'trn-fts-roadline',
-    'trn-fts-roadtrackorpath',
-    'trn-ntwk-connectinglink',
-    'trn-ntwk-connectingnode',
-    'trn-ntwk-ferrylink',
-    'trn-ntwk-ferrynode',
-    'trn-ntwk-ferryterminal',
-    'trn-ntwk-path',
-    'trn-ntwk-pathlink',
-    'trn-ntwk-pathnode',
-    'trn-ntwk-road',
-    'trn-ntwk-roadjunction',
-    'trn-ntwk-roadlink',
-    'trn-ntwk-roadnode',
-    'trn-ntwk-street',
-    'trn-rami-highwaydedication',
-    'trn-rami-maintenancearea',
-    'trn-rami-maintenanceline',
-    'trn-rami-maintenancepoint',
-    'trn-rami-reinstatementarea',
-    'trn-rami-reinstatementline',
-    'trn-rami-reinstatementpoint',
-    'trn-rami-restriction',
-    'trn-rami-routinghazard',
-    'trn-rami-routingstructure',
-    'trn-rami-specialdesignationarea',
-    'trn-rami-specialdesignationline',
-    'trn-rami-specialdesignationpoint',
-    'wtr-fts-intertidalline',
-    'wtr-fts-tidalboundary',
-    'wtr-fts-water',
-    'wtr-fts-waterpoint',
-    'wtr-ntwk-waterlink',
-    'wtr-ntwk-waterlinkset',
-    'wtr-ntwk-waternode',
-]
-
 async function handleNGD(params) {
-
-    if (!params.featureType || !allowedFeatureTypes.includes(params.featureType)) {
-        throw new Error('Invalid NGD Feature Type Supplied. Aborting.')
-    }
 
     let config = {
         url: '',
