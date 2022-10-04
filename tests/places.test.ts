@@ -2,6 +2,7 @@ import {describe, expect, test, beforeAll} from '@jest/globals';
 import * as dotenv from 'dotenv';
 import {places} from '../src/places'
 import {OSDataHubResponse, OSFeatureCollection} from "../src/types";
+import {FeatureCollection} from "geojson";
 
 dotenv.config();
 
@@ -56,7 +57,7 @@ const sampleGeoJson = {
 
 describe("Polygon Endpoint", () => {
     test("Polygon Endpoint Passes", async () => {
-        let response: OSFeatureCollection = await places.polygon(apiKey, sampleGeoJson) ;
+        let response: OSFeatureCollection = await places.polygon(apiKey, <FeatureCollection>sampleGeoJson) ;
         expect(response.features.length).toBeGreaterThanOrEqual(1)
     })
     // test("Polygon Endpoint Fails", () => {
