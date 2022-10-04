@@ -27,22 +27,28 @@ export { geojson };
 
 const geojson = {
   from: function (geoJson: Feature | FeatureCollection) {
-    let output: Feature;
     try {
-      if ("features" in geoJson && geoJson.features.length === 0) {
-        throw new Error("Input was a feature collection but had no features");
-      }
-      if ("features" in geoJson) {
-        output = geoJson.features[0];
-        if (geoJson.features.length > 1) {
-          logging.warn("Multiple features passed, only using the first one!");
-        }
-      } else {
-        output = geoJson;
+      const isFeatureCollection: boolean = "features" in geoJson;
+      const featureCount = isFeatureCollection
+        ? (geoJson as FeatureCollection).features.length
+        : 1;
+
+      if (isFeatureCollection && featureCount === 0) {
+        throw new Error("Input feature collection has 0 features");
+      } else if (isFeatureCollection && featureCount > 1) {
+        throw new Error(
+          `Input feature collection has too many features. Expected 1, got ${
+            (geoJson as FeatureCollection).features.length
+          }`
+        );
       }
 
-      (output.geometry as CoordinateGeometry).coordinates = (
-        output.geometry as CoordinateGeometry
+      const output = isFeatureCollection
+        ? (geoJson as FeatureCollection).features[0]
+        : geoJson;
+
+      ((output as Feature).geometry as CoordinateGeometry).coordinates = (
+        (output as Feature).geometry as CoordinateGeometry
       ).coordinates.map((coordinate) =>
         coords.swivelPoint(coordinate as [number, number])
       );
