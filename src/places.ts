@@ -56,7 +56,7 @@ const places = {
 
     const config = initialiseConfig(apiKey, paging);
 
-    const pointSwivelled = coords.swivelPoint(point);
+    const pointSwivelled = coords.swivelPoint(point).toString().replaceAll(" ", "");
     config.url = buildUrl("places", "radius", {
       srs: "WGS84",
       point: pointSwivelled,
@@ -89,7 +89,7 @@ const places = {
 
     const config = initialiseConfig(apiKey);
 
-    const pointSwivelled = coords.swivelPoint(point);
+    const pointSwivelled = coords.swivelPoint(point).toString().replaceAll(" ", "");
     config.url = buildUrl("places", "nearest", {
       srs: "WGS84",
       point: pointSwivelled,
