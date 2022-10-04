@@ -1,4 +1,4 @@
-// src/utils/coords.js
+// src/utils/coords.ts
 
 // @ts-ignore
 import proj4 from "proj4";
@@ -27,10 +27,10 @@ const coords = {
     var lng = Number(point[0].toFixed(4));
     var lat = Number(point[1].toFixed(4));
 
-    return { lat: lat, lng: lng };
+    return { lat, lng };
   },
 
-  toBNG: (lat: number, lng: number): [number, number] => {
+  toBNG: (lat: number, lng: number): { ea: number; no: number } => {
     proj4.defs(
       "EPSG:27700",
       "+proj=tmerc +lat_0=49 +lon_0=-2 +k=0.9996012717 +x_0=400000 +y_0=-100000 +ellps=airy +towgs84=446.448,-125.157,542.06,0.15,0.247,0.842,-20.489 +units=m +no_defs"
@@ -41,7 +41,7 @@ const coords = {
     var ea = Number(point[0].toFixed(0));
     var no = Number(point[1].toFixed(0));
 
-    return [ea, no];
+    return { ea, no };
   },
 
   swivelPoint: (point: [number, number]): string => {
@@ -53,4 +53,6 @@ const coords = {
     bbox = [bbox[1], bbox[0], bbox[3], bbox[2]];
     return bbox.toString().replaceAll(" ", "");
   },
+
+  isLatLng: (coords: [number, number] | BBox) => coords[0] > coords[1],
 };
