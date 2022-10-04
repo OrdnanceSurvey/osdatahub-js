@@ -1,10 +1,10 @@
 // src/utils/geojson.ts
 
 import {
-  namesResponse,
+  NamesResponse,
   OSDataHubResponse,
   OSFeatureCollection,
-  placesResponse,
+  PlacesResponse,
   CoordinateGeometry,
 } from "../types";
 import {
@@ -55,9 +55,9 @@ const geojson = {
         header: response.header,
       };
     } else if ("DPA" in response.results[0]) {
-      return placesResponseToFeatureCollection(response as placesResponse);
+      return placesResponseToFeatureCollection(response as PlacesResponse);
     } else if ("GAZETTEER_ENTRY" in response.results[0]) {
-      return namesResponseToFeatureCollection(response as namesResponse);
+      return namesResponseToFeatureCollection(response as NamesResponse);
     } else {
       throw new Error("Unknown response given from OS Data Hub");
     }
@@ -65,7 +65,7 @@ const geojson = {
 };
 
 function namesResponseToFeatureCollection(
-  response: namesResponse
+  response: NamesResponse
 ): OSFeatureCollection {
   const features: Feature[] = response.results.map(
     (feature) =>
@@ -89,7 +89,7 @@ function namesResponseToFeatureCollection(
 }
 
 function placesResponseToFeatureCollection(
-  response: placesResponse
+  response: PlacesResponse
 ): OSFeatureCollection {
   const features: Feature[] = response.results.map(
     (feature) =>
