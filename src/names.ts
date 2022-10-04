@@ -1,4 +1,4 @@
-// src/handlers/handleNames.js
+// src/handlers/names.ts
 
 import { coords } from "./utils/coords";
 import { request } from "./utils/request";
@@ -6,27 +6,12 @@ import { geojson } from "./utils/geojson";
 import { buildUrl } from "./utils/url";
 import { validateParams } from "./utils/sanitise";
 import { Config, FeatureCollection } from "./types";
+import { initialiseConfig } from "./utils/config";
 
 export { names };
 
-function initialiseConfig(apiKey: string, paging = [0, 1000]): Config {
-  return {
-    url: "",
-    key: apiKey,
-    body: "",
-    method: "get",
-    paging: {
-      enabled: true,
-      position: paging[0],
-      startValue: paging[0],
-      limitValue: paging[1],
-      isNextPage: true,
-    },
-  };
-}
-
 async function requestNames(config: Config): Promise<FeatureCollection> {
-  let coordsTemp;
+  let coordsTemp: {lat: number, lng: number};
   let responseObject = await request(config);
   responseObject.results.forEach((result) => {
     coordsTemp = coords.fromBNG(
@@ -51,7 +36,7 @@ const names = {
   ): Promise<FeatureCollection> => {
     validateParams({ apiKey, point });
 
-    let config = initialiseConfig(apiKey);
+    const config = initialiseConfig(apiKey);
 
     const pointSwivelled = coords.swivelPoint(point).split(",");
     const pointBNG = coords.toBNG(
@@ -59,7 +44,7 @@ const names = {
       parseFloat(pointSwivelled[1])
     );
     config.url = buildUrl("names", "nearest", {
-      point: `${pointBNG[0]},${pointBNG[1]}`,
+      point: `${pointBNG.ea},${pointBNG.no}`,
     });
     config.paging.enabled = false;
 
@@ -73,7 +58,7 @@ const names = {
   ): Promise<FeatureCollection> => {
     validateParams({ apiKey, query });
 
-    let config = initialiseConfig(apiKey, paging);
+    const config = initialiseConfig(apiKey, paging);
 
     config.url = buildUrl("names", "find", { query });
 
