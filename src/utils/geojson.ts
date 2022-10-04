@@ -8,10 +8,10 @@ import {
   CoordinateGeometry,
 } from "../types";
 import {
-  FeatureCollection,
-  Feature,
-  Geometry,
-  GeoJsonProperties,
+    FeatureCollection,
+    Feature,
+    Geometry,
+    GeoJsonProperties, Polygon,
 } from "geojson";
 import { coords } from "./coords";
 import { logging } from "./logging";
@@ -25,41 +25,11 @@ export { geojson };
 
 */
 
+
+
+
 const geojson = {
-  from: function (geoJson: Feature | FeatureCollection) {
-    try {
-      const isFeatureCollection: boolean = "features" in geoJson;
-      const featureCount = isFeatureCollection
-        ? (geoJson as FeatureCollection).features.length
-        : 1;
 
-      if (isFeatureCollection && featureCount === 0) {
-        throw new Error("Input feature collection has 0 features");
-      } else if (isFeatureCollection && featureCount > 1) {
-        throw new Error(
-          `Input feature collection has too many features. Expected 1, got ${
-            (geoJson as FeatureCollection).features.length
-          }`
-        );
-      }
-
-      const output = isFeatureCollection
-        ? (geoJson as FeatureCollection).features[0]
-        : geoJson;
-
-      ((output as Feature).geometry as CoordinateGeometry).coordinates = (
-        (output as Feature).geometry as CoordinateGeometry
-      ).coordinates.map((coordinate) =>
-        coords.swivelPoint(coordinate as [number, number])
-      );
-
-      return output;
-    } catch {
-      throw new Error(
-        "Failed to read GeoJSON input. Does the GeoJSON input adhere to specification?"
-      );
-    }
-  },
 
   into: function (response: OSDataHubResponse): OSFeatureCollection {
     if (response.results.length == 0) {

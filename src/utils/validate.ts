@@ -79,9 +79,7 @@ const validate: {[key: string]: Function } = {
         } else if (paging[0] - paging[1] > 100 || paging[0] == paging[1]) {
             throw new Error('The minimum page value must be less than the maximum page value. Aborting.')
         } else if (isNaN(paging[0]) || isNaN(paging[1])) {
-            throw new Error('Min/Max paging values must be integers (and a multiple of 100). Aborting.')
-        } else if (paging[0] % 100 != 0 || paging[1] % 100 != 0) {
-            throw new Error('Min/Max paging values must be integers (and a multiple of 100). Aborting.')
+            throw new Error('Min/Max paging values must be integers . Aborting.')
         }
         return true
     },
