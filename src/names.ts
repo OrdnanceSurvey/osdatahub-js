@@ -4,25 +4,21 @@ import { coords } from "./utils/coords";
 import { request } from "./utils/request";
 import { geojson } from "./utils/geojson";
 import { buildUrl } from "./utils/url";
-import { validateParams } from "./utils/sanitise";
-import { Config, FeatureCollection } from "./types";
+import { validateParams } from "./utils/validate";
+import { Config, OSFeatureCollection, NamesResponse } from "./types";
 import { initialiseConfig } from "./utils/config";
 
 export { names };
 
-async function requestNames(config: Config): Promise<FeatureCollection> {
+async function requestNames(config: Config): Promise<OSFeatureCollection> {
   let coordsTemp: {lat: number, lng: number};
-  let responseObject = await request(config);
+  let responseObject = await request(config) as NamesResponse;
   responseObject.results.forEach((result) => {
     coordsTemp = coords.fromBNG(
-      // @ts-ignore
       result.GAZETTEER_ENTRY.GEOMETRY_X,
-      // @ts-ignore
       result.GAZETTEER_ENTRY.GEOMETRY_Y
     );
-    // @ts-ignore
     result.GAZETTEER_ENTRY.LNG = coordsTemp.lng;
-    // @ts-ignore
     result.GAZETTEER_ENTRY.LAT = coordsTemp.lat;
   });
 
@@ -33,15 +29,15 @@ const names = {
   nearest: async (
     apiKey: string,
     point: [number, number]
-  ): Promise<FeatureCollection> => {
+  ): Promise<OSFeatureCollection> => {
     validateParams({ apiKey, point });
 
     const config = initialiseConfig(apiKey);
 
-    const pointSwivelled = coords.swivelPoint(point).split(",");
+    const pointSwivelled = coords.swivelPoint(point);
     const pointBNG = coords.toBNG(
-      parseFloat(pointSwivelled[0]),
-      parseFloat(pointSwivelled[1])
+      pointSwivelled[0],
+      pointSwivelled[1]
     );
     config.url = buildUrl("names", "nearest", {
       point: `${pointBNG.ea},${pointBNG.no}`,
@@ -55,7 +51,7 @@ const names = {
     apiKey: string,
     query: string,
     { paging = [0, 1000] }: { paging?: [number, number] } = {}
-  ): Promise<FeatureCollection> => {
+  ): Promise<OSFeatureCollection> => {
     validateParams({ apiKey, query });
 
     const config = initialiseConfig(apiKey, paging);
