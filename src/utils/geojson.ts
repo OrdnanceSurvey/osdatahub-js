@@ -16,7 +16,7 @@ export {
 
 const geojson = {
 
-    from: function (input: Feature | FeatureCollection) {
+    from: function (input: Feature | FeatureCollection | Polygon) {
         try {
             let output: Feature;
             if ((<FeatureCollection>input).features) {

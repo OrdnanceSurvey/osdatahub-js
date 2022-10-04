@@ -7,7 +7,7 @@ import {validateParams} from "./utils/validate";
 import {buildUrl} from "./utils/url";
 
 import {Config, OSFeatureCollection} from "./types";
-import {FeatureCollection, Feature} from "geojson";
+import {FeatureCollection, Feature, Polygon} from "geojson";
 
 export { places };
 
@@ -33,7 +33,7 @@ async function requestPlaces(config: Config): Promise<OSFeatureCollection> {
 }
 
 const places = {
-  polygon: async (apiKey: string, polygon: Feature | FeatureCollection, { paging = [0, 1000] } : {paging?: [number, number]}= {}): Promise<OSFeatureCollection> => {
+  polygon: async (apiKey: string, polygon: Feature | FeatureCollection | Polygon, { paging = [0, 1000] } : {paging?: [number, number]}= {}): Promise<OSFeatureCollection> => {
 
     validateParams({ apiKey, polygon, paging });
 

@@ -1,4 +1,4 @@
-import {FeatureCollection, Feature} from "geojson";
+import {FeatureCollection, Feature, Polygon} from "geojson";
 
 export {
     Config,
@@ -61,7 +61,7 @@ interface validationParams extends Options {
     paging?: [number, number]
     radius?: number
     point?: [number, number]
-    polygon?: Feature | FeatureCollection
+    polygon?: Feature | FeatureCollection | Polygon
     bbox?: [number, number, number, number]
     uprn?: number
     postcode?: string
