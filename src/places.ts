@@ -1,10 +1,10 @@
-// src/handlers/handlePlaces.js
+// src/handlers/places.ts
 
-import {coords} from "./utils/coords.js"; // no longer required as coords.swivel moved
+import {coords} from "./utils/coords"; // no longer required as coords.swivel moved
 import {request} from "./utils/request";
 import {geojson} from "./utils/geojson";
 import {validateParams} from "./utils/validate";
-import {buildUrl} from "./utils/url.js";
+import {buildUrl} from "./utils/url";
 
 import {Config, OSFeatureCollection} from "./types";
 import {FeatureCollection, Feature} from "geojson";
@@ -37,7 +37,7 @@ const places = {
 
     validateParams({ apiKey, polygon, paging });
 
-    let config = initialiseConfig(apiKey, paging);
+    const config = initialiseConfig(apiKey, paging);
 
     config.url = buildUrl("places", "polygon", { srs: "WGS84" });
     config.method = "post";
@@ -46,25 +46,40 @@ const places = {
     return await requestPlaces(config);
   },
 
-  radius: async (apiKey: string, point: [number, number], radius: number, { paging = [0, 1000] } : {paging?: [number, number]}= {}) => {
+  radius: async (
+    apiKey: string,
+    point: [number, number],
+    radius: number,
+    { paging = [0, 1000] }: { paging?: [number, number] } = {}
+  ) => {
     validateParams({ apiKey, point, radius, paging });
 
-    let config = initialiseConfig(apiKey, paging);
+    const config = initialiseConfig(apiKey, paging);
 
-    point = coords.swivelPoint(point);
-    config.url = buildUrl("places", "radius", { srs: "WGS84", point, radius });
+    const pointSwivelled = coords.swivelPoint(point);
+    config.url = buildUrl("places", "radius", {
+      srs: "WGS84",
+      point: pointSwivelled,
+      radius,
+    });
 
     return await requestPlaces(config);
   },
 
-  bbox: async (apiKey: string, bbox: [number, number, number, number], { paging = [0, 1000] } : {paging?: [number, number]}= {}) => {
+  bbox: async (
+    apiKey: string,
+    bbox: [number, number, number, number],
+    { paging = [0, 1000] }: { paging?: [number, number] } = {}
+  ) => {
     validateParams({ apiKey, bbox, paging });
 
+    const config = initialiseConfig(apiKey, paging);
 
-    let config = initialiseConfig(apiKey, paging);
-
-    bbox = coords.swivelBounds(bbox);
-    config.url = buildUrl("places", "bbox", { srs: "WGS84", bbox });
+    const bboxSwivelled = coords.swivelBounds(bbox);
+    config.url = buildUrl("places", "bbox", {
+      srs: "WGS84",
+      bbox: bboxSwivelled,
+    });
 
     return await requestPlaces(config);
   },
@@ -72,11 +87,13 @@ const places = {
   nearest: async (apiKey: string, point: [number, number]) => {
     validateParams({ apiKey, point });
 
-    let config = initialiseConfig(apiKey);
+    const config = initialiseConfig(apiKey);
 
-    point = coords.swivelPoint(point);
-    config.url = buildUrl("places", "nearest", { srs: "WGS84", point });
-
+    const pointSwivelled = coords.swivelPoint(point);
+    config.url = buildUrl("places", "nearest", {
+      srs: "WGS84",
+      point: pointSwivelled,
+    });
     config.paging.enabled = false;
 
     return await requestPlaces(config);
@@ -85,7 +102,7 @@ const places = {
   uprn: async (apiKey: string, uprn: number) => {
     validateParams({ apiKey, uprn });
 
-    let config = initialiseConfig(apiKey);
+    const config = initialiseConfig(apiKey);
 
     config.url = buildUrl("places", "uprn", { output_srs: "WGS84", uprn });
     config.paging.enabled = false;
@@ -93,10 +110,14 @@ const places = {
     return await requestPlaces(config);
   },
 
-  postcode: async (apiKey: string, postcode: string, { paging = [0, 1000] } : {paging?: [number, number]}= {}) => {
+  postcode: async (
+    apiKey: string,
+    postcode: string,
+    { paging = [0, 1000] }: { paging?: [number, number] } = {}
+  ) => {
     validateParams({ apiKey, postcode, paging });
 
-    let config = initialiseConfig(apiKey, paging);
+    const config = initialiseConfig(apiKey, paging);
 
     postcode = encodeURIComponent(postcode);
     config.url = buildUrl("places", "postcode", {
@@ -107,10 +128,14 @@ const places = {
     return await requestPlaces(config);
   },
 
-  find: async (apiKey: string, query: string, { paging = [0, 1000] } : {paging?: [number, number]}= {}) => {
+  find: async (
+    apiKey: string,
+    query: string,
+    { paging = [0, 1000] }: { paging?: [number, number] } = {}
+  ) => {
     validateParams({ apiKey, query, paging });
 
-    let config = initialiseConfig(apiKey, paging);
+    const config = initialiseConfig(apiKey, paging);
 
     query = encodeURIComponent(query);
     config.url = buildUrl("places", "find", { output_srs: "WGS84", query });
@@ -118,4 +143,3 @@ const places = {
     return await requestPlaces(config);
   },
 };
-
