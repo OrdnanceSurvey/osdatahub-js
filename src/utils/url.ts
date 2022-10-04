@@ -1,4 +1,4 @@
-// src/utils/build.js
+// src/utils/url.ts
 
 export { buildUrl };
 
