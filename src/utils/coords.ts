@@ -44,9 +44,8 @@ const coords = {
     return { ea, no };
   },
 
-  swivelPoint: (point: [number, number]): string => {
-    point = [point[1], point[0]];
-    return point.toString().replaceAll(" ", "");
+  swivelPoint: (point: [number, number]): [number, number] => {
+    return [point[1], point[0]];
   },
 
   swivelBounds: (bbox: BBox) => {

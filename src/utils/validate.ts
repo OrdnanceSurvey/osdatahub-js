@@ -2,7 +2,7 @@
 
 import { logging } from './logging'
 
-import {type validationParams} from '../types'
+import {type ValidationParams} from '../types'
 
 export {
     validateParams
@@ -108,7 +108,7 @@ const validate: {[key: string]: Function } = {
 
 }
 
-function validateParams ( params: validationParams) {
+function validateParams ( params: ValidationParams) {
     for (const [key, value] of Object.entries(params)) {
         validate[key]? validate[key](value) : null
     }
