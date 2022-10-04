@@ -1,12 +1,15 @@
+import {FeatureCollection, Feature} from "geojson";
+
 export {
     Config,
     Options,
-    FeatureCollection,
-    Feature,
     OSDataHubResponse,
     validationParams,
     placesOptions,
-    BBox
+    BBox,
+    OSFeatureCollection,
+    placesResponse,
+    namesResponse
 }
 
 // Request Configuration
@@ -37,18 +40,6 @@ interface Options {
 }
 
 // GeoJSON
-// todo: Potentially switch to GeoJSON types
-
-interface FeatureCollection {
-    type: string;
-    features: Array<Feature>
-}
-
-interface Feature {
-    type: string;
-    properties?: any;
-    geometry: Geometry
-}
 
 interface Geometry {
     type: string;
@@ -82,3 +73,29 @@ interface placesOptions {
 }
 
 type BBox = [number, number, number, number]
+
+interface OSFeatureCollection extends FeatureCollection {
+    header: Object
+}
+
+interface placesFeature {
+    DPA: {
+        LNG: number,
+        LAT: number
+    }
+}
+
+interface placesResponse extends OSDataHubResponse {
+    results: Array<placesFeature>
+}
+
+interface namesFeature {
+    GAZETTEER_ENTRY: {
+        LNG: number,
+        LAT: number
+    }
+}
+
+interface namesResponse extends OSDataHubResponse {
+    results: Array<namesFeature>
+}
