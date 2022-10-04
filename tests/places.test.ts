@@ -1,7 +1,9 @@
-import { describe, expect, test } from "@jest/globals";
-import * as dotenv from "dotenv";
-import { places } from "../src/places";
 import { type BBox } from "../src/types";
+import {describe, expect, test, beforeAll} from '@jest/globals';
+import * as dotenv from 'dotenv';
+import {places} from '../src/places'
+import {OSDataHubResponse, OSFeatureCollection} from "../src/types";
+import {FeatureCollection} from "geojson";
 
 dotenv.config();
 
