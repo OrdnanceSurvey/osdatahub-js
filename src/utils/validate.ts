@@ -8,6 +8,8 @@ export {
     validateParams
 }
 
+// todo: convert to set, or catch at request stage
+
 const ngdValidFeatureTypes = [
     'bld-fts-buildingline',
     'bld-fts-buildingpart',
@@ -63,7 +65,8 @@ const ngdValidFeatureTypes = [
     'wtr-ntwk-waternode'
 ]
 
-const validate = {
+const validate: {[key: string]: Function } = {
+
     apiKey: function (apiKey: string) {
         if (!apiKey) {
             throw new Error('No API key supplied. Aborting.')
@@ -89,29 +92,24 @@ const validate = {
         return true
     },
     point: function (point: [number, number]) {
-        // check within UK bounds?
+        // todo: check within UK bounds?
         return true
     },
     bbox: function (bbox: [number, number, number, number]) {
-        // check within UK bounds?
-        // check max bbox size less than 1km2?
-        return true
-    },
-    uprn: function (uprn: number) {
+        // todo: check within UK bounds?
+        // todo: check max bbox size less than 1km2?
         return true
     },
     ngd : function(ngdFeatureType: string) {
-        if(ngdFeatureType) { // might not be neccesary to encapsulate with this check
-            if (!ngdValidFeatureTypes.includes(ngdFeatureType)) {
-                throw new Error(`Unrecognised NGD FeatureType '${ngdFeatureType}'. Aborting.`)
-            }
+        if (!ngdValidFeatureTypes.includes(ngdFeatureType)) {
+            throw new Error(`Unrecognised NGD FeatureType '${ngdFeatureType}'. Aborting.`)
         }
     }
 
 }
 
 function validateParams ( params: validationParams) {
-    for (let [key, value] of Object.entries(params)) {
+    for (const [key, value] of Object.entries(params)) {
         validate[key]? validate[key](value) : null
     }
 }
