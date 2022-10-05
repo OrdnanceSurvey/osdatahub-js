@@ -6,7 +6,11 @@ import fetch, {type Response} from "node-fetch"; // not required in Node17.5 (LT
 
 export { request };
 
-async function post(endpoint: string, key: string, body: string): Promise<Response> {
+async function post(
+  endpoint: string,
+  key: string,
+  body: string
+): Promise<Response> {
   logging.info("🔍 " + endpoint);
   return await fetch(endpoint, {
     method: "post",
@@ -28,8 +32,14 @@ async function get(endpoint: string, key: string): Promise<Response> {
   });
 }
 
-function getOffsetEndpoint(config: Config): string {
-  return config.url + "&offset=" + config.paging.position;
+function getOffsetEndpoint(config: Config, featureCount: number): string {
+  const limit = Math.min(
+    config.paging.limitValue - config.paging.startValue - featureCount,
+    100
+  );
+  return (
+    config.url + "&offset=" + config.paging.position + "&maxresults=" + limit
+  );
 }
 
 function checkStatusCode(statusCode: number): void {
@@ -61,16 +71,18 @@ function logEndConditions(config: Config): void {
   }
 }
 
-async function request(config: Config): Promise<OSDataHubResponse>{
+async function request(config: Config): Promise<OSDataHubResponse> {
   let endpoint: string;
+  let featureCount: number = 0;
   let output: OSDataHubResponse | undefined;
-
 
   while (
     config.paging.isNextPage &&
     config.paging.position < config.paging.limitValue
   ) {
-    endpoint = config.paging.enabled ? getOffsetEndpoint(config) : config.url;
+    endpoint = config.paging.enabled
+      ? getOffsetEndpoint(config, featureCount)
+      : config.url;
 
     let response: Response =
       config.method == "get"
@@ -79,31 +91,35 @@ async function request(config: Config): Promise<OSDataHubResponse>{
 
     checkStatusCode(response.status);
 
-    let responseJson: OSDataHubResponse = <OSDataHubResponse> await response.json()
+    let responseJson: OSDataHubResponse = <OSDataHubResponse>(
+      await response.json()
+    );
 
     if (typeof output === "undefined") {
-      if (!('results' in responseJson)) {
+      if (!("results" in responseJson)) {
         output = {
           header: responseJson.header,
-          results: []
-        }
+          results: [],
+        };
       } else {
-        output = responseJson
+        output = responseJson;
       }
     } else {
       output.results = output.results.concat(responseJson.results);
     }
 
-    if ((responseJson.results) && responseJson.results.length == 100) {
+    if (responseJson.results && responseJson.results.length == 100) {
       config.paging.position += 100;
     } else {
       config.paging.isNextPage = false;
     }
+
+    featureCount = output.results.length;
   }
 
   logEndConditions(config);
   if (typeof output === "undefined") {
-    throw Error("There is no output at the end of request")
+    throw Error("There is no output at the end of request");
   } else {
     return output;
   }

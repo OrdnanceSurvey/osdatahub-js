@@ -19,7 +19,8 @@ export {
   OSFeatureCollection,
   PlacesResponse,
   NamesResponse,
-  CoordinateGeometry
+  CoordinateGeometry,
+  PlacesParams
 };
 
 // Request Configuration
@@ -68,10 +69,11 @@ interface OSDataHubResponse {
 
 interface ValidationParams extends Options {
   apiKey: string;
-  paging?: [number, number];
+  offset?: number,
+  limit?: number,
   radius?: number;
   point?: [number, number];
-  polygon?: Feature | FeatureCollection;
+  polygon?: Feature | FeatureCollection | Polygon;
   bbox?: [number, number, number, number];
   uprn?: number;
   postcode?: string;
@@ -119,3 +121,9 @@ type CoordinateGeometry =
   | MultiLineString
   | Polygon
   | MultiPolygon;
+
+
+interface PlacesParams {
+  srs?: string
+  maxresults?: number
+}
