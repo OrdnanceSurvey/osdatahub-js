@@ -1,5 +1,5 @@
 // src/utils/config.ts
-import { type Config } from "../types";
+import { type Config } from "../types.js";
 
 export { initialiseConfig };
 

@@ -4,7 +4,7 @@
 import proj4 from "proj4";
 
 export { coords };
-import { type BBox } from "../types";
+import { type BBox } from "../types.js";
 
 /*
 
