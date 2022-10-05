@@ -11,8 +11,8 @@ import { initialiseConfig } from "./utils/config";
 export { names };
 
 async function requestNames(config: Config): Promise<OSFeatureCollection> {
-  let coordsTemp: {lat: number, lng: number};
-  let responseObject = await request(config) as NamesResponse;
+  let coordsTemp: { lat: number; lng: number };
+  let responseObject = (await request(config)) as NamesResponse;
   responseObject.results.forEach((result) => {
     coordsTemp = coords.fromBNG(
       result.GAZETTEER_ENTRY.GEOMETRY_X,
@@ -26,6 +26,13 @@ async function requestNames(config: Config): Promise<OSFeatureCollection> {
 }
 
 const names = {
+  /**
+   * Get the nearest name to an input coordinate.
+   *
+   * @param {string} apiKey - A valid OS Data Hub key
+   * @param {number[]} point - A Lng/Lat coordinate
+   * @return {Promise<OSFeatureCollection>} - A GeoJSON Feature Collection
+   */
   nearest: async (
     apiKey: string,
     point: [number, number]
@@ -35,10 +42,7 @@ const names = {
     const config = initialiseConfig(apiKey);
 
     const pointSwivelled = coords.swivelPoint(point);
-    const pointBNG = coords.toBNG(
-      pointSwivelled[0],
-      pointSwivelled[1]
-    );
+    const pointBNG = coords.toBNG(pointSwivelled[0], pointSwivelled[1]);
     config.url = buildUrl("names", "nearest", {
       point: `${pointBNG.ea},${pointBNG.no}`,
     });
@@ -47,6 +51,16 @@ const names = {
     return await requestNames(config);
   },
 
+  /**
+   * Find names that match a free text search.
+   *
+   * @param {string} apiKey - A valid OS Data Hub key
+   * @param {string} query - Free text search parameter
+   * @param {Object} options - Optional arguments
+   * @param {number} [options.offset] - The starting value for the offset
+   * @param {number} [options.limit] - The max number of features to return
+   * @return {Promise<OSFeatureCollection>} - A GeoJSON Feature Collection
+   */
   find: async (
     apiKey: string,
     query: string,

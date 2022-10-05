@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "test": "jest",
-    "build": "npx tsc"
+    "build": "npx tsc",
+    "doc": "./node_modules/.bin/jsdoc"
   },
   "repository": {
     "type": "git",
