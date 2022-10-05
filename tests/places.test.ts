@@ -395,30 +395,24 @@ describe("Postcode Endpoint", () => {
   });
 });
 
-// describe("Find Endpoint", () => {
-//   test("Find Endpoint Passes", async () => {
-//     let query = "10 Downing Street, London, SW1";
-//     const options: { paging?: [number, number] } = { paging: [0, 100] };
-//     let response = await places.find(apiKey, query, options);
-//     expect(response.features.length).toBeGreaterThanOrEqual(1);
+describe("Find Endpoint", () => {
+  test("Find Endpoint Passes", async () => {
+    let query = "10 Downing Street, London, SW1";
+    const options: { offset?: number; limit?: number } = { limit: 5 };
+    let response = await places.find(apiKey, query, options);
+    expect(response.features.length).toBeGreaterThanOrEqual(1);
 
-//     query = "Adanac Drive, SO16";
-//     response = await places.find(apiKey, query, options);
-//     expect(response.features.length).toBeGreaterThanOrEqual(1);
-//   });
+    query = "Adanac Drive, SO16";
+    response = await places.find(apiKey, query, options);
+    expect(response.features.length).toBeGreaterThanOrEqual(1);
+  });
 
-//   test("Postcode endpoint passes with non-standard paging", async () => {
-//     let query = "10 Downing Street, London, SW1";
-//     let response = await places.find(apiKey, query, { paging: [0, 10] });
-//     expect(response.features.length).toBeGreaterThanOrEqual(1);
+  // test("Postcode endpoint passes with non-standard paging", async () => {
+  //   let query = "10 Downing Street, London, SW1";
+  //   let response = await places.find(apiKey, query, { paging: [0, 10] });
+  //   expect(response.features.length).toBeGreaterThanOrEqual(1);
 
-//     response = await places.find(apiKey, query, { paging: [0, 1] });
-//     expect(response.features.length).toEqual(1);
-//   });
-
-//   test("Postcode endpoint fails with invalid paging", async () => {
-//     let query = "10 Downing Street, London, SW1";
-//     expect(await places.find(apiKey, query, { paging: [10, 0] })).toThrow();
-//     expect(await places.find(apiKey, query, { paging: [0, 100000] })).toThrow();
-//   });
-// });
+  //   response = await places.find(apiKey, query, { paging: [0, 1] });
+  //   expect(response.features.length).toEqual(1);
+  // });
+});
