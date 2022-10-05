@@ -1,12 +1,16 @@
 // src/utils/request.ts
 
 import { logging } from "./logging";
-import {type Config, type OSDataHubResponse} from "../types";
-import fetch, {type Response} from "node-fetch"; // not required in Node17.5 (LTS) onwards
+import { type Config, type OSDataHubResponse } from "../types";
+import fetch, { type Response } from "node-fetch"; // not required in Node17.5 (LTS) onwards
 
 export { request };
 
-async function post(endpoint: string, key: string, body: string): Promise<Response> {
+async function post(
+  endpoint: string,
+  key: string,
+  body: string
+): Promise<Response> {
   logging.info("🔍 " + endpoint);
   return await fetch(endpoint, {
     method: "post",
@@ -61,10 +65,9 @@ function logEndConditions(config: Config): void {
   }
 }
 
-async function request(config: Config): Promise<OSDataHubResponse>{
+async function request(config: Config): Promise<OSDataHubResponse> {
   let endpoint: string;
   let output: OSDataHubResponse | undefined;
-
 
   while (
     config.paging.isNextPage &&
@@ -79,23 +82,24 @@ async function request(config: Config): Promise<OSDataHubResponse>{
 
     checkStatusCode(response.status);
 
-    let responseJson: OSDataHubResponse = <OSDataHubResponse> await response.json()
+    let responseJson: OSDataHubResponse = <OSDataHubResponse>(
+      await response.json()
+    );
 
     if (typeof output === "undefined") {
-      if (!('results' in responseJson)) {
+      if (!("results" in responseJson)) {
         output = {
           header: responseJson.header,
-          results: []
-        }
+          results: [],
+        };
       } else {
-        output = responseJson
+        output = responseJson;
       }
     } else {
       output.results = output.results.concat(responseJson.results);
     }
 
-
-    if ((responseJson.results) && responseJson.results.length == 100) {
+    if (responseJson.results && responseJson.results.length == 100) {
       config.paging.position += 100;
     } else {
       config.paging.isNextPage = false;
@@ -104,7 +108,7 @@ async function request(config: Config): Promise<OSDataHubResponse>{
 
   logEndConditions(config);
   if (typeof output === "undefined") {
-    throw Error("There is no output at the end of request")
+    throw Error("There is no output at the end of request");
   } else {
     return output;
   }

@@ -25,9 +25,6 @@ export { geojson };
 
 */
 
-
-
-
 const geojson = {
 
 

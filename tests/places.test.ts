@@ -79,9 +79,7 @@ beforeAll(() => {
 async function testError(callback: Function): Promise<any> {
   let error: any;
   try {
-    await places.polygon(apiKey, <FeatureCollection>featureCollection, {
-      paging: [10, 0],
-    });
+    await callback();
   } catch (e: any) {
     error = e;
   }
@@ -90,7 +88,10 @@ async function testError(callback: Function): Promise<any> {
 
 describe("Polygon Endpoint", () => {
   test("Polygon Endpoint With FeatureCollection", async () => {
-    const options: { paging?: [number, number] } = { paging: [0, 100] };
+    const options: { offset?: number; limit?: number } = {
+      offset: 0,
+      limit: 5,
+    };
 
     let response = await places.polygon(
       apiKey,
@@ -105,7 +106,10 @@ describe("Polygon Endpoint", () => {
   });
 
   test("Polygon endpoint passes with Polygon object", async () => {
-    const options: { paging?: [number, number] } = { paging: [0, 100] };
+    const options: { offset?: number; limit?: number } = {
+      offset: 0,
+      limit: 5,
+    };
     let response = await places.polygon(apiKey, <Polygon>polygon, options);
     const requiredProperties = ["features", "header", "type"];
     requiredProperties.map((prop: string) =>
@@ -117,108 +121,92 @@ describe("Polygon Endpoint", () => {
   test("Polygon endpoint passes with specific numbers of results", async () => {
     const requiredProperties = ["features", "header", "type"];
 
-    let response = await places.polygon(apiKey, featureCollection, {
-      paging: [0, 10],
-    });
+    const options: { offset?: number; limit?: number } = { limit: 7 };
+    let response = await places.polygon(apiKey, featureCollection, options);
     requiredProperties.map((prop: string) =>
       expect(response).toHaveProperty(prop)
     );
-    expect(response.features.length).toEqual(10);
-
-    let response2 = await places.polygon(apiKey, featureCollection, {
-      paging: [0, 2],
-    });
-    requiredProperties.map((prop: string) =>
-      expect(response2).toHaveProperty(prop)
-    );
-    expect(response2.features.length).toEqual(2);
-  });
-
-  test("Polygon endpoint fails with invalid paging", async () => {
-    const error = testError(() => {
-      places.polygon(apiKey, <FeatureCollection>featureCollection, {
-        paging: [10, 0],
-      });
-    });
-    expect(error).toEqual(
-      new Error("Invalid paging, expected [min, max] got [10, 0]")
-    );
-
-    // try {
-    //   await places.polygon(apiKey, <FeatureCollection>featureCollection, {paging: [500, 10000]}); // Isn't this valid paging?
-    // } catch (e) {
-    //   error = e;
-    // }
-    // expect(error).toEqual(new Error("There is no output at the end of request"));
+    expect(response.features.length).toEqual(7);
   });
 
   test("Polygon endpoint fails with point", async () => {
-    const options: { paging?: [number, number] } = { paging: [0, 100] };
-    expect(await places.polygon(apiKey, point, options)).toThrow();
+    const options: { offset?: number; limit?: number } = { limit: 5 };
+    const error = await testError(async () => {
+      return await places.polygon(apiKey, point, options);
+    });
+    expect(error).toEqual(new Error("Expected Polygon, got Point"));
   });
 
-  test("Polygon endpoint fails with Polygon with coordinates in lat/long (not long/lat)", async () => {
-    const options: { paging?: [number, number] } = { paging: [0, 100] };
-    expect(await places.polygon(apiKey, invalidPolygon, options)).toThrow();
+  test("Polygon endpoint enpoint succeeds with lat lng geometries", async () => {
+    const options: { offset?: number; limit?: number } = {
+      offset: 0,
+      limit: 5,
+    };
+    let response = await places.polygon(apiKey, invalidPolygon, options);
+    const requiredProperties = ["features", "header", "type"];
+    expect(response.features.length).toBeGreaterThanOrEqual(1);
   });
 });
 
 describe("Radius Endpoint", () => {
   test("Radius Endpoint Passes", async () => {
     const center: [number, number] = [-1.4730370044708252, 50.936113462996616];
-    const options: { paging?: [number, number] } = { paging: [0, 100] };
+    const options: { offset?: number; limit?: number } = { limit: 7 };
     let response = await places.radius(apiKey, center, 200, options);
     expect(response.features.length).toBeGreaterThanOrEqual(1);
-
-    response = await places.radius(apiKey, center, 50, options);
-    expect(response.features.length).toBeGreaterThanOrEqual(1);
   });
 
-  test("Radius Endpoint passes with non-standard numbers of results", async () => {
-    const center: [number, number] = [-1.4730370044708252, 50.936113462996616];
-    const radius = 200;
-    let response = await places.radius(apiKey, center, radius, {
-      paging: [0, 10],
-    });
-    expect(response.features.length).toEqual(10);
+  // test("Radius Endpoint passes with non-standard numbers of results", async () => {
+  //   const center: [number, number] = [-1.4730370044708252, 50.936113462996616];
+  //   const radius = 500;
+  //   let response = await places.radius(apiKey, center, radius, { limit: 7 });
+  //   expect(response.features.length).toEqual(7);
 
-    response = await places.radius(apiKey, center, radius, { paging: [0, 1] });
-    expect(response.features.length).toEqual(10);
-  });
+  //   response = await places.radius(apiKey, center, radius, {
+  //     offset: 5,
+  //     limit: 2,
+  //   });
+  //   expect(response.features.length).toEqual(2);
+  // });
 
   test("Radius Endpoint fails with invalid radius", async () => {
     const center: [number, number] = [-1.4730370044708252, 50.936113462996616];
-    expect(
-      await places.radius(apiKey, center, -1, { paging: [0, 100] })
-    ).toThrow();
-    expect(
-      await places.radius(apiKey, center, 5000, { paging: [0, 100] })
-    ).toThrow();
-    expect(
-      await places.radius(apiKey, center, 0.001, { paging: [0, 100] })
-    ).toThrow();
+    const options: { offset?: number; limit?: number } = { limit: 5 };
+
+    let error = await testError(async () => {
+      return await places.radius(apiKey, center, -1, options);
+    });
+    expect(error).toEqual(
+      new RangeError("Radius must be an integer between 1-1000m")
+    );
+
+    error = await testError(async () => {
+      return await places.radius(apiKey, center, 5000, options);
+    });
+    expect(error).toEqual(
+      new RangeError("Radius must be an integer between 1-1000m")
+    );
+
+    error = await testError(async () => {
+      return await places.radius(apiKey, center, 0.001, options);
+    });
+    expect(error).toEqual(
+      new Error("Radius must be an integer between 1-1000m")
+    );
   });
 
-  test("Radius enpoint fails with invalid geometries", async () => {
-    const radius = 200;
-    expect(
-      await places.radius(apiKey, [1000, 1000], radius, { paging: [0, 100] })
-    ).toThrow();
-    expect(
-      await places.radius(
-        apiKey,
-        [50.936113462996616, -1.4730370044708252],
-        radius,
-        { paging: [0, 100] }
-      )
-    ).toThrow();
+  test("Radius enpoint succeeds with lat lng geometries", async () => {
+    const center: [number, number] = [50.936113462996616, -1.4730370044708252];
+    const options: { offset?: number; limit?: number } = { limit: 7 };
+    let response = await places.radius(apiKey, center, 200, options);
+    expect(response.features.length).toBeGreaterThanOrEqual(1);
   });
 });
 
 describe("BBox Endpoint", () => {
   test("BBox Endpoint Passes", async () => {
     let bbox: BBox = [-1.475335, 50.936159, -1.466924, 50.939569];
-    const options: { paging?: [number, number] } = { paging: [0, 100] };
+    const options: { offset?: number; limit?: number } = { limit: 5 };
     let response = await places.bbox(apiKey, bbox, options);
     expect(response.features.length).toBeGreaterThanOrEqual(1);
 
@@ -227,50 +215,93 @@ describe("BBox Endpoint", () => {
     expect(response.features.length).toBeGreaterThanOrEqual(1);
   });
 
-  test("BBox endpoint passes with non-standard paging", async () => {
-    let bbox: BBox = [-1.475335, 50.936159, -1.466924, 50.939569];
+  // test("BBox endpoint passes with non-standard paging", async () => {
+  //   let bbox: BBox = [-1.475335, 50.936159, -1.466924, 50.939569];
 
-    let response = await places.bbox(apiKey, bbox, { paging: [0, 10] });
-    expect(response.features.length).toEqual(10);
+  //   let response = await places.bbox(apiKey, bbox, { limit: 5 });
+  //   expect(response.features.length).toEqual(5);
 
-    response = await places.bbox(apiKey, bbox, { paging: [0, 1] });
-    expect(response.features.length).toEqual(10);
+  //   response = await places.bbox(apiKey, bbox, { offset: 5, limit: 5 });
+  //   expect(response.features.length).toEqual(5);
+  // });
+
+  test("BBox Endpoint Passes with Lat Lng bounds", async () => {
+    let bbox: BBox = [50.936159, -1.475335, 50.939569, -1.466924];
+    const options: { offset?: number; limit?: number } = { limit: 5 };
+    let response = await places.bbox(apiKey, bbox, options);
+    expect(response.features.length).toBeGreaterThanOrEqual(1);
+
+    bbox = [-1.917543, 52.479173, -1.907287, 52.485211];
+    response = await places.bbox(apiKey, bbox, options);
+    expect(response.features.length).toBeGreaterThanOrEqual(1);
   });
 
   test("BBox endpoint fails with invalid BBox", async () => {
-    const options: { paging?: [number, number] } = { paging: [0, 100] };
-    // BBox too large
-    expect(
-      await places.bbox(
-        apiKey,
-        [-3.070679, 52.332822, -2.357941, 52.694697],
-        options
-      )
-    ).toThrow();
+    const options: { offset?: number; limit?: number } = { limit: 5 };
+    // // BBox too large
+    // expect(
+    //   await places.bbox(
+    //     apiKey,
+    //     [-3.070679, 52.332822, -2.357941, 52.694697],
+    //     options
+    //   )
+    // ).toThrow();
 
     // West and East are switched
-    expect(
-      await places.bbox(
+    let error = await testError(async () => {
+      return await places.bbox(
         apiKey,
         [-1.907287, 52.479173, -1.917543, 52.485211],
         options
+      );
+    });
+    expect(error).toEqual(
+      new Error(
+        "Invalid bounding box (bbox), expected [minLng, minLat, maxLng, maxLat] or [minLat, minLng, maxLat, maxLng]"
       )
-    ).toThrow();
+    );
 
     // North and South are switched
-    expect(
-      await places.bbox(
+    error = await testError(async () => {
+      return await places.bbox(
         apiKey,
         [-1.917543, 52.485211, -1.907287, 52.479173],
         options
+      );
+    });
+    expect(error).toEqual(
+      new Error(
+        "Invalid bounding box (bbox), expected [minLng, minLat, maxLng, maxLat] or [minLat, minLng, maxLat, maxLng]"
       )
-    ).toThrow();
+    );
 
-    // Obviously not latitude and longitude
-    expect(await places.bbox(apiKey, [-1000, 0, 1000, 500], options)).toThrow();
+    // // Obviously not latitude and longitude
+    error = await testError(async () => {
+      return await places.bbox(
+        apiKey,
+        [-1000, 0, 1000, 500],
+        options
+      );
+    });
+    expect(error).toEqual(
+      new Error(
+        "Invalid bounding box (bbox), not within the UK (Lng, Lat): [-7.910156, 49.781264, 2.043457, 59.164668]"
+      )
+    );
 
-    // Invalid latitude values (need to be -90 <= x <= 90)
-    expect(await places.bbox(apiKey, [-1, 100, 1, 120], options)).toThrow();
+    // // Invalid latitude values (need to be -90 <= x <= 90)
+    error = await testError(async () => {
+      return await places.bbox(
+        apiKey,
+        [-1, 100, 1, 120],
+        options
+      );
+    });
+    expect(error).toEqual(
+      new Error(
+        "Invalid bounding box (bbox), not within the UK (Lng, Lat): [-7.910156, 49.781264, 2.043457, 59.164668]"
+      )
+    );
   });
 });
 
@@ -285,90 +316,107 @@ describe("Nearest Endpoint", () => {
     expect(response.features.length).toEqual(1);
   });
 
-  test("Newarest endpoing fails with invalid point", async () => {
-    expect(await places.nearest(apiKey, [1000, 1000])).toThrow();
-    // outside uk
-    expect(await places.nearest(apiKey, [-12.720966, 39.099627])).toThrow();
-    // lat long flipped
-    expect(await places.nearest(apiKey, [50.938189, -1.471237])).toThrow();
-  });
-});
+  test("Nearest Endpoint Passes with Lat Lng point", async () => {
+    let point: [number, number] = [50.938189, -1.471237];
+    let response = await places.nearest(apiKey, point);
+    expect(response.features.length).toEqual(1);
 
-describe("UPRN Endpoint", () => {
-  test("UPRN endpoint passes", async () => {
-    const uprn = 200010019924;
-    let response = await places.uprn(apiKey, uprn);
+    point = [-1.924796, 52.47918];
+    response = await places.nearest(apiKey, point);
     expect(response.features.length).toEqual(1);
   });
 
-  test("UPRN endpoint fails with invalid UPRN", async () => {
-    // can't be a negative number
-    expect(await places.uprn(apiKey, -1000)).toThrow();
-    // can't be a decimal
-    expect(await places.uprn(apiKey, 1.2345)).toThrow();
-    // can't be greater than 12 characters
-    expect(await places.uprn(apiKey, 1234567890123)).toThrow();
+  
+  test("Nearest endpoing fails with invalid point", async () => {
+    let error = await testError(async () => {
+      return await places.nearest(
+        apiKey,
+        [-12.720966, 39.099627]
+      );
+    });
+    expect(error).toEqual(
+      new Error(
+        "Invalid Point, not within the UK (Lng, Lat): [-7.910156, 49.781264, 2.043457, 59.164668]"
+      )
+    );
   });
 });
 
-describe("Postcode Endpoint", () => {
-  test("Postcode Endpoint Passes", async () => {
-    let postcode = "SO16 0AS";
-    const options: { paging?: [number, number] } = { paging: [0, 100] };
-    let response = await places.postcode(apiKey, postcode, options);
-    expect(response.features.length).toBeGreaterThanOrEqual(1);
+// describe("UPRN Endpoint", () => {
+//   test("UPRN endpoint passes", async () => {
+//     const uprn = 200010019924;
+//     let response = await places.uprn(apiKey, uprn);
+//     expect(response.features.length).toEqual(1);
+//   });
 
-    postcode = "KT11 3BB";
-    response = await places.postcode(apiKey, postcode, options);
-    expect(response.features.length).toBeGreaterThanOrEqual(1);
+//   test("UPRN endpoint fails with invalid UPRN", async () => {
+//     // can't be a negative number
+//     expect(await places.uprn(apiKey, -1000)).toThrow();
+//     // can't be a decimal
+//     expect(await places.uprn(apiKey, 1.2345)).toThrow();
+//     // can't be greater than 12 characters
+//     expect(await places.uprn(apiKey, 1234567890123)).toThrow();
+//   });
+// });
 
-    postcode = "SO16";
-    response = await places.postcode(apiKey, postcode, options);
-    expect(response.features.length).toEqual(100);
-  });
+// describe("Postcode Endpoint", () => {
+//   test("Postcode Endpoint Passes", async () => {
+//     let postcode = "SO16 0AS";
+//     const options: { paging?: [number, number] } = { paging: [0, 100] };
+//     let response = await places.postcode(apiKey, postcode, options);
+//     expect(response.features.length).toBeGreaterThanOrEqual(1);
 
-  test("Postcode Endpoint fails with invalid postcode", async () => {
-    const options: { paging?: [number, number] } = { paging: [0, 100] };
-    expect(await places.postcode(apiKey, "asdfasdf", options)).toThrow();
-    // Requested postcode must contain a minimum of the sector plus 1 digit of the district e.g. SO1
-    expect(await places.postcode(apiKey, "CM", options)).toThrow();
-  });
+//     postcode = "KT11 3BB";
+//     response = await places.postcode(apiKey, postcode, options);
+//     expect(response.features.length).toBeGreaterThanOrEqual(1);
 
-  test("Postcode endpoint fails with invalid paging", async () => {
-    const postcode: string = "SO16 0AS";
-    expect(
-      await places.postcode(apiKey, postcode, { paging: [10, 0] })
-    ).toThrow();
-    expect(
-      await places.postcode(apiKey, postcode, { paging: [0, 100000] })
-    ).toThrow();
-  });
-});
+//     postcode = "SO16";
+//     response = await places.postcode(apiKey, postcode, options);
+//     expect(response.features.length).toEqual(100);
+//   });
 
-describe("Find Endpoint", () => {
-  test("Find Endpoint Passes", async () => {
-    let query = "10 Downing Street, London, SW1";
-    const options: { paging?: [number, number] } = { paging: [0, 100] };
-    let response = await places.find(apiKey, query, options);
-    expect(response.features.length).toBeGreaterThanOrEqual(1);
+//   test("Postcode Endpoint fails with invalid postcode", async () => {
+//     const options: { paging?: [number, number] } = { paging: [0, 100] };
+//     expect(await places.postcode(apiKey, "asdfasdf", options)).toThrow();
+//     // Requested postcode must contain a minimum of the sector plus 1 digit of the district e.g. SO1
+//     expect(await places.postcode(apiKey, "CM", options)).toThrow();
+//   });
 
-    query = "Adanac Drive, SO16";
-    response = await places.find(apiKey, query, options);
-    expect(response.features.length).toBeGreaterThanOrEqual(1);
-  });
+//   test("Postcode endpoint fails with invalid paging", async () => {
+//     const postcode: string = "SO16 0AS";
+//     expect(
+//       await places.postcode(apiKey, postcode, { paging: [10, 0] })
+//     ).toThrow();
+//     expect(
+//       await places.postcode(apiKey, postcode, { paging: [0, 100000] })
+//     ).toThrow();
+//   });
+// });
 
-  test("Postcode endpoint passes with non-standard paging", async () => {
-    let query = "10 Downing Street, London, SW1";
-    let response = await places.find(apiKey, query, { paging: [0, 10] });
-    expect(response.features.length).toBeGreaterThanOrEqual(1);
+// describe("Find Endpoint", () => {
+//   test("Find Endpoint Passes", async () => {
+//     let query = "10 Downing Street, London, SW1";
+//     const options: { paging?: [number, number] } = { paging: [0, 100] };
+//     let response = await places.find(apiKey, query, options);
+//     expect(response.features.length).toBeGreaterThanOrEqual(1);
 
-    response = await places.find(apiKey, query, { paging: [0, 1] });
-    expect(response.features.length).toEqual(1);
-  });
+//     query = "Adanac Drive, SO16";
+//     response = await places.find(apiKey, query, options);
+//     expect(response.features.length).toBeGreaterThanOrEqual(1);
+//   });
 
-  test("Postcode endpoint fails with invalid paging", async () => {
-    let query = "10 Downing Street, London, SW1";
-    expect(await places.find(apiKey, query, { paging: [10, 0] })).toThrow();
-    expect(await places.find(apiKey, query, { paging: [0, 100000] })).toThrow();
-  });
-});
+//   test("Postcode endpoint passes with non-standard paging", async () => {
+//     let query = "10 Downing Street, London, SW1";
+//     let response = await places.find(apiKey, query, { paging: [0, 10] });
+//     expect(response.features.length).toBeGreaterThanOrEqual(1);
+
+//     response = await places.find(apiKey, query, { paging: [0, 1] });
+//     expect(response.features.length).toEqual(1);
+//   });
+
+//   test("Postcode endpoint fails with invalid paging", async () => {
+//     let query = "10 Downing Street, London, SW1";
+//     expect(await places.find(apiKey, query, { paging: [10, 0] })).toThrow();
+//     expect(await places.find(apiKey, query, { paging: [0, 100000] })).toThrow();
+//   });
+// });
