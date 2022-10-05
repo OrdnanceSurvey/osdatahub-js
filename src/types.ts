@@ -69,7 +69,8 @@ interface OSDataHubResponse {
 
 interface ValidationParams extends Options {
   apiKey: string;
-  paging?: [number, number];
+  offset?: number,
+  limit?: number,
   radius?: number;
   point?: [number, number];
   polygon?: Feature | FeatureCollection | Polygon;
