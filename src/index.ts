@@ -14,33 +14,8 @@
 
 */
 
-import { names } from "./names.js";
-import { places } from "./places.js"
+import { names as namesAPI } from "./names.js";
+import { places as placesAPI } from "./places.js"
 
-export { names, places };
+export { namesAPI, placesAPI };
 
-// const osfetch = {
-//
-//   names: function (params) {
-//     return names(params);
-//   },
-//
-//   places: function (params) {
-//     return names(params);
-//   },
-//
-//   capabilities: function () {
-//     let supportedServices = [
-//       "this                   osfetch.capabilities()",
-//       "OS Names API           osfetch.names()",
-//       "OS Places API          osfetch.places()",
-//       "OS NGD Features API    osfetch.ngd()",
-//     ];
-//
-//     console.log("Supported Capabilities:");
-//
-//     for (let i = 0; i < supportedServices; i++) {
-//       console.log(supportedServices[i]);
-//     }
-//   },
-// };
