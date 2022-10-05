@@ -50,11 +50,11 @@ const names = {
   find: async (
     apiKey: string,
     query: string,
-    { paging = [0, 1000] }: { paging?: [number, number] } = {}
+    { offset = 0, limit = 1000 }: { offset?: number; limit?: number } = {}
   ): Promise<OSFeatureCollection> => {
-    validateParams({ apiKey, query });
+    validateParams({ apiKey, query, offset, limit });
 
-    const config = initialiseConfig(apiKey, paging);
+    const config = initialiseConfig(apiKey, offset, limit);
 
     config.url = buildUrl("names", "find", { query });
 
