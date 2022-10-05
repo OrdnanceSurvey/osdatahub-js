@@ -6,14 +6,14 @@ import {
   OSFeatureCollection,
   PlacesResponse,
   CoordinateGeometry,
-} from "../types";
+} from "../types.js";
 import {
     FeatureCollection,
     Feature,
     Geometry,
     GeoJsonProperties, Polygon,
 } from "geojson";
-import { coords } from "./coords";
+import { coords } from "./coords.js";
 import { logging } from "./logging";
 
 export { geojson };
