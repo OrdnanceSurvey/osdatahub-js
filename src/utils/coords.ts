@@ -15,7 +15,7 @@ import { type BBox } from "../types.js";
 
 */
 
-const coords = {
+const coords: { [key: string]: Function } = {
   fromBNG: (ea: number, no: number): { lat: number; lng: number } => {
     proj4.defs(
       "EPSG:27700",
@@ -45,13 +45,18 @@ const coords = {
   },
 
   swivelPoint: (point: [number, number]): [number, number] => {
-    return [point[1], point[0]];
+    if (coords.isLngLat(point)) {
+      return [point[1], point[0]];
+    }
+    return point;
   },
 
-  swivelBounds: (bbox: BBox) => {
-    bbox = [bbox[1], bbox[0], bbox[3], bbox[2]];
-    return bbox.toString().replaceAll(" ", "");
+  swivelBounds: (bbox: BBox): BBox => {
+    if (coords.isLngLat(bbox)) {
+      return [bbox[1], bbox[0], bbox[3], bbox[2]];
+    }
+    return bbox;
   },
 
-  isLatLng: (coords: [number, number] | BBox) => coords[0] > coords[1],
+  isLngLat: (coords: [number, number] | BBox): boolean => coords[1] > coords[0],
 };
