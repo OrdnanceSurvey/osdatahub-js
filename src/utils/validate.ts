@@ -167,6 +167,21 @@ const validate: { [key: string]: Function } = {
 
     return true;
   },
+  postcode: function (postcode: string) {
+    const query = /^[A-Z]{1,2}[0-9][A-Z0-9]?( ?[0-9][A-Z]{2})?$/g;
+    if (!query.test(postcode)) {
+      throw new Error(
+        "Invalid Postcode: The minimum for the resource is the area and district e.g. SO16"
+      );
+    }
+  },
+  uprn: function (uprn: number) {
+    if (!Number.isInteger(uprn) || uprn < 0 || uprn.toString().length > 12) {
+      throw new Error(
+        "Invalid UPRN, should be a positive integer (max. 12 digits)"
+      );
+    }
+  },
   ngd: function (ngdFeatureType: string) {
     if (!ngdValidFeatureTypes.includes(ngdFeatureType)) {
       throw new Error(
