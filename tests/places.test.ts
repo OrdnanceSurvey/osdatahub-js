@@ -238,14 +238,6 @@ describe("BBox Endpoint", () => {
 
   test("BBox endpoint fails with invalid BBox", async () => {
     const options: { offset?: number; limit?: number } = { limit: 5 };
-    // // BBox too large
-    // expect(
-    //   await places.bbox(
-    //     apiKey,
-    //     [-3.070679, 52.332822, -2.357941, 52.694697],
-    //     options
-    //   )
-    // ).toThrow();
 
     // West and East are switched
     let error = await testError(async () => {
@@ -277,11 +269,7 @@ describe("BBox Endpoint", () => {
 
     // // Obviously not latitude and longitude
     error = await testError(async () => {
-      return await places.bbox(
-        apiKey,
-        [-1000, 0, 1000, 500],
-        options
-      );
+      return await places.bbox(apiKey, [-1000, 0, 1000, 500], options);
     });
     expect(error).toEqual(
       new Error(
@@ -291,11 +279,7 @@ describe("BBox Endpoint", () => {
 
     // // Invalid latitude values (need to be -90 <= x <= 90)
     error = await testError(async () => {
-      return await places.bbox(
-        apiKey,
-        [-1, 100, 1, 120],
-        options
-      );
+      return await places.bbox(apiKey, [-1, 100, 1, 120], options);
     });
     expect(error).toEqual(
       new Error(
@@ -326,13 +310,9 @@ describe("Nearest Endpoint", () => {
     expect(response.features.length).toEqual(1);
   });
 
-  
   test("Nearest endpoing fails with invalid point", async () => {
     let error = await testError(async () => {
-      return await places.nearest(
-        apiKey,
-        [-12.720966, 39.099627]
-      );
+      return await places.nearest(apiKey, [-12.720966, 39.099627]);
     });
     expect(error).toEqual(
       new Error(
@@ -342,56 +322,78 @@ describe("Nearest Endpoint", () => {
   });
 });
 
-// describe("UPRN Endpoint", () => {
-//   test("UPRN endpoint passes", async () => {
-//     const uprn = 200010019924;
-//     let response = await places.uprn(apiKey, uprn);
-//     expect(response.features.length).toEqual(1);
-//   });
+describe("UPRN Endpoint", () => {
+  test("UPRN endpoint passes", async () => {
+    const uprn = 200010019924;
+    let response = await places.uprn(apiKey, uprn);
+    expect(response.features.length).toEqual(1);
+  });
 
-//   test("UPRN endpoint fails with invalid UPRN", async () => {
-//     // can't be a negative number
-//     expect(await places.uprn(apiKey, -1000)).toThrow();
-//     // can't be a decimal
-//     expect(await places.uprn(apiKey, 1.2345)).toThrow();
-//     // can't be greater than 12 characters
-//     expect(await places.uprn(apiKey, 1234567890123)).toThrow();
-//   });
-// });
+  test("UPRN endpoint fails with invalid UPRN", async () => {
+    // can't be a negative number
+    let error = await testError(async () => {
+      return await places.uprn(apiKey, -1000);
+    });
+    expect(error).toEqual(
+      new Error("Invalid UPRN, should be a positive integer (max. 12 digits)")
+    );
 
-// describe("Postcode Endpoint", () => {
-//   test("Postcode Endpoint Passes", async () => {
-//     let postcode = "SO16 0AS";
-//     const options: { paging?: [number, number] } = { paging: [0, 100] };
-//     let response = await places.postcode(apiKey, postcode, options);
-//     expect(response.features.length).toBeGreaterThanOrEqual(1);
+    // can't be a decimal
+    error = await testError(async () => {
+      return await places.uprn(apiKey, 1.2345);
+    });
+    expect(error).toEqual(
+      new Error("Invalid UPRN, should be a positive integer (max. 12 digits)")
+    );
 
-//     postcode = "KT11 3BB";
-//     response = await places.postcode(apiKey, postcode, options);
-//     expect(response.features.length).toBeGreaterThanOrEqual(1);
+    // can't be greater than 12 characters
+    error = await testError(async () => {
+      return await places.uprn(apiKey, 1234567890123);
+    });
+    expect(error).toEqual(
+      new Error("Invalid UPRN, should be a positive integer (max. 12 digits)")
+    );
+  });
+});
 
-//     postcode = "SO16";
-//     response = await places.postcode(apiKey, postcode, options);
-//     expect(response.features.length).toEqual(100);
-//   });
+describe("Postcode Endpoint", () => {
+  test("Postcode Endpoint Passes", async () => {
+    let postcode = "SO16 0AS";
+    const options: { offset?: number; limit?: number } = { limit: 5 };
+    let response = await places.postcode(apiKey, postcode, options);
+    expect(response.features.length).toBeGreaterThanOrEqual(1);
 
-//   test("Postcode Endpoint fails with invalid postcode", async () => {
-//     const options: { paging?: [number, number] } = { paging: [0, 100] };
-//     expect(await places.postcode(apiKey, "asdfasdf", options)).toThrow();
-//     // Requested postcode must contain a minimum of the sector plus 1 digit of the district e.g. SO1
-//     expect(await places.postcode(apiKey, "CM", options)).toThrow();
-//   });
+    postcode = "KT11 3BB";
+    response = await places.postcode(apiKey, postcode, options);
+    expect(response.features.length).toBeGreaterThanOrEqual(1);
 
-//   test("Postcode endpoint fails with invalid paging", async () => {
-//     const postcode: string = "SO16 0AS";
-//     expect(
-//       await places.postcode(apiKey, postcode, { paging: [10, 0] })
-//     ).toThrow();
-//     expect(
-//       await places.postcode(apiKey, postcode, { paging: [0, 100000] })
-//     ).toThrow();
-//   });
-// });
+    postcode = "SO16";
+    response = await places.postcode(apiKey, postcode, { limit: 100 });
+    expect(response.features.length).toEqual(100);
+  });
+
+  test("Postcode Endpoint fails with invalid postcode", async () => {
+    const options: { offset?: number; limit?: number } = { limit: 5 };
+    let error = await testError(async () => {
+      return await places.postcode(apiKey, "asdfasdf", options);
+    });
+    expect(error).toEqual(
+      new Error(
+        "Invalid Postcode: The minimum for the resource is the area and district e.g. SO16"
+      )
+    );
+
+    // Requested postcode must contain a minimum of the sector plus 1 digit of the district e.g. SO1
+    error = await testError(async () => {
+      return await places.postcode(apiKey, "CM", options);
+    });
+    expect(error).toEqual(
+      new Error(
+        "Invalid Postcode: The minimum for the resource is the area and district e.g. SO16"
+      )
+    );
+  });
+});
 
 // describe("Find Endpoint", () => {
 //   test("Find Endpoint Passes", async () => {
