@@ -29,8 +29,8 @@ const names = {
   /**
    * Get the nearest name to an input coordinate.
    *
-   * @param {string} apiKey - A valid Os Data Hub key
-   * @param {number[]} point - A Lat/Lng coordinate
+   * @param {string} apiKey - A valid OS Data Hub key
+   * @param {number[]} point - A Lng/Lat coordinate
    * @return {Promise<OSFeatureCollection>} - A GeoJSON Feature Collection
    */
   nearest: async (
@@ -54,11 +54,11 @@ const names = {
   /**
    * Find names that match a free text search.
    *
-   * @param {string} apiKey - A valid Os Data Hub key
-   * @param {string} query - Free text search parameter.
+   * @param {string} apiKey - A valid OS Data Hub key
+   * @param {string} query - Free text search parameter
    * @param {Object} options - Optional arguments
    * @param {number[]} [options.paging] - The start and end offset parameters
-   * @return {Promise} - A GeoJSON Feature Collection
+   * @return {Promise<OSFeatureCollection>} - A GeoJSON Feature Collection
    */
   find: async (
     apiKey: string,
