@@ -1,7 +1,7 @@
 // src/utils/request.ts
 
-import { logging } from "./logging";
-import {type Config, type OSDataHubResponse} from "../types";
+import { logging } from "./logging.js";
+import {type Config, type OSDataHubResponse} from "../types.js";
 import fetch, {type Response} from "node-fetch"; // not required in Node17.5 (LTS) onwards
 
 export { request };
