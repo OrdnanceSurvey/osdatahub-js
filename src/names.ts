@@ -1,12 +1,12 @@
 // src/handlers/names.ts
 
-import { coords } from "./utils/coords";
-import { request } from "./utils/request";
-import { geojson } from "./utils/geojson";
-import { buildUrl } from "./utils/url";
-import { validateParams } from "./utils/validate";
-import { Config, OSFeatureCollection, NamesResponse } from "./types";
-import { initialiseConfig } from "./utils/config";
+import { coords } from "./utils/coords.js";
+import { request } from "./utils/request.js";
+import { geojson } from "./utils/geojson.js";
+import { buildUrl } from "./utils/url.js";
+import { validateParams } from "./utils/validate.js";
+import { Config, OSFeatureCollection, NamesResponse } from "./types.js";
+import { initialiseConfig } from "./utils/config.js";
 
 export { names };
 
