@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: places.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: places.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>// src/handlers/places.ts
+var __awaiter = (this &amp;&amp; this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+import { coords } from "./utils/coords"; // no longer required as coords.swivel moved
+import { request } from "./utils/request";
+import { geojson } from "./utils/geojson";
+import { validateParams } from "./utils/validate";
+import { buildUrl } from "./utils/url";
+export { places };
+function initialiseConfig(apiKey, paging = [0, 1000]) {
+    return {
+        url: "",
+        key: apiKey,
+        body: "",
+        method: "get",
+        paging: {
+            enabled: true,
+            position: paging[0],
+            startValue: paging[0],
+            limitValue: paging[1],
+            isNextPage: true,
+        },
+    };
+}
+function requestPlaces(config) {
+    return __awaiter(this, void 0, void 0, function* () {
+        let responseObject = yield request(config);
+        return geojson.into(responseObject);
+    });
+}
+const places = {
+    /**
+     * Get places within a polygon extent.
+     *
+     * @param {string} apiKey - A valid OS Data Hub key
+     * @param {FeatureCollection | Feature} polygon - A GeoJSON polygon
+     * @param {Object} options - Optional arguments
+     * @param {number[]} [options.paging] - The start and end offset parameters
+     * @return {Promise&lt;OSFeatureCollection>} - A GeoJSON Feature Collection
+     */
+    polygon: (apiKey, polygon, { paging = [0, 1000] } = {}) => __awaiter(void 0, void 0, void 0, function* () {
+        validateParams({ apiKey, polygon, paging });
+        const config = initialiseConfig(apiKey, paging);
+        config.url = buildUrl("places", "polygon", { srs: "WGS84" });
+        config.method = "post";
+        config.body = JSON.stringify(geojson.from(polygon));
+        return yield requestPlaces(config);
+    }),
+    /**
+     * Get places within a radius.
+     *
+     * @param {string} apiKey - A valid OS Data Hub key
+     * @param {number[]} point - A Lng/Lat coordinate
+     * @param {number} radius - Search radius (m)
+     * @param {Object} options - Optional arguments
+     * @param {number[]} [options.paging] - The start and end offset parameters
+     * @return {Promise&lt;OSFeatureCollection>} - A GeoJSON Feature Collection
+     */
+    radius: (apiKey, point, radius, { paging = [0, 1000] } = {}) => __awaiter(void 0, void 0, void 0, function* () {
+        validateParams({ apiKey, point, radius, paging });
+        const config = initialiseConfig(apiKey, paging);
+        const pointSwivelled = coords
+            .swivelPoint(point)
+            .toString()
+            .replaceAll(" ", "");
+        config.url = buildUrl("places", "radius", {
+            srs: "WGS84",
+            point: pointSwivelled,
+            radius,
+        });
+        return yield requestPlaces(config);
+    }),
+    /**
+     * Get places within a bounding box (bbox).
+     *
+     * @param {string} apiKey - A valid OS Data Hub key
+     * @param {number[]} bbox - Lng/Lat bounding box [left, bottom, right, top]
+     * @param {Object} options - Optional arguments
+     * @param {number[]} [options.paging] - The start and end offset parameters
+     * @return {Promise&lt;OSFeatureCollection>} - A GeoJSON Feature Collection
+     */
+    bbox: (apiKey, bbox, { paging = [0, 1000] } = {}) => __awaiter(void 0, void 0, void 0, function* () {
+        validateParams({ apiKey, bbox, paging });
+        const config = initialiseConfig(apiKey, paging);
+        const bboxSwivelled = coords.swivelBounds(bbox);
+        config.url = buildUrl("places", "bbox", {
+            srs: "WGS84",
+            bbox: bboxSwivelled,
+        });
+        return yield requestPlaces(config);
+    }),
+    /**
+     * Get the nearest place to an input coordinate.
+     *
+     * @param {string} apiKey - A valid OS Data Hub key
+     * @param {number[]} point - A Lng/Lat coordinate
+     * @return {Promise&lt;OSFeatureCollection>} - A GeoJSON Feature Collection
+     */
+    nearest: (apiKey, point) => __awaiter(void 0, void 0, void 0, function* () {
+        validateParams({ apiKey, point });
+        const config = initialiseConfig(apiKey);
+        const pointSwivelled = coords
+            .swivelPoint(point)
+            .toString()
+            .replaceAll(" ", "");
+        config.url = buildUrl("places", "nearest", {
+            srs: "WGS84",
+            point: pointSwivelled,
+        });
+        config.paging.enabled = false;
+        return yield requestPlaces(config);
+    }),
+    /**
+     * Get the address for a specific UPRN.
+     *
+     * @param {string} apiKey - A valid OS Data Hub key
+     * @param {number} uprn - Address UPRN
+     * @return {Promise&lt;OSFeatureCollection>} - A GeoJSON Feature Collection
+     */
+    uprn: (apiKey, uprn) => __awaiter(void 0, void 0, void 0, function* () {
+        validateParams({ apiKey, uprn });
+        const config = initialiseConfig(apiKey);
+        config.url = buildUrl("places", "uprn", { output_srs: "WGS84", uprn });
+        config.paging.enabled = false;
+        return yield requestPlaces(config);
+    }),
+    /**
+     * Find places that match a full or partial postcode.
+     *
+     * @param {string} apiKey - A valid OS Data Hub key
+     * @param {string} postcode - Full or partial postcode
+     * @param {Object} options - Optional arguments
+     * @param {number[]} [options.paging] - The start and end offset parameters
+     * @return {Promise&lt;OSFeatureCollection>} - A GeoJSON Feature Collection
+     */
+    postcode: (apiKey, postcode, { paging = [0, 1000] } = {}) => __awaiter(void 0, void 0, void 0, function* () {
+        validateParams({ apiKey, postcode, paging });
+        const config = initialiseConfig(apiKey, paging);
+        postcode = encodeURIComponent(postcode);
+        config.url = buildUrl("places", "postcode", {
+            output_srs: "WGS84",
+            postcode,
+        });
+        return yield requestPlaces(config);
+    }),
+    /**
+     * Find places that match a free text search.
+     *
+     * @param {string} apiKey - A valid OS Data Hub key
+     * @param {string} query - Free text search parameter
+     * @param {Object} options - Optional arguments
+     * @param {number[]} [options.paging] - The start and end offset parameters
+     * @return {Promise&lt;OSFeatureCollection>} - A GeoJSON Feature Collection
+     */
+    find: (apiKey, query, { paging = [0, 1000] } = {}) => __awaiter(void 0, void 0, void 0, function* () {
+        validateParams({ apiKey, query, paging });
+        const config = initialiseConfig(apiKey, paging);
+        query = encodeURIComponent(query);
+        config.url = buildUrl("places", "find", { output_srs: "WGS84", query });
+        return yield requestPlaces(config);
+    }),
+};
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Wed Oct 05 2022 08:25:21 GMT+0100 (British Summer Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
