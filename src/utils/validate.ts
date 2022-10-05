@@ -80,6 +80,8 @@ const validate: {[key: string]: Function } = {
             throw new Error('The minimum page value must be less than the maximum page value. Aborting.')
         } else if (isNaN(paging[0]) || isNaN(paging[1])) {
             throw new Error('Min/Max paging values must be integers . Aborting.')
+        } else if (paging[0] >= paging[1]) {
+            throw new Error(`Invalid paging, expected [min, max] got [${paging[0]}, ${paging[1]}]`)
         }
         return true
     },
