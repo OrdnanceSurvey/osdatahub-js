@@ -156,18 +156,18 @@ describe("Radius Endpoint", () => {
     expect(response.features.length).toBeGreaterThanOrEqual(1);
   });
 
-  // test("Radius Endpoint passes with non-standard numbers of results", async () => {
-  //   const center: [number, number] = [-1.4730370044708252, 50.936113462996616];
-  //   const radius = 500;
-  //   let response = await places.radius(apiKey, center, radius, { limit: 7 });
-  //   expect(response.features.length).toEqual(7);
+  test("Radius Endpoint passes with non-standard numbers of results", async () => {
+    const center: [number, number] = [-1.4730370044708252, 50.936113462996616];
+    const radius = 500;
+    let response = await places.radius(apiKey, center, radius, { limit: 7 });
+    expect(response.features.length).toEqual(7);
 
-  //   response = await places.radius(apiKey, center, radius, {
-  //     offset: 5,
-  //     limit: 2,
-  //   });
-  //   expect(response.features.length).toEqual(2);
-  // });
+    response = await places.radius(apiKey, center, radius, {
+      offset: 5,
+      limit: 2,
+    });
+    expect(response.features.length).toEqual(2);
+  });
 
   test("Radius Endpoint fails with invalid radius", async () => {
     const center: [number, number] = [-1.4730370044708252, 50.936113462996616];
@@ -215,15 +215,15 @@ describe("BBox Endpoint", () => {
     expect(response.features.length).toBeGreaterThanOrEqual(1);
   });
 
-  // test("BBox endpoint passes with non-standard paging", async () => {
-  //   let bbox: BBox = [-1.475335, 50.936159, -1.466924, 50.939569];
+  test("BBox endpoint passes with non-standard paging", async () => {
+    let bbox: BBox = [-1.475335, 50.936159, -1.466924, 50.939569];
 
-  //   let response = await places.bbox(apiKey, bbox, { limit: 5 });
-  //   expect(response.features.length).toEqual(5);
+    let response = await places.bbox(apiKey, bbox, { limit: 5 });
+    expect(response.features.length).toEqual(5);
 
-  //   response = await places.bbox(apiKey, bbox, { offset: 5, limit: 5 });
-  //   expect(response.features.length).toEqual(5);
-  // });
+    response = await places.bbox(apiKey, bbox, { offset: 7, limit: 2 });
+    expect(response.features.length).toEqual(2);
+  });
 
   test("BBox Endpoint Passes with Lat Lng bounds", async () => {
     let bbox: BBox = [50.936159, -1.475335, 50.939569, -1.466924];
@@ -393,6 +393,12 @@ describe("Postcode Endpoint", () => {
       )
     );
   });
+
+  test("Postcode Endpoint passes with non-standard numbers of results", async () => {
+    const postcode = "SO16";
+    const response = await places.postcode(apiKey, postcode, { limit: 120 });
+    expect(response.features.length).toEqual(120);
+  });
 });
 
 describe("Find Endpoint", () => {
@@ -407,12 +413,12 @@ describe("Find Endpoint", () => {
     expect(response.features.length).toBeGreaterThanOrEqual(1);
   });
 
-  // test("Postcode endpoint passes with non-standard paging", async () => {
-  //   let query = "10 Downing Street, London, SW1";
-  //   let response = await places.find(apiKey, query, { paging: [0, 10] });
-  //   expect(response.features.length).toBeGreaterThanOrEqual(1);
+  test("Postcode endpoint passes with non-standard paging", async () => {
+    let query = "10 Downing Street, London, SW1";
+    let response = await places.find(apiKey, query, {limit: 9});
+    expect(response.features.length).toEqual(9);
 
-  //   response = await places.find(apiKey, query, { paging: [0, 1] });
-  //   expect(response.features.length).toEqual(1);
-  // });
+    response = await places.find(apiKey, query, { offset: 2, limit: 1 });
+    expect(response.features.length).toEqual(1);
+  });
 });

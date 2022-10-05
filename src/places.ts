@@ -5,6 +5,7 @@ import { request } from "./utils/request";
 import { geojson } from "./utils/geojson";
 import { validateParams } from "./utils/validate";
 import { buildUrl } from "./utils/url";
+import { initialiseConfig } from "./utils/config";
 
 import {
   Config,
@@ -21,26 +22,6 @@ import {
 } from "geojson";
 
 export { places };
-
-function initialiseConfig(
-  apiKey: string,
-  offset: number = 0,
-  limit: number = 1000
-): Config {
-  return {
-    url: "",
-    key: apiKey,
-    body: "",
-    method: "get",
-    paging: {
-      enabled: true,
-      position: offset,
-      startValue: offset,
-      limitValue: offset + limit,
-      isNextPage: true,
-    },
-  };
-}
 
 async function requestPlaces(config: Config): Promise<OSFeatureCollection> {
   let responseObject = await request(config);

@@ -32,8 +32,14 @@ async function get(endpoint: string, key: string): Promise<Response> {
   });
 }
 
-function getOffsetEndpoint(config: Config): string {
-  return config.url + "&offset=" + config.paging.position;
+function getOffsetEndpoint(config: Config, featureCount: number): string {
+  const limit = Math.min(
+    config.paging.limitValue - config.paging.startValue - featureCount,
+    100
+  );
+  return (
+    config.url + "&offset=" + config.paging.position + "&maxresults=" + limit
+  );
 }
 
 function checkStatusCode(statusCode: number): void {
@@ -67,13 +73,16 @@ function logEndConditions(config: Config): void {
 
 async function request(config: Config): Promise<OSDataHubResponse> {
   let endpoint: string;
+  let featureCount: number = 0;
   let output: OSDataHubResponse | undefined;
 
   while (
     config.paging.isNextPage &&
     config.paging.position < config.paging.limitValue
   ) {
-    endpoint = config.paging.enabled ? getOffsetEndpoint(config) : config.url;
+    endpoint = config.paging.enabled
+      ? getOffsetEndpoint(config, featureCount)
+      : config.url;
 
     let response: Response =
       config.method == "get"
@@ -104,6 +113,8 @@ async function request(config: Config): Promise<OSDataHubResponse> {
     } else {
       config.paging.isNextPage = false;
     }
+
+    featureCount = output.results.length;
   }
 
   logEndConditions(config);
