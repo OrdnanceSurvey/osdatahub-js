@@ -14,7 +14,6 @@
     "preversion" : "npm run lint",
     "version" : "npm run format && git add -A src"
   },
-
   "repository": {
     "type": "git",
     "url": "git+https://github.com/OrdnanceSurvey/osfetch-new.git"
@@ -30,7 +29,7 @@
     "GeoJSON"
   ],
   "author": "https://github.com/OrdnanceSurvey",
-  "license": "ISC",
+  "license": "SEE LICENSE IN LICENSE.txt",
   "bugs": {
     "url": "https://github.com/OrdnanceSurvey/osfetch-new/issues"
   },
@@ -49,6 +48,7 @@
     "@typescript-eslint/parser": "^5.39.0",
     "dotenv": "^16.0.2",
     "eslint": "^8.24.0",
+    "generate-license-file": "^2.0.0",
     "jest": "^29.1.1",
     "prettier": "^2.7.1",
     "ts-jest": "^29.0.3",
