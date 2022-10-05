@@ -1,8 +1,8 @@
 // src/utils/validate.ts
 
-import { logging } from './logging'
+import { logging } from './logging.js'
 
-import {type ValidationParams} from '../types'
+import {type ValidationParams} from '../types.js'
 
 export {
     validateParams
