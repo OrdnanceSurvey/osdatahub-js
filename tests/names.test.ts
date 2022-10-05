@@ -1,6 +1,6 @@
 import { describe, expect, test, beforeAll } from "@jest/globals";
 import * as dotenv from "dotenv";
-import { names } from "../src/names";
+import { names } from "../build/names.js";
 
 dotenv.config();
 

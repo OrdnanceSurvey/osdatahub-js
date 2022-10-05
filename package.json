@@ -5,14 +5,14 @@
   "main": "build/index.js",
   "type": "module",
   "scripts": {
-    "test": "jest",
+    "test": "npm run build && jest",
     "build": "npx tsc",
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
     "lint": "npx eslint .",
     "prepare": "npm run build",
-    "prepublishOnly" : "npm test && npm run lint",
-    "preversion" : "npm run lint",
-    "version" : "npm run format && git add -A src"
+    "prepublishOnly": "npm test && npm run lint",
+    "preversion": "npm run lint",
+    "version": "npm run format && git add -A src"
   },
   "repository": {
     "type": "git",

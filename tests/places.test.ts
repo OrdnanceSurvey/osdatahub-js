@@ -1,7 +1,7 @@
 import { type BBox } from "../src/types";
 import { describe, expect, test, beforeAll } from "@jest/globals";
 import * as dotenv from "dotenv";
-import { places } from "../src/places";
+import { places } from "../build/places.js";
 import { OSDataHubResponse, OSFeatureCollection } from "../src/types";
 import { Feature, FeatureCollection, Polygon } from "geojson";
 
