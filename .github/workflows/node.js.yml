@@ -3,9 +3,6 @@
 
 name: Node.js CI
 
-env:
-  OS_API_KEY: ${{env.OS_API_KEY}}
-
 on:
   push:
     branches: 
@@ -15,6 +12,10 @@ on:
     branches: 
       - 'main'
       - 'dev'
+
+env:
+  OS_API_KEY: ${{ secrets.OS_API_KEY }}
+
 
 jobs:
   prettier:
