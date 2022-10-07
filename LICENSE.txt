@@ -1,4 +1,4 @@
-“© Ordnance Survey Ltd 2021”
+“© Ordnance Survey Ltd 2022”
 Permission is granted to any person obtaining a copy of this software (the "Software") to use the Software as open source software subject to the following terms and conditions set out below:
 
 The Open Government Licence version 3 available here (https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/)  which states:
