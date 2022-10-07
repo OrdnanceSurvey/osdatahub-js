@@ -1,5 +1,5 @@
 {
-  "name": "osfetch-new",
+  "name": "osdatahub",
   "version": "0.1.0",
   "description": "A JavaScript wrapper for the Ordnance Survey Names API and Places API.",
   "main": "build/index.js",
@@ -16,7 +16,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/OrdnanceSurvey/osfetch-new.git"
+    "url": "git+https://github.com/OrdnanceSurvey/osdatahub-js.git"
   },
   "keywords": [
     "OrdnanceSurvey",
@@ -31,12 +31,12 @@
   "author": "https://github.com/OrdnanceSurvey",
   "license": "SEE LICENSE IN LICENSE.txt",
   "bugs": {
-    "url": "https://github.com/OrdnanceSurvey/osfetch-new/issues"
+    "url": "https://github.com/OrdnanceSurvey/osdatahub-js/issues"
   },
   "files": [
     "build/**/*"
   ],
-  "homepage": "https://github.com/OrdnanceSurvey/osfetch-new#readme",
+  "homepage": "https://github.com/OrdnanceSurvey/osdatahub-js#readme",
   "devDependencies": {
     "@babel/preset-env": "^7.19.3",
     "@babel/preset-typescript": "^7.18.6",

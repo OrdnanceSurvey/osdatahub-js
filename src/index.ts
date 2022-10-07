@@ -2,7 +2,7 @@
 
 /*
 
-    osfetch
+    osdatahub (JavaScript)
 
     Ordnance Survey GB
     A JavaScript wrapper for the OS Names API and OS Places API.
@@ -11,6 +11,8 @@
     https://github.com/abiddiscombe
     https://github.com/dchirst
     https://github.com/jepooley
+    https://github.com/fhunt-os
+    https://github.com/BenDickens
 
 */
 
