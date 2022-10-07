@@ -9,7 +9,7 @@ export {
   OSFeatureCollection,
   PlacesResponse,
   NamesResponse,
-  PlacesParams,
+  PlacesParams
 };
 
 // Request Configuration
@@ -49,6 +49,11 @@ interface OSDataHubResponse {
   // eslint-disable-next-line @typescript-eslint/ban-types
   results: Array<Object>;
 }
+
+// interface NGDResponse {
+//   header: OSDataHubResponseHeader;
+//   features: Array<Object>;
+// }
 
 interface ValidationParams extends Options {
   apiKey: string;

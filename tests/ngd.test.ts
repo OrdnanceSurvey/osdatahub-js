@@ -1,5 +1,8 @@
+// @ts-ignore
 import { describe, expect, test, beforeAll } from "@jest/globals";
+// @ts-ignore
 import * as dotenv from "dotenv";
+// @ts-ignore
 import { ngd } from "../build/ngd.js";
 
 dotenv.config();
@@ -39,36 +42,22 @@ describe("Items Endpoint", () => {
 // describe("Collections Endpoint", () => {
 //   test("Collections Endpoint Passes w/o collectionId", async () => {
 //     const response = await ngd.collections();
-//     expect(response.features.length).toBeGreaterThanOrEqual(1);
 //   });
 
 //   test("Collections Endpoint Passes w/ collectionId", async () => {
 //     const response = await ngd.collections("bld-fts-buildingline");
-//     expect(response.features.length).toBeGreaterThanOrEqual(1);
 //   });
 // });
 
 // describe("Schema Endpoint", () => {
 //   test("Schema Endpoint Passes ", async () => {
 //     const response = await ngd.schema("bld-fts-buildingline");
-//     expect(response.features.length).toBeGreaterThanOrEqual(1);
 //   });
 // });
 
 // describe("Queryable Endpoint", () => {
 //   test("Queryable Endpoint Passes ", async () => {
 //     const response = await ngd.queryable("bld-fts-buildingline");
-//     expect(response.features.length).toBeGreaterThanOrEqual(1);
-//   });
-// });
-
-// describe("BBox Endpoint", () => {
-//   test("BBox Endpoint Passes", async () => {
-//     const collectionId = "bld-fts-buildingline";
-//     const bbox = [-1.475335, 50.936159, -1.466924, 50.939569];
-//     const options = { limit: 10 };
-//     const response = ngd.bbox(collectionId, bbox, options);
-//     expect(response.features.length).toEqual(1);
 //   });
 // });
 

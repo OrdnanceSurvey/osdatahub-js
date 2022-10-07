@@ -2,9 +2,12 @@
 
 import { logging } from "./logging.js";
 import { type Config, type OSDataHubResponse } from "../types.js";
+// @ts-ignore
 import fetch, { type Response } from "node-fetch"; // not required in Node17.5 (LTS) onwards
+// @ts-ignore
+import { type FeatureCollection } from "geojson";
 
-export { request };
+export { request, requestNGD };
 
 async function post(
   endpoint: string,
@@ -40,6 +43,14 @@ function getOffsetEndpoint(config: Config, featureCount: number): string {
   return (
     config.url + "&offset=" + config.paging.position + "&maxresults=" + limit
   );
+}
+
+function getOffsetEndpointNGD(config: Config, featureCount: number): string {
+  const limit = Math.min(
+    config.paging.limitValue - config.paging.startValue - featureCount,
+    100
+  );
+  return config.url + "&offset=" + config.paging.position + "&limit=" + limit;
 }
 
 function checkStatusCode(statusCode: number): void {
@@ -115,6 +126,58 @@ async function request(config: Config): Promise<OSDataHubResponse> {
     }
 
     featureCount = output.results.length;
+  }
+
+  logEndConditions(config);
+  if (typeof output === "undefined") {
+    throw Error("There is no output at the end of request");
+  } else {
+    return output;
+  }
+}
+
+async function requestNGD(config: Config): Promise<FeatureCollection> {
+  let endpoint: string;
+  let featureCount = 0;
+  let output: FeatureCollection | undefined;
+
+  while (
+    config.paging.isNextPage &&
+    config.paging.position < config.paging.limitValue
+  ) {
+    endpoint = config.paging.enabled
+      ? getOffsetEndpointNGD(config, featureCount)
+      : config.url;
+
+    const response: Response =
+      config.method == "get"
+        ? await get(endpoint, config.key)
+        : await post(endpoint, config.key, config.body);
+
+    checkStatusCode(response.status);
+
+    const responseJson: FeatureCollection = <FeatureCollection>await response.json();
+
+    if (typeof output === "undefined") {
+      if (!("features" in responseJson)) {
+        output = {
+          type: "FeatureCollection",
+          features: [],
+        };
+      } else {
+        output = responseJson;
+      }
+    } else {
+      output.features = output.features.concat(responseJson.features);
+    }
+
+    if (responseJson.features && responseJson.features.length == 100) {
+      config.paging.position += 100;
+    } else {
+      config.paging.isNextPage = false;
+    }
+
+    featureCount = output.features.length;
   }
 
   logEndConditions(config);

@@ -1,3 +1,4 @@
+// @ts-ignore
 import { describe, expect, test, beforeAll } from "@jest/globals";
 import * as dotenv from "dotenv";
 import { names } from "../build/names.js";

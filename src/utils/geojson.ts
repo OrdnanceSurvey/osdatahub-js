@@ -6,7 +6,8 @@ import {
   OSFeatureCollection,
   PlacesResponse,
 } from "../types.js";
-import { Feature, Geometry, GeoJsonProperties } from "geojson";
+// @ts-ignore
+import { type Feature, Geometry, GeoJsonProperties } from "geojson";
 
 export { geojson };
 
