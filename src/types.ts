@@ -35,8 +35,8 @@ interface Paging {
 // Optional User Input
 
 interface Options {
-  paging?: [number, number];
-  filter?: string;
+  offset?: number;
+  limit?: number;
 }
 
 interface OSDataHubResponseHeader {
@@ -52,8 +52,6 @@ interface OSDataHubResponse {
 
 interface ValidationParams extends Options {
   apiKey: string;
-  offset?: number;
-  limit?: number;
   radius?: number;
   point?: [number, number];
   polygon?: Feature | FeatureCollection | Polygon;
@@ -61,6 +59,8 @@ interface ValidationParams extends Options {
   uprn?: number;
   postcode?: string;
   query?: string;
+  collectionId?: string;
+  featureId?: string;
 }
 
 type BBox = [number, number, number, number];
