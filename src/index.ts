@@ -17,7 +17,6 @@
 */
 
 import { names as namesAPI } from "./names.js";
-import { places as placesAPI } from "./places.js"
+import { places as placesAPI } from "./places.js";
 
 export { namesAPI, placesAPI };
-

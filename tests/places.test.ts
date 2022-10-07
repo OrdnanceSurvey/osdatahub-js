@@ -2,7 +2,6 @@ import { type BBox } from "../src/types";
 import { describe, expect, test, beforeAll } from "@jest/globals";
 import * as dotenv from "dotenv";
 import { places } from "../build/places.js";
-import { OSDataHubResponse, OSFeatureCollection } from "../src/types";
 import { Feature, FeatureCollection, Polygon } from "geojson";
 
 dotenv.config();
@@ -76,6 +75,7 @@ beforeAll(() => {
   }
 });
 
+// eslint-disable-next-line @typescript-eslint/ban-types
 async function testError(callback: Function): Promise<any> {
   let error: any;
   try {
@@ -93,7 +93,7 @@ describe("Polygon Endpoint", () => {
       limit: 5,
     };
 
-    let response = await places.polygon(
+    const response = await places.polygon(
       apiKey,
       <FeatureCollection>featureCollection,
       options
@@ -110,7 +110,7 @@ describe("Polygon Endpoint", () => {
       offset: 0,
       limit: 5,
     };
-    let response = await places.polygon(apiKey, <Polygon>polygon, options);
+    const response = await places.polygon(apiKey, <Polygon>polygon, options);
     const requiredProperties = ["features", "header", "type"];
     requiredProperties.map((prop: string) =>
       expect(response).toHaveProperty(prop)
@@ -122,7 +122,7 @@ describe("Polygon Endpoint", () => {
     const requiredProperties = ["features", "header", "type"];
 
     const options: { offset?: number; limit?: number } = { limit: 7 };
-    let response = await places.polygon(apiKey, featureCollection, options);
+    const response = await places.polygon(apiKey, featureCollection, options);
     requiredProperties.map((prop: string) =>
       expect(response).toHaveProperty(prop)
     );
@@ -142,8 +142,7 @@ describe("Polygon Endpoint", () => {
       offset: 0,
       limit: 5,
     };
-    let response = await places.polygon(apiKey, invalidPolygon, options);
-    const requiredProperties = ["features", "header", "type"];
+    const response = await places.polygon(apiKey, invalidPolygon, options);
     expect(response.features.length).toBeGreaterThanOrEqual(1);
   });
 });
@@ -152,7 +151,7 @@ describe("Radius Endpoint", () => {
   test("Radius Endpoint Passes", async () => {
     const center: [number, number] = [-1.4730370044708252, 50.936113462996616];
     const options: { offset?: number; limit?: number } = { limit: 7 };
-    let response = await places.radius(apiKey, center, 200, options);
+    const response = await places.radius(apiKey, center, 200, options);
     expect(response.features.length).toBeGreaterThanOrEqual(1);
   });
 
@@ -198,7 +197,7 @@ describe("Radius Endpoint", () => {
   test("Radius enpoint succeeds with lat lng geometries", async () => {
     const center: [number, number] = [50.936113462996616, -1.4730370044708252];
     const options: { offset?: number; limit?: number } = { limit: 7 };
-    let response = await places.radius(apiKey, center, 200, options);
+    const response = await places.radius(apiKey, center, 200, options);
     expect(response.features.length).toBeGreaterThanOrEqual(1);
   });
 });
@@ -216,7 +215,7 @@ describe("BBox Endpoint", () => {
   });
 
   test("BBox endpoint passes with non-standard paging", async () => {
-    let bbox: BBox = [-1.475335, 50.936159, -1.466924, 50.939569];
+    const bbox: BBox = [-1.475335, 50.936159, -1.466924, 50.939569];
 
     let response = await places.bbox(apiKey, bbox, { limit: 5 });
     expect(response.features.length).toEqual(5);
@@ -311,7 +310,7 @@ describe("Nearest Endpoint", () => {
   });
 
   test("Nearest endpoing fails with invalid point", async () => {
-    let error = await testError(async () => {
+    const error = await testError(async () => {
       return await places.nearest(apiKey, [-12.720966, 39.099627]);
     });
     expect(error).toEqual(
@@ -325,7 +324,7 @@ describe("Nearest Endpoint", () => {
 describe("UPRN Endpoint", () => {
   test("UPRN endpoint passes", async () => {
     const uprn = 200010019924;
-    let response = await places.uprn(apiKey, uprn);
+    const response = await places.uprn(apiKey, uprn);
     expect(response.features.length).toEqual(1);
   });
 
@@ -414,8 +413,8 @@ describe("Find Endpoint", () => {
   });
 
   test("Postcode endpoint passes with non-standard paging", async () => {
-    let query = "10 Downing Street, London, SW1";
-    let response = await places.find(apiKey, query, {limit: 9});
+    const query = "10 Downing Street, London, SW1";
+    let response = await places.find(apiKey, query, { limit: 9 });
     expect(response.features.length).toEqual(9);
 
     response = await places.find(apiKey, query, { offset: 2, limit: 1 });

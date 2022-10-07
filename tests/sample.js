@@ -1,7 +1,6 @@
-import fs from "fs";
 import * as dotenv from "dotenv";
 
-import { places } from "../build/index.js"
+import { places } from "../build/index.js";
 
 dotenv.config();
 
@@ -33,7 +32,7 @@ async function getData() {
 
   let theDataParsed = JSON.stringify(theData);
 
-  console.log(theDataParsed)
+  console.log(theDataParsed);
 
   // fs.writeFile("tests/output.geojson", theDataParsed, function (err, data) {
   //   if (err) {
