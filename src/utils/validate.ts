@@ -1,6 +1,6 @@
 // src/utils/validate.ts
 
-import {type ValidationParams} from '../types.js'
+import { type ValidationParams } from "../types.js";
 import { Feature, FeatureCollection, Polygon, Geometry } from "geojson";
 
 export { validateParams };

@@ -6,11 +6,7 @@ import {
   OSFeatureCollection,
   PlacesResponse,
 } from "../types.js";
-import {
-    Feature,
-    Geometry,
-    GeoJsonProperties,
-} from "geojson";
+import { Feature, Geometry, GeoJsonProperties } from "geojson";
 
 export { geojson };
 
@@ -22,8 +18,6 @@ export { geojson };
 */
 
 const geojson = {
-
-
   into: function (response: OSDataHubResponse): OSFeatureCollection {
     if (response.results.length == 0) {
       return {

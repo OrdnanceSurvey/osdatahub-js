@@ -1,11 +1,11 @@
 // src/handlers/places.ts
 
-import {coords} from "./utils/coords.js"; // no longer required as coords.swivel moved
-import {request} from "./utils/request.js";
-import {geojson} from "./utils/geojson.js";
-import {validateParams} from "./utils/validate.js";
-import {buildUrl} from "./utils/url.js";
-import {Config, OSFeatureCollection, PlacesParams} from "./types.js";
+import { coords } from "./utils/coords.js"; // no longer required as coords.swivel moved
+import { request } from "./utils/request.js";
+import { geojson } from "./utils/geojson.js";
+import { validateParams } from "./utils/validate.js";
+import { buildUrl } from "./utils/url.js";
+import { Config, OSFeatureCollection, PlacesParams } from "./types.js";
 import { initialiseConfig } from "./utils/config.js";
 
 import {

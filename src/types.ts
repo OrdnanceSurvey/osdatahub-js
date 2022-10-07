@@ -1,8 +1,4 @@
-import {
-  FeatureCollection,
-  Feature,
-  Polygon,
-} from "geojson";
+import { FeatureCollection, Feature, Polygon } from "geojson";
 
 export {
   Config,
@@ -13,7 +9,7 @@ export {
   OSFeatureCollection,
   PlacesResponse,
   NamesResponse,
-  PlacesParams
+  PlacesParams,
 };
 
 // Request Configuration
@@ -56,8 +52,8 @@ interface OSDataHubResponse {
 
 interface ValidationParams extends Options {
   apiKey: string;
-  offset?: number,
-  limit?: number,
+  offset?: number;
+  limit?: number;
   radius?: number;
   point?: [number, number];
   polygon?: Feature | FeatureCollection | Polygon;
@@ -98,8 +94,7 @@ interface NamesResponse extends OSDataHubResponse {
   results: Array<NamesFeature>;
 }
 
-
 interface PlacesParams {
-  srs?: string
-  maxresults?: number
+  srs?: string;
+  maxresults?: number;
 }

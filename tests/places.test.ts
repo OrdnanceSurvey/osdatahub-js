@@ -414,7 +414,7 @@ describe("Find Endpoint", () => {
 
   test("Postcode endpoint passes with non-standard paging", async () => {
     const query = "10 Downing Street, London, SW1";
-    let response = await places.find(apiKey, query, {limit: 9});
+    let response = await places.find(apiKey, query, { limit: 9 });
     expect(response.features.length).toEqual(9);
 
     response = await places.find(apiKey, query, { offset: 2, limit: 1 });
