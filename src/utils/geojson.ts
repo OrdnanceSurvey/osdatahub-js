@@ -5,16 +5,12 @@ import {
   OSDataHubResponse,
   OSFeatureCollection,
   PlacesResponse,
-  CoordinateGeometry,
 } from "../types.js";
 import {
-    FeatureCollection,
     Feature,
     Geometry,
-    GeoJsonProperties, Polygon,
+    GeoJsonProperties,
 } from "geojson";
-import { coords } from "./coords.js";
-import { logging } from "./logging";
 
 export { geojson };
 

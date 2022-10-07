@@ -73,7 +73,7 @@ function logEndConditions(config: Config): void {
 
 async function request(config: Config): Promise<OSDataHubResponse> {
   let endpoint: string;
-  let featureCount: number = 0;
+  let featureCount = 0;
   let output: OSDataHubResponse | undefined;
 
   while (
@@ -84,14 +84,14 @@ async function request(config: Config): Promise<OSDataHubResponse> {
       ? getOffsetEndpoint(config, featureCount)
       : config.url;
 
-    let response: Response =
+    const response: Response =
       config.method == "get"
         ? await get(endpoint, config.key)
         : await post(endpoint, config.key, config.body);
 
     checkStatusCode(response.status);
 
-    let responseJson: OSDataHubResponse = <OSDataHubResponse>(
+    const responseJson: OSDataHubResponse = <OSDataHubResponse>(
       await response.json()
     );
 

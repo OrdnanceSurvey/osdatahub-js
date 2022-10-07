@@ -12,7 +12,7 @@ export { names };
 
 async function requestNames(config: Config): Promise<OSFeatureCollection> {
   let coordsTemp: { lat: number; lng: number };
-  let responseObject = (await request(config)) as NamesResponse;
+  const responseObject = (await request(config)) as NamesResponse;
   responseObject.results.forEach((result) => {
     coordsTemp = coords.fromBNG(
       result.GAZETTEER_ENTRY.GEOMETRY_X,

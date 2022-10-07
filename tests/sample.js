@@ -1,4 +1,3 @@
-import fs from "fs";
 import * as dotenv from "dotenv";
 
 import { places } from "../build/index.js"

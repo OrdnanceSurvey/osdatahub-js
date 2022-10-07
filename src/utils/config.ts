@@ -5,8 +5,8 @@ export { initialiseConfig };
 
 function initialiseConfig(
   apiKey: string,
-  offset: number = 0,
-  limit: number = 1000
+  offset = 0,
+  limit = 1000
 ): Config {
   return {
     url: "",
