@@ -1,7 +1,6 @@
 // src/utils/validate.ts
 
-import { logging } from './logging.js'
-import {type ValidationParams} from '../types.js'
+import { type ValidationParams } from "../types.js";
 import { Feature, FeatureCollection, Polygon, Geometry } from "geojson";
 
 export { validateParams };
@@ -79,6 +78,7 @@ function isPolygon(geom: Geometry): geom is Polygon {
   return "type" in geom && geom.type == "Polygon";
 }
 
+// eslint-disable-next-line @typescript-eslint/ban-types
 const validate: { [key: string]: Function } = {
   apiKey: function (apiKey: string) {
     if (!apiKey) {
