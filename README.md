@@ -1,11 +1,12 @@
 # osfetch
-Thank you for your interest in osfetch, a JavaScript wrapper for Ordnance Survey APIs. It's designed to help users discover and get started with Ordnance Survey (OS) API-based products.
+Thank you for your interest in osdatahub, a JavaScript wrapper for Ordnance Survey's Data Hub APIs. It's designed to help users discover and get started with Ordnance Survey (OS) API-based products.
 
-The purpose of osfetch is to help you get started with our products and rapidly build POCs and test ideas. In production, you'll likely wish to switch to your own code for a more tailored experience.
+The purpose of osdatahub is to help you get started with our products and rapidly build POCs and test ideas. In production, you may wish to switch to your own code for a more tailored experience.
 
-- OS Names API
-- OS Places API
-- OS National Geographic Database (NGD) Features API
+This package currently supports:
+
+- The OS Names API
+- The OS Places API
 
 ## Features
 
@@ -16,10 +17,10 @@ The process of requesting data from Ordnance Survey APIs is handled internally, 
 The osfetch package exclusively uses GeoJSON and lng/lat coordinates for returning data, please note that **ESPG:27700 is not supported**. GeoJSON is a versatile and widely-compatible file format, you can use tools such as [bboxfinder.com](http://bboxfinder.com/) or [geojson.io](https://geojson.io/) to capture input geometry. Responses from non-GeoJSON APIs are returned as specification-compliant GeoJSON documents.
 
 - **Feature Response Pagination**  
-The OS NGD Features, OS Names and OS Places APIs all paginate results at 100 features per request. The osfetch package provides capability to request multiple pages up to a user defined hard limit. All returned pages worth of features are then merged into a single output.
+The OS Names and OS Places APIs all paginate results at 100 features per request. The osdatahub package provides capability to request multiple pages up to a user defined hard limit. All returned pages worth of features are then merged into a single output.
 
 - **Pre- and Post- Request Error Handing**  
-The osfetch package will detect some types of error prior to sending a request, such as an invalid NGD feature type or a missing API key. In addition, erroroneous responses from the API are caught and reported back to the user.
+The osfetch package will detect some types of error prior to sending a request, such as an invalid bounding box or a missing API key. In addition, erroroneous responses from the API are caught and reported back to the user.
 
 ## Installation
 
@@ -30,67 +31,48 @@ The osfetch package will detect some types of error prior to sending a request, 
 Install the osfetch package via npm:
 
 ```bash
-npm install osfetch
+npm install osdatahub
 ```
 
 Once installed, import the osfetch module into your code:
 
 ```javascript
-import { osfetch } from 'osfetch';
-```
-
-To enable logging, add the following line before making requests:
-
-```javascript
-osfetch.enableLogging()
+import { * as osdatahub } from 'osdatahub';
 ```
 
 ## Basic Structure
-A full list of examples for each API are provided after this section. Generally, most osfetch commands look something like this:
+A full list of examples for each API are provided after this section. Generally, most osdatahub commands look something like this:
 
 ```javascript
-osfetch.places({
-    findBy: ['radius', '-1.471237,50.938189', '800'],
-    apiKey: 'your-os-api-key',
-    paging: [0, 1000] // optional
-})
+osdatahub.places.radius(
+    'your-os-api-key',
+    [-1.471237, 50.938189],
+    800,
+    { limit: 250 }
+)
 ```
-
 
 
 The request is comprised of the following parts:
 
-### `findBy` - the search parameter
+### `apiKey` - The authentication parameter
+To use OS APIs, you'll need an account on the [OS Data Hub](https://osdatahub.os.uk/). Once registered, create a new project and activate the APIs you wish to use (with osdatahub) in your code.
 
-The findBy parameter takes a series of values in an array. The first value is always the type of search to perform. Proceeding values then inform osFetch how to handle that search.
+All osdatahub functions will require an api key as their first argument.
 
-Please note that not all findBy types are available for different APIs.
+### `point` & `radius` - API specific required arguments
+Each API endpoint will have different required arguments (see details below), 
+that will be passed in after the api key. In this example, we are giving 
+the radius function a center coordinate `[-1.471237, 50.938189]` and a 
+search radius in meters `800`.
 
-| Type | Description | Paging Support |
-| --- | --- | --- |
-| `bbox` | Takes a lng/lat bounding box (up to 1km^2) and returns features within | Yes |
-| `polygon` | Takes a GeoJSON polygon feature and returns features within | Yes |
-| `radius` | Takes a lng/lat point as the second array value, and a radius to search within as the third. The maximum radius is 1000 meters. Returns a circular cut of features surrounding the point. | Yes |
-| `nearest` | Takes a lng/lat point as the second array value, and returns only the closest feature. | No |
-| `uprn` | Takes a UPRN value and returns the related feature(s). | No |
-| `postcode` | Takes a partial or complete postcode value and returns the related features. | Yes |
-| `find` | Takes a search string (e.g., a place name) and returns the related features. | Yes |
-| `identifer` | Takes an OS identifer value (e.g., USRN, UPRN) and returns the related features | No |
+It should, therefore, search for addressess within these constraints.
 
-### `apiKey` - the authentication parameter
-To use OS APIs, you'll need an account on the [OS Data Hub](https://osdatahub.os.uk/). Once registered, create a new project using the APIs you wish to use (with osfetch) in your code.
+### `{limit}` - Optional parameters
+By default, for any API that could return multiple results, there are two 
+optional arguments: `limit` and `offset`. The `limit` argument sets the maximum 
+number of features 
 
-To authenticate osfetch, pass your API key in as a string here.
-
-### `paging` - the pagination controller
-The `paging` parameter is **optional**, if a value is not specified osfetch will attempt to return features 0 to 1,000 - a total of 10 pages (or requests) by default.
-
-Takes an array of two values. The first specifies the starting position to return features from (e.g., 0 = the first feature), this is useful if you wish to continue a partially-completed query. The second parameter limits the results to a page number. Setting this higher will return more features, **but will fire off more requests, which may have financial implications on your API usage**.
-
-The parameter is ignored for some requests where paging is not supported by the API.
-
-### `featureType` - a parameter for NGD use only
-The featureType parameter is only available for the OS NGD Features API. It takes a string containing the NGD theme and collection to search by.
 
 
 ## Usage: OS Names API
