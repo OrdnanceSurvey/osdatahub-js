@@ -1,0 +1,10 @@
+# NodeJS
+node_modules
+
+# CatchAll for Accidental GeoJSON Output Testing
+*.geojson
+
+
+# Remove build files
+/build
+.env
