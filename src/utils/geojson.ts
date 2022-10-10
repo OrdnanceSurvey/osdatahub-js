@@ -5,16 +5,8 @@ import {
   OSDataHubResponse,
   OSFeatureCollection,
   PlacesResponse,
-  CoordinateGeometry,
 } from "../types.js";
-import {
-    FeatureCollection,
-    Feature,
-    Geometry,
-    GeoJsonProperties, Polygon,
-} from "geojson";
-import { coords } from "./coords.js";
-import { logging } from "./logging";
+import { Feature, Geometry, GeoJsonProperties } from "geojson";
 
 export { geojson };
 
@@ -26,8 +18,6 @@ export { geojson };
 */
 
 const geojson = {
-
-
   into: function (response: OSDataHubResponse): OSFeatureCollection {
     if (response.results.length == 0) {
       return {

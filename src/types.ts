@@ -1,26 +1,15 @@
-import {
-  FeatureCollection,
-  Feature,
-  Point,
-  Polygon,
-  MultiLineString,
-  MultiPoint,
-  MultiPolygon,
-  LineString,
-} from "geojson";
+import { FeatureCollection, Feature, Polygon } from "geojson";
 
 export {
   Config,
   Options,
   OSDataHubResponse,
   ValidationParams,
-  PlacesOptions,
   BBox,
   OSFeatureCollection,
   PlacesResponse,
   NamesResponse,
-  CoordinateGeometry,
-  PlacesParams
+  PlacesParams,
 };
 
 // Request Configuration
@@ -50,13 +39,6 @@ interface Options {
   filter?: string;
 }
 
-// GeoJSON
-
-interface Geometry {
-  type: string;
-  coordinates: Array<any>;
-}
-
 interface OSDataHubResponseHeader {
   uri: string;
   query: string;
@@ -64,13 +46,14 @@ interface OSDataHubResponseHeader {
 
 interface OSDataHubResponse {
   header: OSDataHubResponseHeader;
+  // eslint-disable-next-line @typescript-eslint/ban-types
   results: Array<Object>;
 }
 
 interface ValidationParams extends Options {
   apiKey: string;
-  offset?: number,
-  limit?: number,
+  offset?: number;
+  limit?: number;
   radius?: number;
   point?: [number, number];
   polygon?: Feature | FeatureCollection | Polygon;
@@ -80,13 +63,10 @@ interface ValidationParams extends Options {
   query?: string;
 }
 
-interface PlacesOptions {
-  paging?: [number, number];
-}
-
 type BBox = [number, number, number, number];
 
 interface OSFeatureCollection extends FeatureCollection {
+  // eslint-disable-next-line @typescript-eslint/ban-types
   header: Object;
 }
 
@@ -114,16 +94,7 @@ interface NamesResponse extends OSDataHubResponse {
   results: Array<NamesFeature>;
 }
 
-type CoordinateGeometry =
-  | Point
-  | MultiPoint
-  | LineString
-  | MultiLineString
-  | Polygon
-  | MultiPolygon;
-
-
 interface PlacesParams {
-  srs?: string
-  maxresults?: number
+  srs?: string;
+  maxresults?: number;
 }

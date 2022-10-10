@@ -16,6 +16,7 @@ beforeAll(() => {
   }
 });
 
+// eslint-disable-next-line @typescript-eslint/ban-types
 async function testError(callback: Function): Promise<any> {
   let error: any;
   try {
@@ -29,7 +30,7 @@ async function testError(callback: Function): Promise<any> {
 describe("Nearest Endpoint", () => {
   test("Nearest Endpoint Passes", async () => {
     const point: [number, number] = [-1.471237, 50.938189];
-    let response = await names.nearest(apiKey, point);
+    const response = await names.nearest(apiKey, point);
     expect(response.features.length).toEqual(1);
   });
 
@@ -44,7 +45,7 @@ describe("Nearest Endpoint", () => {
   });
 
   test("Nearest endpoing fails with invalid point", async () => {
-    let error = await testError(async () => {
+    const error = await testError(async () => {
       return await names.nearest(apiKey, [-12.720966, 39.099627]);
     });
     expect(error).toEqual(
@@ -59,12 +60,12 @@ describe("Find Endpoint", () => {
   test("Find Endpoint Passes", async () => {
     const query = "The Needles, Isle of Wight";
     const options: { offset?: number; limit?: number } = { limit: 5 };
-    let response = await names.find(apiKey, query, options);
+    const response = await names.find(apiKey, query, options);
     expect(response.features.length).toBeGreaterThanOrEqual(1);
   });
 
   test("Postcode endpoint passes with non-standard paging", async () => {
-    let query = "10 Downing Street, London, SW1";
+    const query = "10 Downing Street, London, SW1";
     let response = await names.find(apiKey, query, { limit: 4 });
     expect(response.features.length).toEqual(4);
 
