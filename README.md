@@ -3,15 +3,14 @@
 > Coding in Python?  
 > `osdatahub` has a sibling package for Python developers with similar functionality, [check it out here](https://github.com/OrdnanceSurvey/osdatahub).
 
-`osdatahub` is a JavaScript package from Ordnance Survey (OS) that makes it easier to interact with the OS Data Hub APIs. The package helps you get started with our data in GeoJSON format, and rapidly build prototypes, test new ideas, or collect  data for analyses.
+`osdatahub` is a JavaScript package from Ordnance Survey (OS) that makes it easier to interact with the OS Data Hub APIs. The package helps you get started with our data in GeoJSON format, and rapidly build prototypes, test new ideas, or collect data for analyses.
 
 Ordnance Survey is the national mapping agency for Great Britain and produces a large variety of mapping and geospatial products. Much of OS' data is available via the [OS Data Hub](https://osdatahub.os.uk), a platform that hosts both free and premium data products. `osdatahub` provides a user-friendly way to interact with these data products.
 
-
 ![Ordnance Survey Logo](https://github.com/OrdnanceSurvey/osdatahub-js/blob/main/media/os-logo.png)
 
-
 ## Links <!-- omit in toc -->
+
 - GitHub repo: https://github.com/OrdnanceSurvey/osdatahub-js
 - NPM: https://www.npmjs.com/package/osdatahub
 - Data Hub Explorer: https://labs.os.uk/prototyping/data-hub-explorer/
@@ -31,6 +30,7 @@ Ordnance Survey is the national mapping agency for Great Britain and produces a 
 - [Contribute](#contribute)
 
 ## Supported APIs
+
 `osdatahub` (JavaScript) supports the following Ordnance Survey APIs:
 
 - [x] OS Names API
@@ -40,31 +40,32 @@ Ordnance Survey is the national mapping agency for Great Britain and produces a 
 ## Features
 
 - **Access to Ordnance Survey data in 2 lines of code**  
-This wrapper abstracts the HTTP request process, so you can get to work on your geospatial project without configuring API endpoints.
+  This wrapper abstracts the HTTP request process, so you can get to work on your geospatial project without configuring API endpoints.
 
 - **Find features via geospatial and textual queries**  
-Use all available geospatial and textual search methods supported by each OS API to find and return data.
+  Use all available geospatial and textual search methods supported by each OS API to find and return data.
 
 - **Request as much data as you need with automatic API paging**  
-By default, `osdatahub` will attempt to return a maximum of 1000 features. You can customise this by setting custom start (`offset`) and end (`limit`) values. Where multiple requests are required, `osdatahub` will merge these into a single response object. *Please note that requesting a large amount of data may have cost implications.*
+  By default, `osdatahub` will attempt to return a maximum of 1000 features. You can customise this by setting custom start (`offset`) and end (`limit`) values. Where multiple requests are required, `osdatahub` will merge these into a single response object. _Please note that requesting a large amount of data may have cost implications._
 
 - **Developer-Friendly GeoJSON Responses**  
-The `osdatahub` package exclusively uses GeoJSON and lng/lat (`ESPG:4326`) coordinates for returning data, please note that British National Grid coordinates (`ESPG:27700`) **are not supported**. You can use tools such as [bboxfinder.com](http://bboxfinder.com/) or [geojson.io](https://geojson.io/) to collect input geometry for use in `osdatahub`. Responses from non-GeoJSON APIs are returned in specification-compliant GeoJSON format.
+  The `osdatahub` package exclusively uses GeoJSON and lng/lat (`ESPG:4326`) coordinates for returning data, please note that British National Grid coordinates (`ESPG:27700`) **are not supported**. You can use tools such as [bboxfinder.com](http://bboxfinder.com/) or [geojson.io](https://geojson.io/) to collect input geometry for use in `osdatahub`. Responses from non-GeoJSON APIs are returned in specification-compliant GeoJSON format.
 
 - **Pre- and Post- Request Error Handing**  
-`osdatahub` will handle some types of error prior to sending a request, such as invalid geometry, or a missing API key. Errors on the server (`HTTP 5**`/`4**` codes) are also handled.
+  `osdatahub` will handle some types of error prior to sending a request, such as invalid geometry, or a missing API key. Errors on the server (`HTTP 5**`/`4**` codes) are also handled.
 
 ## Installation
 
 You'll need to sign-up for an account on the [OS Data Hub](https://osdatahub.os.uk) to create an API key:
 
-1. Navigate to the *API Dashboard* located on the top navigation bar
-2. Go to *My Projects*
-3. Click *Create a new project*, give your project a name, then click *Create project*
-4. Select *Add an API to this project*
-5. Choose the APIs you would like to use and click *Done*
+1. Navigate to the _API Dashboard_ located on the top navigation bar
+2. Go to _My Projects_
+3. Click _Create a new project_, give your project a name, then click _Create project_
+4. Select _Add an API to this project_
+5. Choose the APIs you would like to use and click _Done_
 
 ### Installing in NodeJS (via NPM)
+
 Install the `osdatahub` package into your project, via NPM:
 
 ```bash
@@ -77,15 +78,18 @@ You can then import `osdatahub` into your code:
 // option 1 - import all the things (suggested)
 import { * as osdatahub } from 'osdatahub';
 ```
+
 ```javascript
 // option 2 - import specific modules
-import { placesAPI } from 'osdatahub';
+import { placesAPI } from "osdatahub";
 ```
 
 ### Installing in the Browser
+
 We're working hard to bring `osdatahub` to the browser, please watch this space!
 
 ## Getting Started
+
 All `osdatahub` commands look something like this:
 
 ```javascript
@@ -105,152 +109,178 @@ Different APIs support different search operations. Let's explore them...
 <br>
 
 ### OS Places API
+
 The OS Places API can be accessed via `osdatahub.placesAPI`. For further information on using the OS Places API and its capabilities, please refer to the [OS Data Hub](https://osdatahub.os.uk/docs/places/overview) documentation and technical specification.
 
 #### GeoJSON Polygon
+
 Returns all features within the geometry up to the user-defined limit.
 
 ```javascript
-osdatahub.placesAPI.polygon(apiKey, geoJson, {})
+osdatahub.placesAPI.polygon(apiKey, geoJson, {});
 ```
 
 Parameters:
+
 - `apiKey` (string) - Your OS Data Hub API Key
 - `geoJson` (object) - Either a Feature or FeatureCollection as an object (in `ESPG:4326`)
 
 Optional Parameters (within the `{}` object at the end):
+
 - `offset` (integer, default 0) - The starting position to collect features
 - `limit` (integrer, default 1,000) - The maximum number of features to return
 
-
 #### Point-Based Radius
+
 Returns all features within the geometry (user-defined distance from a point) up to the user-defined limit.
 
 ```javascript
-osdatahub.placesAPI.radius(apiKey, [lng, lat], searchRadius, {})
+osdatahub.placesAPI.radius(apiKey, [lng, lat], searchRadius, {});
 ```
 
 Parameters:
+
 - `apiKey` (string) - Your OS Data Hub API Key
 - `[lng, lat]` (array of numbers) - Point feature (in `ESPG:4326`)
 - `searchRadius` (number) - Distance (meters) to search around point (maximum 1,000)
 
 Optional Parameters (within the `{}` object at the end):
+
 - `offset` (integer, default 0) - The starting position to collect features
 - `limit` (integrer, default 1,000) - The maximum number of features to return
 
 #### Nearest Feature
+
 Returns a single feature, the closest to the geometry (a point).
 
 ```javascript
-osdatahub.placesAPI.nearest(apiKey, [lng, lat], {})
+osdatahub.placesAPI.nearest(apiKey, [lng, lat], {});
 ```
 
 Parameters:
+
 - `apiKey` (string) - Your OS Data Hub API Key
 - `[lng, lat]` (array of numbers) - Point feature (in `ESPG:4326`)
 
 #### Bounding Box
+
 Returns all features within the bbox geometry (up to 1km<sup>2</sup> in area), up to the user-defined limit.
 
 ```javascript
-osdatahub.placesAPI.bbox(apiKey, [b,b,o,x], {})
+osdatahub.placesAPI.bbox(apiKey, [b, b, o, x], {});
 ```
 
 Parameters:
+
 - `apiKey` (string) - Your OS Data Hub API Key
 - `[b,b,o,x]` (array of four numbers) - Bounding-box (West, South, East, North) to search within (in `ESPG:4326`)
 
 Optional Parameters (within the `{}` object at the end):
+
 - `offset` (integer, default 0) - The starting position to collect features
 - `limit` (integrer, default 1,000) - The maximum number of features to return
 
 #### UPRN (Unique Property Reference Number)
+
 Returns a single feature, matching the input UPRN identifier.
 
 ```javascript
-osdatahub.placesAPI.uprn(apiKey, uprnIdentifer, {})
+osdatahub.placesAPI.uprn(apiKey, uprnIdentifer, {});
 ```
 
 Parameters:
+
 - `apiKey` (string) - Your OS Data Hub API Key
 - `uprnIdentifier` (integer) - A valid UPRN identifer
 
 #### Postcode (Full or Partial)
+
 Returns features matching the input postcode. A full (e.g, `SO16 0AS`) or partial (e.g, `OS16`) postcode can be provided, the number of features returned (up to the user-defined limit) can vary considerably.
 
 ```javascript
-osdatahub.placesAPI.postcode(apiKey, postcode, {})
+osdatahub.placesAPI.postcode(apiKey, postcode, {});
 ```
 
 Parameters:
+
 - `apiKey` (string) - Your OS Data Hub API Key
 - `postcode` (string) - Full/Partial postcode to search in
 
 Optional Parameters (within the `{}` object at the end):
+
 - `offset` (integer, default 0) - The starting position to collect features
 - `limit` (integrer, default 1,000) - The maximum number of features to return
 
 #### Find (Plain Text Search)
+
 Returns features matching the input text string provided. The number of features returned (up to the user-defined limit) can vary considerably.
 
 ```javascript
-osdatahub.placesAPI.postcode(apiKey, query, {})
+osdatahub.placesAPI.postcode(apiKey, query, {});
 ```
 
 Parameters:
+
 - `apiKey` (string) - Your OS Data Hub API Key
 - `query` (string) - A plain-text search string
 
 Optional Parameters (within the `{}` object at the end):
+
 - `offset` (integer, default 0) - The starting position to collect features
 - `limit` (integrer, default 1,000) - The maximum number of features to return
 
 <br>
 
 ### OS Names API
+
 The OS Names API can be accessed via `osdatahub.namesAPI`. For further information on using the OS Names API and its capabilities, please refer to the [OS Data Hub](https://osdatahub.os.uk/docs/names/overview) documentation and technical specification.
 
 #### Nearest Feature
+
 Returns a single feature, the closest to the point geometry.
 
 ```javascript
-osdatahub.namesAPI.nearest(apiKey, [lng, lat], {})
+osdatahub.namesAPI.nearest(apiKey, [lng, lat], {});
 ```
 
 Parameters:
+
 - `apiKey` (string) - Your OS Data Hub API Key
 - `[lng, lat]` (array of numbers) - Point feature (in `ESPG:4326`)
 
 #### Find (Plain Text Search)
+
 Returns features matching the input text string provided. The number of features returned (up to the user-defined limit) can vary considerably.
 
 ```javascript
-osdatahub.namesAPI.postcode(apiKey, query, {})
+osdatahub.namesAPI.postcode(apiKey, query, {});
 ```
 
 Parameters:
+
 - `apiKey` (string) - Your OS Data Hub API Key
 - `query` (string) - A plain-text search string
 
 Optional Parameters (within the `{}` object at the end):
+
 - `offset` (integer, default 0) - The starting position to collect features
 - `limit` (integrer, default 1,000) - The maximum number of features to return
 
 ## Authors
+
 The `osdatahub` (JavaScript) package has been built by:
+
 - [@abiddiscombe](https://github.com/abiddiscombe)
 - [@dchirst](https://github.com/dchirst)
 - [@jepooley](https://github.com/jepooley)
 - [@fhunt-os](https://github.com/fhunt-os)
 - [@BenDickens](https://github.com/BenDickens)
 
-
 ## Contribute
 
 This package is still under active development and we welcome contributions from the community via issues and pull requests.
 
-To install osdatahub, along with the tools you need to develop and run tests, 
+To install osdatahub, along with the tools you need to develop and run tests,
 run the following in your environment:
 
 ```bash
