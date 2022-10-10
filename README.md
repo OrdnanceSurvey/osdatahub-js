@@ -76,13 +76,46 @@ In the example above, we're querying the **OS Places API** using a **Bounding Bo
 
 Different APIs support different search operations:
 
-### OS Places API (`osdatahub.places`)
+### OS Places API
+The OS Places API can be accessed via `osdatahub.places`. OS Data Hub docs...
 
 #### GeoJSON Polygon
+Returns all features within the geometry up to the user-defined limit.
 
 ```javascript
 osdatahub.places.polygon(apiKey, geoJsonObject, {})
 ```
+
+#### Point-Based Radius
+Returns all features within the geometry (user-defined distance from a point) up to the user-defined limit.
+
+```javascript
+osdatahub.places.radius(apiKey, lngLatPoint, searchRadius, {})
+```
+
+#### Nearest Features
+Returns a single feature, the closest to the geometry (a point).
+
+```javascript
+osdatahub.places.nearest(apiKey, lngLatPoint, {})
+```
+
+#### Bounding Box
+Returns all features within the bbox geometry (up to 1km^2) up to the user-defined limit.
+
+```javascript
+osdatahub.places.bbox(apiKey, bboxArray, {})
+```
+
+#### UPRN (Unique Property Reference Number)
+Returns a single feature, matching the input UPRN identifier.
+
+```javascript
+osdatahub.places.uprn(apiKey, uprnIdentifer, {})
+```
+
+#### Postcode (Full or Partial)
+Returns features matching the input Postcode. A
 
 - `apiKey` - Your OS DataHub
 
