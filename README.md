@@ -7,6 +7,10 @@
 
 Ordnance Survey is the national mapping agency for Great Britain and produces a large variety of mapping and geospatial products. Much of OS' data is available via the [OS Data Hub](https://osdatahub.os.uk), a platform that hosts both free and premium data products. `osdatahub` provides a user-friendly way to interact with these data products.
 
+
+![Ordnance Survey Logo](https://github.com/OrdnanceSurvey/osdatahub-js/blob/main/media/os-logo.png)
+
+
 ## Links <!-- omit in toc -->
 - GitHub repo: https://github.com/OrdnanceSurvey/osdatahub-js
 - NPM: https://www.npmjs.com/package/osdatahub
@@ -103,19 +107,20 @@ Different APIs support different search operations. Let's explore them...
 ### OS Places API
 The OS Places API can be accessed via `osdatahub.placesAPI`. For further information on using the OS Places API and its capabilities, please refer to the [OS Data Hub](https://osdatahub.os.uk/docs/places/overview) documentation and technical specification.
 
-The OS Places API supports the following optional parameters:
-- `offset` - The starting position (default set to 0)
-- `limit` - The maximum number of returned features (default set to 1,000)
-
 #### GeoJSON Polygon
 Returns all features within the geometry up to the user-defined limit.
 
 ```javascript
-osdatahub.placesAPI.polygon(apiKey, geoJsonObject, {})
+osdatahub.placesAPI.polygon(apiKey, geoJson, {})
 ```
 
 Parameters:
-* `apiKey` (string) - Your OS Data Hub API Key
+- `apiKey` (string) - Your OS Data Hub API Key
+- `geoJson` (object) - Either a Feature or FeatureCollection as an object (in `ESPG:4326`)
+
+Optional Parameters (within the `{}` object at the end):
+- `offset` (integer, default 0) - The starting position to collect features
+- `limit` (integrer, default 1,000) - The maximum number of features to return
 
 
 #### Point-Based Radius
@@ -125,19 +130,40 @@ Returns all features within the geometry (user-defined distance from a point) up
 osdatahub.placesAPI.radius(apiKey, [lng, lat], searchRadius, {})
 ```
 
-#### Nearest Features
+Parameters:
+- `apiKey` (string) - Your OS Data Hub API Key
+- `[lng, lat]` (array of numbers) - Point feature (in `ESPG:4326`)
+- `searchRadius` (number) - Distance (meters) to search around point (maximum 1,000)
+
+Optional Parameters (within the `{}` object at the end):
+- `offset` (integer, default 0) - The starting position to collect features
+- `limit` (integrer, default 1,000) - The maximum number of features to return
+
+#### Nearest Feature
 Returns a single feature, the closest to the geometry (a point).
 
 ```javascript
 osdatahub.placesAPI.nearest(apiKey, [lng, lat], {})
 ```
 
+Parameters:
+- `apiKey` (string) - Your OS Data Hub API Key
+- `[lng, lat]` (array of numbers) - Point feature (in `ESPG:4326`)
+
 #### Bounding Box
 Returns all features within the bbox geometry (up to 1km<sup>2</sup> in area), up to the user-defined limit.
 
 ```javascript
-osdatahub.placesAPI.bbox(apiKey, bboxArray, {})
+osdatahub.placesAPI.bbox(apiKey, [b,b,o,x], {})
 ```
+
+Parameters:
+- `apiKey` (string) - Your OS Data Hub API Key
+- `[b,b,o,x]` (array of four numbers) - Bounding-box (West, South, East, North) to search within (in `ESPG:4326`)
+
+Optional Parameters (within the `{}` object at the end):
+- `offset` (integer, default 0) - The starting position to collect features
+- `limit` (integrer, default 1,000) - The maximum number of features to return
 
 #### UPRN (Unique Property Reference Number)
 Returns a single feature, matching the input UPRN identifier.
@@ -146,42 +172,70 @@ Returns a single feature, matching the input UPRN identifier.
 osdatahub.placesAPI.uprn(apiKey, uprnIdentifer, {})
 ```
 
+Parameters:
+- `apiKey` (string) - Your OS Data Hub API Key
+- `uprnIdentifier` (integer) - A valid UPRN identifer
+
 #### Postcode (Full or Partial)
 Returns features matching the input postcode. A full (e.g, `SO16 0AS`) or partial (e.g, `OS16`) postcode can be provided, the number of features returned (up to the user-defined limit) can vary considerably.
 
 ```javascript
-osdatahub.placesAPI.postcode(apiKey, postcodeString, {})
+osdatahub.placesAPI.postcode(apiKey, postcode, {})
 ```
+
+Parameters:
+- `apiKey` (string) - Your OS Data Hub API Key
+- `postcode` (string) - Full/Partial postcode to search in
+
+Optional Parameters (within the `{}` object at the end):
+- `offset` (integer, default 0) - The starting position to collect features
+- `limit` (integrer, default 1,000) - The maximum number of features to return
 
 #### Find (Plain Text Search)
 Returns features matching the input text string provided. The number of features returned (up to the user-defined limit) can vary considerably.
 
 ```javascript
-osdatahub.placesAPI.postcode(apiKey, plainTextString, {})
+osdatahub.placesAPI.postcode(apiKey, query, {})
 ```
+
+Parameters:
+- `apiKey` (string) - Your OS Data Hub API Key
+- `query` (string) - A plain-text search string
+
+Optional Parameters (within the `{}` object at the end):
+- `offset` (integer, default 0) - The starting position to collect features
+- `limit` (integrer, default 1,000) - The maximum number of features to return
 
 <br>
 
 ### OS Names API
 The OS Names API can be accessed via `osdatahub.namesAPI`. For further information on using the OS Names API and its capabilities, please refer to the [OS Data Hub](https://osdatahub.os.uk/docs/names/overview) documentation and technical specification.
 
-The OS Names API supports the following optional parameters:
-- `offset` - The starting position (default set to 0)
-- `limit` - The maximum number of returned features (default set to 1,000)
-
-#### Nearest Features
+#### Nearest Feature
 Returns a single feature, the closest to the point geometry.
 
 ```javascript
 osdatahub.namesAPI.nearest(apiKey, [lng, lat], {})
 ```
 
+Parameters:
+- `apiKey` (string) - Your OS Data Hub API Key
+- `[lng, lat]` (array of numbers) - Point feature (in `ESPG:4326`)
+
 #### Find (Plain Text Search)
 Returns features matching the input text string provided. The number of features returned (up to the user-defined limit) can vary considerably.
 
 ```javascript
-osdatahub.namesAPI.postcode(apiKey, plainTextString, {})
+osdatahub.namesAPI.postcode(apiKey, query, {})
 ```
+
+Parameters:
+- `apiKey` (string) - Your OS Data Hub API Key
+- `query` (string) - A plain-text search string
+
+Optional Parameters (within the `{}` object at the end):
+- `offset` (integer, default 0) - The starting position to collect features
+- `limit` (integrer, default 1,000) - The maximum number of features to return
 
 ## Authors
 The `osdatahub` (JavaScript) package has been built by:
