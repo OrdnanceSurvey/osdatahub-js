@@ -1,4 +1,4 @@
-# osdatahub (for JavaScript)
+# osdatahub (JavaScript)
 
 > Coding in Python?  
 > `osdatahub` has a sibling package for Python developers with similar functionality, [check it out here](https://github.com/OrdnanceSurvey/osdatahub).
@@ -6,6 +6,25 @@
 `osdatahub` is a JavaScript package from Ordnance Survey (OS) that makes it easier to interact with the OS Data Hub APIs. The package helps you get started with our data in GeoJSON format, and rapidly build prototypes, test new ideas, or collect  data for analyses.
 
 Ordnance Survey is the national mapping agency for Great Britain and produces a large variety of mapping and geospatial products. Much of OS' data is available via the [OS Data Hub](https://osdatahub.os.uk), a platform that hosts both free and premium data products. `osdatahub` provides a user-friendly way to interact with these data products.
+
+## Links <!-- omit in toc -->
+- GitHub repo: https://github.com/OrdnanceSurvey/osdatahub-js
+- NPM: https://www.npmjs.com/package/osdatahub
+- Data Hub Explorer: https://labs.os.uk/prototyping/data-hub-explorer/
+- Free Software: Open Government License
+
+**Note:** This package is under active development.
+
+## Contents <!-- omit in toc -->
+
+- [Supported APIs](#supported-apis)
+- [Features](#features)
+- [Installation](#installation)
+- [Getting Started](#getting-started)
+  - [Places API](#os-places-api)
+  - [Names API](#os-names-api)
+- [Authors](#authors)
+- [Contribute](#contribute)
 
 ## Supported APIs
 `osdatahub` (JavaScript) supports the following Ordnance Survey APIs:
@@ -53,7 +72,8 @@ You can then import `osdatahub` into your code:
 ```javascript
 // option 1 - import all the things (suggested)
 import { * as osdatahub } from 'osdatahub';
-
+```
+```javascript
 // option 2 - import specific modules
 import { placesAPI } from 'osdatahub';
 ```
@@ -65,8 +85,11 @@ We're working hard to bring `osdatahub` to the browser, please watch this space!
 All `osdatahub` commands look something like this:
 
 ```javascript
+// Securely get API key (we recommend getting the key from environment variables/.env files)
+const apiKey = process.env.OS_API_KEY
+
 // querying the places API via bbox:
-osdatahub.placesAPI.bbox('your-os-api-key', [-1.471237, 50.938189], {
+osdatahub.placesAPI.bbox(apiKey, [-1.471237, 50.938189], {
     limit: 200;
 })
 ```
@@ -91,6 +114,10 @@ Returns all features within the geometry up to the user-defined limit.
 osdatahub.placesAPI.polygon(apiKey, geoJsonObject, {})
 ```
 
+Parameters:
+* `apiKey` (string) - Your OS Data Hub API Key
+
+
 #### Point-Based Radius
 Returns all features within the geometry (user-defined distance from a point) up to the user-defined limit.
 
@@ -106,7 +133,7 @@ osdatahub.placesAPI.nearest(apiKey, [lng, lat], {})
 ```
 
 #### Bounding Box
-Returns all features within the bbox geometry (up to 1km^2 in area), up to the user-defined limit.
+Returns all features within the bbox geometry (up to 1km<sup>2</sup> in area), up to the user-defined limit.
 
 ```javascript
 osdatahub.placesAPI.bbox(apiKey, bboxArray, {})
@@ -163,3 +190,21 @@ The `osdatahub` (JavaScript) package has been built by:
 - [@jepooley](https://github.com/jepooley)
 - [@fhunt-os](https://github.com/fhunt-os)
 - [@BenDickens](https://github.com/BenDickens)
+
+
+## Contribute
+
+This package is still under active development and we welcome contributions from the community via issues and pull requests.
+
+To install osdatahub, along with the tools you need to develop and run tests, 
+run the following in your environment:
+
+```bash
+git clone https://github.com/OrdnanceSurvey/osdatahub-js.git
+cd osdatahub-js
+npm i
+```
+
+### Support
+
+For any kind of issues or suggestions please see the [OS Data Hub documention](https://osdatahub.os.uk/docs), open a **[github issue](https://github.com/OrdnanceSurvey/osdatahub/issues)** or contact us via Email **[rapidprototyping@os.uk](mailto:rapidprototyping@os.uk)**
