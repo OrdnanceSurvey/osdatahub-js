@@ -1,226 +1,294 @@
-# osfetch
+# osdatahub (JavaScript)
 
-Thank you for your interest in osfetch, a JavaScript wrapper for Ordnance Survey APIs. It's designed to help users discover and get started with Ordnance Survey (OS) API-based products.
+> Coding in Python?  
+> `osdatahub` has a sibling package for Python developers with similar functionality, [check it out here](https://github.com/OrdnanceSurvey/osdatahub).
 
-The purpose of osfetch is to help you get started with our products and rapidly build POCs and test ideas. In production, you'll likely wish to switch to your own code for a more tailored experience.
+`osdatahub` is a JavaScript package from Ordnance Survey (OS) that makes it easier to interact with the OS Data Hub APIs. The package helps you get started with our data in GeoJSON format, and rapidly build prototypes, test new ideas, or collect data for analyses.
 
-- OS Names API
-- OS Places API
-- OS National Geographic Database (NGD) Features API
+Ordnance Survey is the national mapping agency for Great Britain and produces a large variety of mapping and geospatial products. Much of OS' data is available via the [OS Data Hub](https://osdatahub.os.uk), a platform that hosts both free and premium data products. `osdatahub` provides a user-friendly way to interact with these data products.
+
+![Ordnance Survey Logo](https://github.com/OrdnanceSurvey/osdatahub-js/blob/main/media/os-logo.png)
+
+## Links <!-- omit in toc -->
+
+- GitHub repo: https://github.com/OrdnanceSurvey/osdatahub-js
+- NPM: https://www.npmjs.com/package/osdatahub
+- Data Hub Explorer: https://labs.os.uk/prototyping/data-hub-explorer/
+- Free Software: Open Government License
+
+**Note:** This package is under active development.
+
+## Contents <!-- omit in toc -->
+
+- [Supported APIs](#supported-apis)
+- [Features](#features)
+- [Installation](#installation)
+- [Getting Started](#getting-started)
+  - [Places API](#os-places-api)
+  - [Names API](#os-names-api)
+- [Authors](#authors)
+- [Contribute](#contribute)
+
+## Supported APIs
+
+`osdatahub` (JavaScript) supports the following Ordnance Survey APIs:
+
+- [x] OS Names API
+- [x] OS Places API
+- [ ] OS NGD Features API (Coming Soon!)
 
 ## Features
 
-- **Abstraction of HTTP requests**  
-  The process of requesting data from Ordnance Survey APIs is handled internally, so you don't need to worry about HTTP request methods or what to include in the header.
+- **Access to Ordnance Survey data in 2 lines of code**  
+  This wrapper abstracts the HTTP request process, so you can get to work on your geospatial project without configuring API endpoints.
+
+- **Find features via geospatial and textual queries**  
+  Use all available geospatial and textual search methods supported by each OS API to find and return data.
+
+- **Request as much data as you need with automatic API paging**  
+  By default, `osdatahub` will attempt to return a maximum of 1000 features. You can customise this by setting custom start (`offset`) and end (`limit`) values. Where multiple requests are required, `osdatahub` will merge these into a single response object. _Please note that requesting a large amount of data may have cost implications._
 
 - **Developer-Friendly GeoJSON Responses**  
-  The osfetch package exclusively uses GeoJSON and lng/lat coordinates for returning data, please note that **ESPG:27700 is not supported**. GeoJSON is a versatile and widely-compatible file format, you can use tools such as [bboxfinder.com](http://bboxfinder.com/) or [geojson.io](https://geojson.io/) to capture input geometry. Responses from non-GeoJSON APIs are returned as specification-compliant GeoJSON documents.
-
-- **Feature Response Pagination**  
-  The OS NGD Features, OS Names and OS Places APIs all paginate results at 100 features per request. The osfetch package provides capability to request multiple pages up to a user defined hard limit. All returned pages worth of features are then merged into a single output.
+  The `osdatahub` package exclusively uses GeoJSON and lng/lat (`ESPG:4326`) coordinates for returning data, please note that British National Grid coordinates (`ESPG:27700`) **are not supported**. You can use tools such as [bboxfinder.com](http://bboxfinder.com/) or [geojson.io](https://geojson.io/) to collect input geometry for use in `osdatahub`. Responses from non-GeoJSON APIs are returned in specification-compliant GeoJSON format.
 
 - **Pre- and Post- Request Error Handing**  
-  The osfetch package will detect some types of error prior to sending a request, such as an invalid NGD feature type or a missing API key. In addition, erroroneous responses from the API are caught and reported back to the user.
+  `osdatahub` will handle some types of error prior to sending a request, such as invalid geometry, or a missing API key. Errors on the server (`HTTP 5**`/`4**` codes) are also handled.
 
 ## Installation
 
-### Browser
+You'll need to sign-up for an account on the [OS Data Hub](https://osdatahub.os.uk) to create an API key:
 
-_Sorry, browser usage of osfetch is not yet available. We're working on this._
+1. Navigate to the _API Dashboard_ located on the top navigation bar
+2. Go to _My Projects_
+3. Click _Create a new project_, give your project a name, then click _Create project_
+4. Select _Add an API to this project_
+5. Choose the APIs you would like to use and click _Done_
 
-### Node JS
+### Installing in NodeJS (via NPM)
 
-Install the osfetch package via npm:
+Install the `osdatahub` package into your project, via NPM:
 
 ```bash
-npm install osfetch
+npm install osdatahub
 ```
 
-Once installed, import the osfetch module into your code:
+You can then import `osdatahub` into your code:
 
 ```javascript
-import { osfetch } from "osfetch";
+// option 1 - import all the things (suggested)
+import { * as osdatahub } from 'osdatahub';
 ```
 
-To enable logging, add the following line before making requests:
-
 ```javascript
-osfetch.enableLogging();
+// option 2 - import specific modules
+import { placesAPI } from "osdatahub";
 ```
 
-## Basic Structure
+### Installing in the Browser
 
-A full list of examples for each API are provided after this section. Generally, most osfetch commands look something like this:
+We're working hard to bring `osdatahub` to the browser, please watch this space!
 
-```javascript
-osfetch.places({
-  findBy: ["radius", "-1.471237,50.938189", "800"],
-  apiKey: "your-os-api-key",
-  paging: [0, 1000], // optional
-});
-```
+## Getting Started
 
-The request is comprised of the following parts:
-
-### `findBy` - the search parameter
-
-The findBy parameter takes a series of values in an array. The first value is always the type of search to perform. Proceeding values then inform osFetch how to handle that search.
-
-Please note that not all findBy types are available for different APIs.
-
-| Type        | Description                                                                                                                                                                               | Paging Support |
-| ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------- |
-| `bbox`      | Takes a lng/lat bounding box (up to 1km^2) and returns features within                                                                                                                    | Yes            |
-| `polygon`   | Takes a GeoJSON polygon feature and returns features within                                                                                                                               | Yes            |
-| `radius`    | Takes a lng/lat point as the second array value, and a radius to search within as the third. The maximum radius is 1000 meters. Returns a circular cut of features surrounding the point. | Yes            |
-| `nearest`   | Takes a lng/lat point as the second array value, and returns only the closest feature.                                                                                                    | No             |
-| `uprn`      | Takes a UPRN value and returns the related feature(s).                                                                                                                                    | No             |
-| `postcode`  | Takes a partial or complete postcode value and returns the related features.                                                                                                              | Yes            |
-| `find`      | Takes a search string (e.g., a place name) and returns the related features.                                                                                                              | Yes            |
-| `identifer` | Takes an OS identifer value (e.g., USRN, UPRN) and returns the related features                                                                                                           | No             |
-
-### `apiKey` - the authentication parameter
-
-To use OS APIs, you'll need an account on the [OS Data Hub](https://osdatahub.os.uk/). Once registered, create a new project using the APIs you wish to use (with osfetch) in your code.
-
-To authenticate osfetch, pass your API key in as a string here.
-
-### `paging` - the pagination controller
-
-The `paging` parameter is **optional**, if a value is not specified osfetch will attempt to return features 0 to 1,000 - a total of 10 pages (or requests) by default.
-
-Takes an array of two values. The first specifies the starting position to return features from (e.g., 0 = the first feature), this is useful if you wish to continue a partially-completed query. The second parameter limits the results to a page number. Setting this higher will return more features, **but will fire off more requests, which may have financial implications on your API usage**.
-
-The parameter is ignored for some requests where paging is not supported by the API.
-
-### `featureType` - a parameter for NGD use only
-
-The featureType parameter is only available for the OS NGD Features API. It takes a string containing the NGD theme and collection to search by.
-
-## Usage: OS Names API
-
-If you're new to the OS Names API, [please refer to the documentation](https://osdatahub.os.uk/docs/names/overview) to help you get started.
-
-The OS Places API supports the following `findBy` types:
-
-- `nearest`
-- `find`
+All `osdatahub` commands look something like this:
 
 ```javascript
-osfetch.names({
-  findBy: ["find", "The Needles, Isle of Wight"],
-  apiKey: "your-os-api-key",
-  paging: [0, 1000],
-});
+// Securely get API key (we recommend getting the key from environment variables/.env files)
+const apiKey = process.env.OS_API_KEY
 
-osfetch.names({
-  findBy: ["nearest", "-1.471130,50.937862"], // uses lng/lat geom
-  apiKey: "your-os-api-key",
-});
-```
-
-## Usage: OS Places API
-
-If you're new to the OS Places API, [please refer to the documentation](https://osdatahub.os.uk/docs/places/overview) to help you get started.
-
-The OS Places API supports the following `findBy` types:
-
-- `polygon`
-- `radius`
-- `bbox`
-- `nearest`
-- `uprn`
-- `postcode`
-- `find`
-
-```javascript
-osfetch.places({
-  findBy: ["polygon", someGeoJSON],
-  apiKey: "your-os-api-key",
-});
-
-osfetch.places({
-  findBy: ["radius", "-1.471237,50.938189", "800"], // uses lng/lat geom
-  apiKey: "your-os-api-key",
-});
-
-osfetch.places({
-  findBy: ["bbox", "-1.475335,50.936159,-1.466924,50.939569"], // uses lng/lat geom
-  apiKey: "your-os-api-key",
-  paging: [0, 4000],
-});
-
-osfetch.places({
-  findBy: ["nearest", "-1.471237,50.938189"], // uses lng/lat geom
-  apiKey: "your-os-api-key",
-});
-
-osfetch.places({
-  findBy: ["uprn", "200010019924"],
-  apiKey: "your-os-api-key",
-});
-
-osfetch.places({
-  findBy: ["postcode", "SO16 0AS"],
-  apiKey: "your-os-api-key",
-});
-
-osfetch.places({
-  findBy: ["find", "10 Downing Street, London, SW1"],
-  apiKey: "your-os-api-key",
-});
-```
-
-## Usage: OS NGD Features API
-
-If you're new to the OS NGD Features API, [please refer to the documentation (link tbc.)]() to help you get started.
-
-The OS NGD Features API supports the following `findBy` types:
-
-- `bbox`
-
-You can also use a `filter` to pass a Common Query Language filter to the API.
-
-```javascript
-// get all the bld-fts-buildingpart features from around Ordnance Survey HQ:
-osfetch.ngd({
-    findBy: ['bbox', '-1.474520, 50.935463, -1.468125, 50.940442'], // uses lng/lat geom
-    featureType: 'bld-fts-buildingpart',
-    filter: 'a-CQL-filter-goes-here' // optional
-    apiKey: 'your-os-api-key',
+// querying the places API via bbox:
+osdatahub.placesAPI.bbox(apiKey, [-1.471237, 50.938189], {
+    limit: 200;
 })
 ```
 
-## Usage: OS Linked Identifiers API
+In the example above, we're querying the **OS Places API** using a **Bounding Box** (bbox), and we're specifying a maximum of **200** features should be returned (a total of two requests). Specifying a `limit` value is optional - optional parameters are stored within an object, which is passed in as the final parameter.
 
-If you're new to the OS Linked Identifiers API, [please refer to the documentation](https://osdatahub.os.uk/docs/linkedIdentifiers/overview) to help you get started.
+Different APIs support different search operations. Let's explore them...
 
-**Please note that the Linked Identifers API does NOT return a GeoJSON response, as the data does not contain geometry. The Linked Identifers API can be used to get the identifers of other features, which can then be searched for in a seperate query.**
+<br>
 
-The OS Linked Identifiers API supports the following `findBy` types:
+### OS Places API
 
-- `identifer`
+The OS Places API can be accessed via `osdatahub.placesAPI`. For further information on using the OS Places API and its capabilities, please refer to the [OS Data Hub](https://osdatahub.os.uk/docs/places/overview) documentation and technical specification.
+
+#### GeoJSON Polygon
+
+Returns all features within the geometry up to the user-defined limit.
 
 ```javascript
-osfetch.linkedIdentifiers({
-  findBy: ["identifier", "200010019924"], // searching using a UPRN
-  apiKey: "your-os-api-key",
-});
+osdatahub.placesAPI.polygon(apiKey, geoJson, {});
 ```
+
+Parameters:
+
+- `apiKey` (string) - Your OS Data Hub API Key
+- `geoJson` (object) - Either a Feature or FeatureCollection as an object (in `ESPG:4326`)
+
+Optional Parameters (within the `{}` object at the end):
+
+- `offset` (integer, default 0) - The starting position to collect features
+- `limit` (integrer, default 1,000) - The maximum number of features to return
+
+#### Point-Based Radius
+
+Returns all features within the geometry (user-defined distance from a point) up to the user-defined limit.
+
+```javascript
+osdatahub.placesAPI.radius(apiKey, [lng, lat], searchRadius, {});
+```
+
+Parameters:
+
+- `apiKey` (string) - Your OS Data Hub API Key
+- `[lng, lat]` (array of numbers) - Point feature (in `ESPG:4326`)
+- `searchRadius` (number) - Distance (meters) to search around point (maximum 1,000)
+
+Optional Parameters (within the `{}` object at the end):
+
+- `offset` (integer, default 0) - The starting position to collect features
+- `limit` (integrer, default 1,000) - The maximum number of features to return
+
+#### Nearest Feature
+
+Returns a single feature, the closest to the geometry (a point).
+
+```javascript
+osdatahub.placesAPI.nearest(apiKey, [lng, lat], {});
+```
+
+Parameters:
+
+- `apiKey` (string) - Your OS Data Hub API Key
+- `[lng, lat]` (array of numbers) - Point feature (in `ESPG:4326`)
+
+#### Bounding Box
+
+Returns all features within the bbox geometry (up to 1km<sup>2</sup> in area), up to the user-defined limit.
+
+```javascript
+osdatahub.placesAPI.bbox(apiKey, [b, b, o, x], {});
+```
+
+Parameters:
+
+- `apiKey` (string) - Your OS Data Hub API Key
+- `[b,b,o,x]` (array of four numbers) - Bounding-box (West, South, East, North) to search within (in `ESPG:4326`)
+
+Optional Parameters (within the `{}` object at the end):
+
+- `offset` (integer, default 0) - The starting position to collect features
+- `limit` (integrer, default 1,000) - The maximum number of features to return
+
+#### UPRN (Unique Property Reference Number)
+
+Returns a single feature, matching the input UPRN identifier.
+
+```javascript
+osdatahub.placesAPI.uprn(apiKey, uprnIdentifer, {});
+```
+
+Parameters:
+
+- `apiKey` (string) - Your OS Data Hub API Key
+- `uprnIdentifier` (integer) - A valid UPRN identifer
+
+#### Postcode (Full or Partial)
+
+Returns features matching the input postcode. A full (e.g, `SO16 0AS`) or partial (e.g, `OS16`) postcode can be provided, the number of features returned (up to the user-defined limit) can vary considerably.
+
+```javascript
+osdatahub.placesAPI.postcode(apiKey, postcode, {});
+```
+
+Parameters:
+
+- `apiKey` (string) - Your OS Data Hub API Key
+- `postcode` (string) - Full/Partial postcode to search in
+
+Optional Parameters (within the `{}` object at the end):
+
+- `offset` (integer, default 0) - The starting position to collect features
+- `limit` (integrer, default 1,000) - The maximum number of features to return
+
+#### Find (Plain Text Search)
+
+Returns features matching the input text string provided. The number of features returned (up to the user-defined limit) can vary considerably.
+
+```javascript
+osdatahub.placesAPI.postcode(apiKey, query, {});
+```
+
+Parameters:
+
+- `apiKey` (string) - Your OS Data Hub API Key
+- `query` (string) - A plain-text search string
+
+Optional Parameters (within the `{}` object at the end):
+
+- `offset` (integer, default 0) - The starting position to collect features
+- `limit` (integrer, default 1,000) - The maximum number of features to return
+
+<br>
+
+### OS Names API
+
+The OS Names API can be accessed via `osdatahub.namesAPI`. For further information on using the OS Names API and its capabilities, please refer to the [OS Data Hub](https://osdatahub.os.uk/docs/names/overview) documentation and technical specification.
+
+#### Nearest Feature
+
+Returns a single feature, the closest to the point geometry.
+
+```javascript
+osdatahub.namesAPI.nearest(apiKey, [lng, lat], {});
+```
+
+Parameters:
+
+- `apiKey` (string) - Your OS Data Hub API Key
+- `[lng, lat]` (array of numbers) - Point feature (in `ESPG:4326`)
+
+#### Find (Plain Text Search)
+
+Returns features matching the input text string provided. The number of features returned (up to the user-defined limit) can vary considerably.
+
+```javascript
+osdatahub.namesAPI.postcode(apiKey, query, {});
+```
+
+Parameters:
+
+- `apiKey` (string) - Your OS Data Hub API Key
+- `query` (string) - A plain-text search string
+
+Optional Parameters (within the `{}` object at the end):
+
+- `offset` (integer, default 0) - The starting position to collect features
+- `limit` (integrer, default 1,000) - The maximum number of features to return
 
 ## Authors
 
-The osfetch package has been built by:
+The `osdatahub` (JavaScript) package has been built by:
 
 - [@abiddiscombe](https://github.com/abiddiscombe)
+- [@dchirst](https://github.com/dchirst)
+- [@jepooley](https://github.com/jepooley)
+- [@fhunt-os](https://github.com/fhunt-os)
+- [@BenDickens](https://github.com/BenDickens)
 
-## To-Do
+## Contribute
 
-This code is under development. Changes may break previous versions. If you have an idea, or spot a bug, please get in touch and let us know!
+This package is still under active development and we welcome contributions from the community via issues and pull requests.
 
-Planned Additions/Changes:
+To install osdatahub, along with the tools you need to develop and run tests,
+run the following in your environment:
 
-- [ ] Support for other Linked Identifier findBy types.
-- [ ] Reduced code repetition between handlers.
-- [ ] Intelligent lng/lat order switching - do not change order if already in lat/lng.
-- [ ] Support for non-DPA Places API responses
+```bash
+git clone https://github.com/OrdnanceSurvey/osdatahub-js.git
+cd osdatahub-js
+npm i
+```
+
+### Support
+
+For any kind of issues or suggestions please see the [OS Data Hub documention](https://osdatahub.os.uk/docs), open a **[github issue](https://github.com/OrdnanceSurvey/osdatahub/issues)** or contact us via Email **[rapidprototyping@os.uk](mailto:rapidprototyping@os.uk)**
