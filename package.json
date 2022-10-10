@@ -1,6 +1,6 @@
 {
   "name": "osdatahub",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A JavaScript wrapper for the Ordnance Survey Names API and Places API.",
   "main": "build/index.js",
   "type": "module",
