@@ -39,27 +39,31 @@ describe("Items Endpoint", () => {
   });
 });
 
-// describe("Collections Endpoint", () => {
-//   test("Collections Endpoint Passes w/o collectionId", async () => {
-//     const response = await ngd.collections();
-//   });
+describe("Collections Endpoint", () => {
+  test("Collections Endpoint Passes w/o collectionId", async () => {
+    const response = await ngd.collections();
+    expect(response.collections.length).toBeGreaterThanOrEqual(1);
+  });
 
-//   test("Collections Endpoint Passes w/ collectionId", async () => {
-//     const response = await ngd.collections("bld-fts-buildingline");
-//   });
-// });
+  test("Collections Endpoint Passes w/ collectionId", async () => {
+    const response = await ngd.collections("bld-fts-buildingline");
+    expect(response.id).toBe("bld-fts-buildingline");
+  });
+});
 
-// describe("Schema Endpoint", () => {
-//   test("Schema Endpoint Passes ", async () => {
-//     const response = await ngd.schema("bld-fts-buildingline");
-//   });
-// });
+describe("Schema Endpoint", () => {
+  test("Schema Endpoint Passes ", async () => {
+    const response = await ngd.schema("bld-fts-buildingline");
+    expect(response).toHaveProperty("properties");
+  });
+});
 
-// describe("Queryable Endpoint", () => {
-//   test("Queryable Endpoint Passes ", async () => {
-//     const response = await ngd.queryable("bld-fts-buildingline");
-//   });
-// });
+describe("Queryables Endpoint", () => {
+  test("Queryables Endpoint Passes ", async () => {
+    const response = await ngd.queryables("bld-fts-buildingline");
+    expect(response).toHaveProperty("properties");
+  });
+});
 
 // describe("Feature Endpoint", () => {
 //   test("Feature Endpoint Passes", async () => {

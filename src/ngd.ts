@@ -8,6 +8,7 @@ import { buildNGDUrl } from "./utils/url.js";
 import { validateParams } from "./utils/validate.js";
 import { Config, OSFeatureCollection, NamesResponse, BBox } from "./types.js";
 import { initialiseConfig } from "./utils/config.js";
+import fetch from "node-fetch";
 
 export { ngd };
 
@@ -28,5 +29,26 @@ const ngd = {
     config.url = buildNGDUrl(collectionId);
 
     return await requestNGD(config);
+  },
+
+  collections: async (collectionId: string = "") => {
+    const endpoint = `https://api.os.uk/features/ngd/ofa/v1/collections/${collectionId}`;
+    return await fetch(endpoint).then((response) => {
+      return response.json();
+    });
+  },
+
+  schema: async (collectionId: string) => {
+    const endpoint = `https://api.os.uk/features/ngd/ofa/v1/collections/${collectionId}/schema`;
+    return await fetch(endpoint).then((response) => {
+      return response.json();
+    });
+  },
+
+  queryables: async (collectionId: string) => {
+    const endpoint = `https://api.os.uk/features/ngd/ofa/v1/collections/${collectionId}/queryables`;
+    return await fetch(endpoint).then((response) => {
+      return response.json();
+    });
   },
 };
