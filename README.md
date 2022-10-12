@@ -20,14 +20,18 @@ Ordnance Survey is the national mapping agency for Great Britain and produces a 
 
 ## Contents <!-- omit in toc -->
 
-- [Supported APIs](#supported-apis)
-- [Features](#features)
-- [Installation](#installation)
-- [Getting Started](#getting-started)
-  - [Places API](#os-places-api)
-  - [Names API](#os-names-api)
-- [Authors](#authors)
-- [Contribute](#contribute)
+- [osdatahub (JavaScript)](#osdatahub-javascript)
+  - [Supported APIs](#supported-apis)
+  - [Features](#features)
+  - [Installation](#installation)
+    - [Installing in NodeJS (via NPM)](#installing-in-nodejs-via-npm)
+    - [Installing in the Browser](#installing-in-the-browser)
+  - [Getting Started](#getting-started)
+    - [OS Places API](#os-places-api)
+    - [OS Names API](#os-names-api)
+  - [Authors](#authors)
+  - [Contribute](#contribute)
+    - [Support](#support)
 
 ## Supported APIs
 
@@ -76,7 +80,7 @@ You can then import `osdatahub` into your code:
 
 ```javascript
 // option 1 - import all the things (suggested)
-import { * as osdatahub } from 'osdatahub';
+import * as osdatahub from "osdatahub";
 ```
 
 ```javascript
@@ -97,7 +101,7 @@ All `osdatahub` commands look something like this:
 const apiKey = process.env.OS_API_KEY
 
 // querying the places API via bbox:
-osdatahub.placesAPI.bbox(apiKey, [-1.471237, 50.938189], {
+osdatahub.placesAPI.bbox(apiKey, [-1.4712, 50.9381, -1.4788, 50.9419], {
     limit: 200;
 })
 ```
@@ -216,7 +220,7 @@ Optional Parameters (within the `{}` object at the end):
 Returns features matching the input text string provided. The number of features returned (up to the user-defined limit) can vary considerably.
 
 ```javascript
-osdatahub.placesAPI.postcode(apiKey, query, {});
+osdatahub.placesAPI.find(apiKey, query, {});
 ```
 
 Parameters:
@@ -253,7 +257,7 @@ Parameters:
 Returns features matching the input text string provided. The number of features returned (up to the user-defined limit) can vary considerably.
 
 ```javascript
-osdatahub.namesAPI.postcode(apiKey, query, {});
+osdatahub.namesAPI.find(apiKey, query, {});
 ```
 
 Parameters:
