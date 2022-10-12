@@ -80,12 +80,12 @@ You can then import `osdatahub` into your code:
 
 ```javascript
 // option 1 - import all the things (suggested)
-import * as osdatahub from 'osdatahub';
+import * as osdatahub from "osdatahub";
 ```
 
 ```javascript
 // option 2 - import specific modules
-import { placesAPI } from 'osdatahub';
+import { placesAPI } from "osdatahub";
 ```
 
 ### Installing in the Browser
