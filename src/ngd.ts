@@ -4,7 +4,7 @@ import { requestNGD as request, get } from "./utils/request.js";
 import { type FeatureCollection } from "geojson";
 import { buildNGDUrl } from "./utils/url.js";
 import { validateParams } from "./utils/validate.js";
-import { Config } from "./types.js";
+import { BBox, Config } from "./types.js";
 import { initialiseConfig } from "./utils/config.js";
 import fetch from "node-fetch";
 
@@ -18,11 +18,31 @@ const ngd = {
   items: async (
     apiKey: string,
     collectionId: string,
-    { offset = 0, limit = 1000 }: { offset?: number; limit?: number } = {}
+    {
+      offset = 0,
+      limit = 1000,
+      bbox = null,
+      datetime = null,
+    }: {
+      offset?: number;
+      limit?: number;
+      bbox?: null | BBox;
+      datetime?: null | string;
+    } = {}
   ): Promise<FeatureCollection> => {
-    validateParams({ apiKey, collectionId, offset, limit });
+    validateParams({
+      apiKey,
+      collectionId,
+      offset,
+      limit,
+      ...(bbox && { bbox }),
+      ...(datetime && { datetime }),
+    });
     const config = initialiseConfig(apiKey, offset, limit);
-    config.url = buildNGDUrl(collectionId);
+    config.url = buildNGDUrl(collectionId, {
+      ...(bbox && { bbox }),
+      ...(datetime && { datetime }),
+    });
     return await requestNGD(config);
   },
 
