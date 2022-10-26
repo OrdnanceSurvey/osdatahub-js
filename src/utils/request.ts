@@ -82,23 +82,28 @@ function logEndConditions(config: Config): void {
   }
 }
 
+function continuePaging(config: Config) {
+  return (
+    config.paging.isNextPage &&
+    config.paging.position < config.paging.limitValue
+  );
+}
+
 async function request(config: Config): Promise<OSDataHubResponse> {
   let endpoint: string;
   let featureCount = 0;
   let output: OSDataHubResponse | undefined;
 
-  while (
-    config.paging.isNextPage &&
-    config.paging.position < config.paging.limitValue
-  ) {
-    endpoint = config.paging.enabled
-      ? getOffsetEndpoint(config, featureCount)
-      : config.url;
+  const getEndpoint = config.paging.enabled
+    ? getOffsetEndpoint
+    : () => config.url;
 
-    const response: Response =
-      config.method == "get"
-        ? await get(endpoint, config.key)
-        : await post(endpoint, config.key, config.body);
+  const getData = config.method == "get" ? get : post;
+
+  while (continuePaging(config)) {
+    endpoint = getEndpoint(config, featureCount);
+
+    let response: Response = await getData(endpoint, config.key, config.body);
 
     checkStatusCode(response.status);
 
@@ -129,30 +134,32 @@ async function request(config: Config): Promise<OSDataHubResponse> {
   }
 
   logEndConditions(config);
+
   if (typeof output === "undefined") {
     throw Error("There is no output at the end of request");
-  } else {
-    return output;
   }
+
+  return output;
 }
 
 async function requestNGD(config: Config): Promise<FeatureCollection> {
   let endpoint: string;
   let featureCount = 0;
-  let output: FeatureCollection | undefined;
+  let output: FeatureCollection | undefined = {
+    type: "FeatureCollection",
+    features: [],
+  };
 
-  while (
-    config.paging.isNextPage &&
-    config.paging.position < config.paging.limitValue
-  ) {
-    endpoint = config.paging.enabled
-      ? getOffsetEndpointNGD(config, featureCount)
-      : config.url;
+  const getEndpoint = config.paging.enabled
+    ? getOffsetEndpointNGD
+    : () => config.url;
 
-    const response: Response =
-      config.method == "get"
-        ? await get(endpoint, config.key)
-        : await post(endpoint, config.key, config.body);
+  const getData = config.method == "get" ? get : post;
+
+  while (continuePaging(config)) {
+    endpoint = getEndpoint(config, featureCount);
+
+    let response: Response = await getData(endpoint, config.key, config.body);
 
     checkStatusCode(response.status);
 
@@ -160,18 +167,7 @@ async function requestNGD(config: Config): Promise<FeatureCollection> {
       await response.json()
     );
 
-    if (typeof output === "undefined") {
-      if (!("features" in responseJson)) {
-        output = {
-          type: "FeatureCollection",
-          features: [],
-        };
-      } else {
-        output = responseJson;
-      }
-    } else {
-      output.features = output.features.concat(responseJson.features);
-    }
+    output.features = output.features.concat(responseJson.features);
 
     if (responseJson.features && responseJson.features.length == 100) {
       config.paging.position += 100;
@@ -183,9 +179,10 @@ async function requestNGD(config: Config): Promise<FeatureCollection> {
   }
 
   logEndConditions(config);
+
   if (typeof output === "undefined") {
     throw Error("There is no output at the end of request");
-  } else {
-    return output;
   }
+
+  return output;
 }

@@ -6,6 +6,9 @@
   "type": "module",
   "scripts": {
     "test": "npm run build && jest",
+    "test-places": "npm test -- .\\tests\\places.test.ts",
+    "test-ngd": "npm test -- .\\tests\\ngd.test.ts",
+    "test-names": "npm test -- .\\tests\\names.test.ts",
     "build": "npx tsc",
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
     "lint": "npx eslint .",
