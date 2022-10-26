@@ -7,7 +7,7 @@ import fetch, { type Response } from "node-fetch"; // not required in Node17.5 (
 // @ts-ignore
 import { type FeatureCollection } from "geojson";
 
-export { request, requestNGD };
+export { request, requestNGD, get };
 
 async function post(
   endpoint: string,
@@ -156,7 +156,9 @@ async function requestNGD(config: Config): Promise<FeatureCollection> {
 
     checkStatusCode(response.status);
 
-    const responseJson: FeatureCollection = <FeatureCollection>await response.json();
+    const responseJson: FeatureCollection = <FeatureCollection>(
+      await response.json()
+    );
 
     if (typeof output === "undefined") {
       if (!("features" in responseJson)) {

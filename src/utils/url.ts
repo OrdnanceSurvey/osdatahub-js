@@ -11,12 +11,12 @@ function buildUrl(api: string, operation: string, params: any) {
 function buildNGDUrl(
   collectionId: string,
   {
-    featureID = null,
+    featureId = null,
     params = {},
-  }: { featureID?: string | null; params?: any } = {}
+  }: { featureId?: string | null; params?: any } = {}
 ) {
   const root = "https://api.os.uk/features/ngd/ofa/v1/collections/";
   const query = new URLSearchParams(params);
-  const subdirs = `${collectionId}/items${featureID ? `/${featureID}?` : "?"}`;
+  const subdirs = `${collectionId}/items${featureId ? `/${featureId}?` : "?"}`;
   return root + subdirs + query;
 }

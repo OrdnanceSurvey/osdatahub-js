@@ -65,11 +65,11 @@ describe("Queryables Endpoint", () => {
   });
 });
 
-// describe("Feature Endpoint", () => {
-//   test("Feature Endpoint Passes", async () => {
-//     const collectionId = "bld-fts-buildingline";
-//     const featureId = "11111111-1111-1111-1111-111111111111";
-//     const response = ngd.feature(collectionId, featureId);
-//     expect(response.features.length).toEqual(1);
-//   });
-// });
+describe("Feature Endpoint", () => {
+  test("Feature Endpoint Passes", async () => {
+    const collectionId = "bld-fts-buildingline";
+    const featureId = "00000016-e0a2-45ca-855a-645753d72716";
+    const response = await ngd.feature(apiKey, collectionId, featureId);
+    expect(response.id).toBe(featureId);
+  });
+});
