@@ -9,7 +9,7 @@ export {
   OSFeatureCollection,
   PlacesResponse,
   NamesResponse,
-  PlacesParams
+  PlacesParams,
 };
 
 // Request Configuration
