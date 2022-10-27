@@ -11,7 +11,7 @@ import {
 import * as dotenv from "dotenv";
 // @ts-ignore
 import { ngd } from "../build/ngd.js";
-import * as filters from "../build/filters/filters";
+import * as filters from "../build/utils/filters";
 import { type BBox } from "../src/types.js";
 
 dotenv.config();
@@ -52,6 +52,13 @@ function checkLinesInBounds(featureCollection: FeatureCollection, bbox: BBox) {
     coords.forEach((coord) => {
       checkInBounds(coord, bbox);
     });
+  });
+}
+
+function checkPointsInBounds(featureCollection: FeatureCollection, bbox: BBox) {
+  featureCollection.features.forEach((point: Feature) => {
+    const coord = (point.geometry as Point).coordinates;
+    checkInBounds(coord, bbox);
   });
 }
 
@@ -139,6 +146,26 @@ describe("Features Endpoint", () => {
 });
 
 describe("Features with filters", () => {
+  test("Intersects", async () => {
+    const collectionId = "gnm-fts-namedpoint";
+    const polygon = {
+      coordinates: [
+        [
+          [-3.54248, 50.727334],
+          [-3.54248, 50.727844],
+          [-3.541138, 50.727844],
+          [-3.541138, 50.727334],
+          [-3.54248, 50.727334],
+        ],
+      ],
+      type: "Polygon",
+    };
+    const propertyFilter = filters.intersects(polygon);
+    const options = { limit: 4, filter: propertyFilter };
+    const response = await ngd.features(apiKey, collectionId, options);
+    checkPointsInBounds(response, [-3.54248, 50.727334, -3.541138, 50.727844]);
+  });
+
   test("Like", async () => {
     const collectionId = "bld-fts-buildingpart";
     const bbox = [-3.545148, 50.727083, -3.53847, 50.728095];

@@ -10,9 +10,8 @@ import {
   greaterThan,
   greaterThanOrEqual,
   like,
-  between
-} from "../build/filters/filters";
-import { Point, Polygon } from "../build/filters/geometries";
+  between,
+} from "../build/utils/filters";
 
 describe("Logical Operators", () => {
   test("and", () => {
@@ -38,23 +37,46 @@ describe("Logical Operators", () => {
 });
 
 describe("Spatial Operators", () => {
-  test("Intersects Point", () => {
-    const point = new Point(-3.541582, 50.727613);
+  test("Intersects Point w/ geojson geometry", () => {
+    const point = {
+      coordinates: [-0.72799, 52.400505],
+      type: "Point",
+    };
     expect(intersects(point)).toBe(
-      "INTERSECTS(geometry,%20POINT(-3.541582%2050.727613))"
+      "INTERSECTS(geometry,%20POINT%20(-0.72799%2052.400505))"
     );
   });
 
-  test("Intersects Polygon", () => {
-    const polygon = new Polygon([
-      [-3.54248, 50.727334],
-      [-3.54248, 50.727844],
-      [-3.541138, 50.727844],
-      [-3.541138, 50.727334],
-      [-3.54248, 50.727334],
-    ]);
+  test("Intersects Polygon w/ geojson geometry", () => {
+    const polygon = {
+      coordinates: [
+        [
+          [-3.54248, 50.727334],
+          [-3.54248, 50.727844],
+          [-3.541138, 50.727844],
+          [-3.541138, 50.727334],
+          [-3.54248, 50.727334],
+        ],
+      ],
+      type: "Polygon",
+    };
     expect(intersects(polygon)).toBe(
-      "INTERSECTS(geometry,%20POLYGON((-3.54248%2050.727334,-3.54248%2050.727844,-3.541138%2050.727844,-3.541138%2050.727334,-3.54248%2050.727334)))"
+      "INTERSECTS(geometry,%20POLYGON%20((-3.54248%2050.727334%2C%20-3.54248%2050.727844%2C%20-3.541138%2050.727844%2C%20-3.541138%2050.727334%2C%20-3.54248%2050.727334)))"
+    );
+  });
+
+  test("Intersects Point w/ WKT geometry", () => {
+    const point = "POINT (-0.72799 52.400505)";
+    expect(intersects(point)).toBe(
+      "INTERSECTS(geometry,%20POINT%20(-0.72799%2052.400505))"
+    );
+  });
+
+  test("Intersects Polygon w/ WKT geometry", () => {
+    const polygon =
+      "POLYGON ((-3.54248 50.727334, -3.54248 50.727844, -3.541138 50.727844, -3.541138 50.727334, -3.54248 50.727334))";
+    expect(intersects(polygon)).toBe(
+      "INTERSECTS(geometry,%20POLYGON%20((-3.54248%2050.727334%2C%20-3.54248%2050.727844%2C%20-3.541138%2050.727844%2C%20-3.541138%2050.727334%2C%20-3.54248%2050.727334)))"
     );
   });
 });
@@ -90,20 +112,20 @@ describe("Comparison Operators", () => {
     );
   });
 
-    test("Like", () => {
-      expect(like("description", "Archway%")).toBe(
-        "description%20LIKE%20'Archway%25'"
-      );
-    });
+  test("Like", () => {
+    expect(like("description", "Archway%")).toBe(
+      "description%20LIKE%20'Archway%25'"
+    );
+  });
 
   //   // test("In", () => {
   //   //     expect(in("description", "Archway%")).toBe("description%20LIKE%20'Archway%25")
 
   //   // });
 
-    test("Between", () => {
-      expect(between("geometry_area", 30.5, 60.5)).toBe(
-        "geometry_area%20BETWEEN%2030.5%20and%2060.5"
-      );
-    });
+  test("Between", () => {
+    expect(between("geometry_area", 30.5, 60.5)).toBe(
+      "geometry_area%20BETWEEN%2030.5%20and%2060.5"
+    );
+  });
 });

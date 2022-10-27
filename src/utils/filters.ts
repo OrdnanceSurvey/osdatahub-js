@@ -1,4 +1,6 @@
-import { Point, Polygon } from "./geometries";
+// @ts-ignore
+import { geojsonToWKT } from "@terraformer/wkt";
+import { Geometry } from "geojson";
 
 export {
   and,
@@ -26,8 +28,14 @@ function or(filter1: string, filter2: string): string {
   return filter1 + "%20OR%20" + filter2;
 }
 
-function intersects(geometry: Point | Polygon): string {
-  return `INTERSECTS(geometry,%20${geometry.toString()})`;
+function intersects(geometry: Geometry | string): string {
+  let geometryString = "";
+  if (typeof geometry == "string") {
+    geometryString = encodeURIComponent(geometry);
+  } else {
+    geometryString = encodeURIComponent(geojsonToWKT(geometry));
+  }
+  return `INTERSECTS(geometry,%20${geometryString})`;
 }
 
 function not(value: string): string {
