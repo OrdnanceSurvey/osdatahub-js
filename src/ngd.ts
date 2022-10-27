@@ -1,7 +1,7 @@
 // src/handlers/ngd.ts
 
 import { requestNGD as request, get } from "./utils/request.js";
-import { type FeatureCollection } from "geojson";
+import { Feature, type FeatureCollection } from "geojson";
 import { buildNGDUrl } from "./utils/url.js";
 import { validateParams } from "./utils/validate.js";
 import { BBox, Config } from "./types.js";
@@ -10,12 +10,73 @@ import fetch from "node-fetch";
 
 export { ngd };
 
+// Types
+interface NGDExtent {
+  spatial: {
+    bbox: number[][];
+    crs: string;
+  };
+  temporal: {
+    interval: string[][];
+    trs: string;
+  };
+}
+
+interface NGDLink {
+  href: string;
+  rel: string;
+  type: string;
+  title: string;
+}
+
+interface NGDCollection {
+  id: string;
+  title: string;
+  description: string;
+  crs: string[];
+  storageCrs: string;
+  itemType: string;
+  extent: NGDExtent;
+  links: NGDLink[];
+}
+
+interface NGDQueryables {
+  $schema: string;
+  $id: string;
+  type: string;
+  title: string;
+  description: string;
+  properties: any;
+}
+
+interface NGDSchema {
+  $schema: string;
+  $id: string;
+  type: string;
+  title: string;
+  description: string;
+  extent: NGDExtent;
+  properties: any;
+}
+
 async function requestNGD(config: Config): Promise<FeatureCollection> {
   return await request(config);
 }
 
 const ngd = {
-  items: async (
+  /**
+   * Get NGD features.
+   *
+   * @param {string} apiKey - A valid OS Data Hub key
+   * @param {string} collectionId - A known collection ID
+   * @param {Object} options - Optional arguments
+   * @param {number} [options.offset] - The starting value for the offset
+   * @param {number} [options.limit] - The max number of features to return
+   * @param {number[]} [options.bbox] - Lng/Lat bounding box [left, bottom, right, top]
+   * @param {string} [options.datetime] -  A valid date-time with UTC time zone (Z) or an open or closed interval e.g. 2021-12-12T13:20:50Z
+   * @return {Promise<OSFeatureCollection>} - A GeoJSON Feature Collection
+   */
+  features: async (
     apiKey: string,
     collectionId: string,
     {
@@ -46,23 +107,63 @@ const ngd = {
     return await requestNGD(config);
   },
 
-  collections: async (collectionId: string = "") => {
+  /**
+   * Get information about a specific collection - if no collection ID is given
+   * function returns a list of all available collections!
+   *
+   * @param {string} collectionId - A known collection ID
+   * @return {Promise<NGDCollection | NGDCollection[]>} - Collection information
+   */
+  collections: async (
+    collectionId: string = ""
+  ): Promise<NGDCollection | NGDCollection[]> => {
     const endpoint = `https://api.os.uk/features/ngd/ofa/v1/collections/${collectionId}`;
-    return await fetch(endpoint).then((response) => response.json());
+    return (await fetch(endpoint).then((response) =>
+      response.json()
+    )) as Promise<NGDCollection | NGDCollection[]>;
   },
 
-  schema: async (collectionId: string) => {
+  /**
+   * Get details of the feature attributes (properties) in a given collection
+   *
+   * @param {string} collectionId - A known collection ID
+   * @return {Promise<NGDSchema>} - Labelled schema / feature attirbutes
+   */
+  schema: async (collectionId: string): Promise<NGDSchema> => {
     const endpoint = `https://api.os.uk/features/ngd/ofa/v1/collections/${collectionId}/schema`;
-    return await fetch(endpoint).then((response) => response.json());
+    return (await fetch(endpoint).then((response) =>
+      response.json()
+    )) as Promise<NGDSchema>;
   },
 
-  queryables: async (collectionId: string) => {
+  /**
+   * Get all queryable attributes in a given collection
+   *
+   * @param {string} collectionId - A known collection ID
+   * @return {Promise<NGDQueryables>} - JSON containing querable properties
+   */
+  queryables: async (collectionId: string): Promise<NGDQueryables> => {
     const endpoint = `https://api.os.uk/features/ngd/ofa/v1/collections/${collectionId}/queryables`;
-    return await fetch(endpoint).then((response) => response.json());
+    return (await fetch(endpoint).then((response) =>
+      response.json()
+    )) as Promise<NGDQueryables>;
   },
 
-  feature: async (apiKey: string, collectionId: string, featureId: string) => {
+  /**
+   * Get GeoJSON feature with specific feature ID
+   *
+   * @param {string} collectionId - A known collection ID
+   * @param {string} featureId - A known feature ID
+   * @return {Feature} - GeoJSON Feature
+   */
+  feature: async (
+    apiKey: string,
+    collectionId: string,
+    featureId: string
+  ): Promise<Feature> => {
     const endpoint = buildNGDUrl(collectionId, { featureId });
-    return await get(endpoint, apiKey).then((response) => response.json());
+    return (await get(endpoint, apiKey).then((response) =>
+      response.json()
+    )) as Promise<Feature>;
   },
 };

@@ -48,39 +48,39 @@ function checkLinesInBounds(featureCollection: FeatureCollection, bbox: BBox) {
   });
 }
 
-describe("Items Endpoint", () => {
+describe("Features Endpoint", () => {
   test("Items Endpoint Passes", async () => {
     const collectionId = "bld-fts-buildingline";
     const options = { limit: 10 };
-    const response = await ngd.items(apiKey, collectionId, options);
+    const response = await ngd.features(apiKey, collectionId, options);
     expect(response.features.length).toEqual(10);
   });
 
-  test("Items with bbox", async () => {
+  test("Features with bbox", async () => {
     const collectionId = "bld-fts-buildingline";
     const bbox: BBox = [-1.475335, 50.936159, -1.466924, 50.939569];
     const options = { limit: 4, bbox };
     // @ts-ignore
-    const response = await ngd.items(apiKey, collectionId, options);
+    const response = await ngd.features(apiKey, collectionId, options);
     checkLinesInBounds(response, bbox)
   });
 
-  test("Items with datetime", async () => {
+  test("Features with datetime", async () => {
     const collectionId = "bld-fts-buildingline";
     const datetime = "2022-06-12T13:20:50Z/..";
     const options = { limit: 4, datetime };
     // @ts-ignore
-    const response = await ngd.items(apiKey, collectionId, options);
+    const response = await ngd.features(apiKey, collectionId, options);
     expect(response.features.length).toBeGreaterThanOrEqual(1); // TODO: Test after datetime
   });
 
-  test("Items fails with invalid BBox", async () => {
+  test("Features fails with invalid BBox", async () => {
     const collectionId = "bld-fts-buildingline";
 
     // West and East are switched
     let error = await testError(async () => {
       // @ts-ignore
-      return await ngd.items(apiKey, collectionId, { bbox: [-1.907287, 52.479173, -1.917543, 52.485211] });
+      return await ngd.features(apiKey, collectionId, { bbox: [-1.907287, 52.479173, -1.917543, 52.485211] });
     });
     expect(error).toEqual(
       new Error(
@@ -91,7 +91,7 @@ describe("Items Endpoint", () => {
     // North and South are switched
     error = await testError(async () => {
       // @ts-ignore
-      return await ngd.items(apiKey, collectionId, { bbox: [-1.917543, 52.485211, -1.907287, 52.479173] });
+      return await ngd.features(apiKey, collectionId, { bbox: [-1.917543, 52.485211, -1.907287, 52.479173] });
     });
     expect(error).toEqual(
       new Error(
@@ -102,7 +102,7 @@ describe("Items Endpoint", () => {
     // // Obviously not latitude and longitude
     error = await testError(async () => {
       // @ts-ignore
-      return await ngd.items(apiKey, collectionId, { bbox: [-1000, 0, 1000, 500] });
+      return await ngd.features(apiKey, collectionId, { bbox: [-1000, 0, 1000, 500] });
     });
     expect(error).toEqual(
       new Error(
@@ -113,7 +113,7 @@ describe("Items Endpoint", () => {
     // // Invalid latitude values (need to be -90 <= x <= 90)
     error = await testError(async () => {
       // @ts-ignore
-      return await ngd.items(apiKey, collectionId, { bbox: [-1, 100, 1, 120] });
+      return await ngd.features(apiKey, collectionId, { bbox: [-1, 100, 1, 120] });
     });
     expect(error).toEqual(
       new Error(

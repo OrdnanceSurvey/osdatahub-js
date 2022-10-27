@@ -50,11 +50,6 @@ interface OSDataHubResponse {
   results: Array<Object>;
 }
 
-// interface NGDResponse {
-//   header: OSDataHubResponseHeader;
-//   features: Array<Object>;
-// }
-
 interface ValidationParams extends Options {
   apiKey: string;
   radius?: number;
