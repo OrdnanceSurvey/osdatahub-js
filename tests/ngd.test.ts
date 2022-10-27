@@ -1,10 +1,17 @@
 // @ts-ignore
 import { describe, expect, test, beforeAll } from "@jest/globals";
-import { Feature, FeatureCollection, LineString, Point, Position } from "geojson";
+import {
+  Feature,
+  FeatureCollection,
+  LineString,
+  Point,
+  Position,
+} from "geojson";
 // @ts-ignore
 import * as dotenv from "dotenv";
 // @ts-ignore
 import { ngd } from "../build/ngd.js";
+import * as filters from "../build/filters/filters";
 import { type BBox } from "../src/types.js";
 
 dotenv.config();
@@ -62,16 +69,7 @@ describe("Features Endpoint", () => {
     const options = { limit: 4, bbox };
     // @ts-ignore
     const response = await ngd.features(apiKey, collectionId, options);
-    checkLinesInBounds(response, bbox)
-  });
-
-  test("Features with datetime", async () => {
-    const collectionId = "bld-fts-buildingline";
-    const datetime = "2022-06-12T13:20:50Z/..";
-    const options = { limit: 4, datetime };
-    // @ts-ignore
-    const response = await ngd.features(apiKey, collectionId, options);
-    expect(response.features.length).toBeGreaterThanOrEqual(1); // TODO: Test after datetime
+    checkLinesInBounds(response, bbox);
   });
 
   test("Features fails with invalid BBox", async () => {
@@ -80,7 +78,9 @@ describe("Features Endpoint", () => {
     // West and East are switched
     let error = await testError(async () => {
       // @ts-ignore
-      return await ngd.features(apiKey, collectionId, { bbox: [-1.907287, 52.479173, -1.917543, 52.485211] });
+      return await ngd.features(apiKey, collectionId, {
+        bbox: [-1.907287, 52.479173, -1.917543, 52.485211],
+      });
     });
     expect(error).toEqual(
       new Error(
@@ -91,7 +91,9 @@ describe("Features Endpoint", () => {
     // North and South are switched
     error = await testError(async () => {
       // @ts-ignore
-      return await ngd.features(apiKey, collectionId, { bbox: [-1.917543, 52.485211, -1.907287, 52.479173] });
+      return await ngd.features(apiKey, collectionId, {
+        bbox: [-1.917543, 52.485211, -1.907287, 52.479173],
+      });
     });
     expect(error).toEqual(
       new Error(
@@ -102,7 +104,9 @@ describe("Features Endpoint", () => {
     // // Obviously not latitude and longitude
     error = await testError(async () => {
       // @ts-ignore
-      return await ngd.features(apiKey, collectionId, { bbox: [-1000, 0, 1000, 500] });
+      return await ngd.features(apiKey, collectionId, {
+        bbox: [-1000, 0, 1000, 500],
+      });
     });
     expect(error).toEqual(
       new Error(
@@ -113,12 +117,85 @@ describe("Features Endpoint", () => {
     // // Invalid latitude values (need to be -90 <= x <= 90)
     error = await testError(async () => {
       // @ts-ignore
-      return await ngd.features(apiKey, collectionId, { bbox: [-1, 100, 1, 120] });
+      return await ngd.features(apiKey, collectionId, {
+        bbox: [-1, 100, 1, 120],
+      });
     });
     expect(error).toEqual(
       new Error(
         "Invalid bounding box (bbox), not within the UK (Lng, Lat): [-7.910156, 49.781264, 2.043457, 59.164668]"
       )
+    );
+  });
+
+  test("Features with datetime", async () => {
+    const collectionId = "bld-fts-buildingline";
+    const datetime = "2022-06-12T13:20:50Z/..";
+    const options = { limit: 4, datetime };
+    // @ts-ignore
+    const response = await ngd.features(apiKey, collectionId, options);
+    expect(response.features.length).toBeGreaterThanOrEqual(1); // TODO: Test after datetime
+  });
+});
+
+describe("Features with filters", () => {
+  test("Like", async () => {
+    const collectionId = "bld-fts-buildingpart";
+    const bbox = [-3.545148, 50.727083, -3.53847, 50.728095];
+    const propertyFilter = filters.like("description", "Archway%");
+    const options = { limit: 4, bbox, filter: propertyFilter };
+    const response = await ngd.features(apiKey, collectionId, options);
+    expect(response.features[0].properties.description).toBe("Archway");
+  });
+
+  test("Equals", async () => {
+    const collectionId = "bld-fts-buildingpart";
+    const bbox = [-3.545148, 50.727083, -3.53847, 50.728095];
+    const propertyFilter = filters.equals("description", "Building");
+    const options = { limit: 4, bbox, filter: propertyFilter };
+    const response = await ngd.features(apiKey, collectionId, options);
+    expect(response.features[0].properties.description).toBe("Building");
+  });
+
+  test("Between", async () => {
+    const collectionId = "bld-fts-buildingpart";
+    const bbox = [-3.545148, 50.727083, -3.53847, 50.728095];
+    const propertyFilter = filters.between("geometry_area", 30, 60);
+    const options = { limit: 4, bbox, filter: propertyFilter };
+    const response = await ngd.features(apiKey, collectionId, options);
+    const geometry_area = response.features[0].properties.geometry_area;
+    expect(geometry_area).toBeGreaterThanOrEqual(30);
+    expect(geometry_area).toBeLessThanOrEqual(60);
+  });
+
+  test("Greater than or equal to", async () => {
+    const collectionId = "bld-fts-buildingpart";
+    const bbox = [-3.545148, 50.727083, -3.53847, 50.728095];
+    const propertyFilter = filters.greaterThanOrEqual(
+      "relativeheightmaximum",
+      20
+    );
+    const options = { limit: 4, bbox, filter: propertyFilter };
+    const response = await ngd.features(apiKey, collectionId, options);
+    expect(
+      response.features[0].properties.relativeheightmaximum
+    ).toBeGreaterThanOrEqual(20);
+  });
+
+  test("And", async () => {
+    const collectionId = "bld-fts-buildingpart";
+    const bbox = [-3.545148, 50.727083, -3.53847, 50.728095];
+    const propertyFilter = filters.and(
+      filters.greaterThanOrEqual("relativeheightmaximum", 10),
+      filters.equals("oslandusetiera", "Unknown Or Unused Artificial")
+    );
+    const options = { limit: 4, bbox, filter: propertyFilter };
+    const response = await ngd.features(apiKey, collectionId, options);
+    expect(
+      response.features[0].properties.relativeheightmaximum
+    ).toBeGreaterThanOrEqual(10);
+    expect(response.features[0].properties.oslandusetiera).toBe(
+      "Unknown Or Unused Artificial"
     );
   });
 });

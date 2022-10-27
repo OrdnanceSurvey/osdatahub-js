@@ -68,17 +68,13 @@ function checkStatusCode(statusCode: number): void {
   }
 }
 
-function logEndConditions(config: Config): void {
+function logEndConditions(config: Config, featureCount: number): void {
   if (config.paging.position == config.paging.limitValue) {
     logging.warn(
       `🔸 The hard limit (${config.paging.limitValue} features) was reached. Additional features may be available to collect.`
     );
   } else {
-    logging.info(
-      `🔹 All features (${
-        config.paging.position - config.paging.startValue
-      }) have been collected.`
-    );
+    logging.info(`🔹 All features (${featureCount}) have been collected.`);
   }
 }
 
@@ -133,7 +129,7 @@ async function request(config: Config): Promise<OSDataHubResponse> {
     featureCount = output.results.length;
   }
 
-  logEndConditions(config);
+  logEndConditions(config, featureCount);
 
   if (typeof output === "undefined") {
     throw Error("There is no output at the end of request");
@@ -178,7 +174,7 @@ async function requestNGD(config: Config): Promise<FeatureCollection> {
     featureCount = output.features.length;
   }
 
-  logEndConditions(config);
+  logEndConditions(config, featureCount);
 
   if (typeof output === "undefined") {
     throw Error("There is no output at the end of request");

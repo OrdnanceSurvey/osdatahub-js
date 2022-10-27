@@ -84,11 +84,13 @@ const ngd = {
       limit = 1000,
       bbox = null,
       datetime = null,
+      filter = null,
     }: {
       offset?: number;
       limit?: number;
       bbox?: null | BBox;
       datetime?: null | string;
+      filter?: null | string;
     } = {}
   ): Promise<FeatureCollection> => {
     validateParams({
@@ -98,11 +100,13 @@ const ngd = {
       limit,
       ...(bbox && { bbox }),
       ...(datetime && { datetime }),
+      ...(filter && { filter }),
     });
     const config = initialiseConfig(apiKey, offset, limit);
     config.url = buildNGDUrl(collectionId, {
       ...(bbox && { bbox }),
       ...(datetime && { datetime }),
+      ...(filter && { filter }),
     });
     return await requestNGD(config);
   },

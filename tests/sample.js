@@ -1,6 +1,7 @@
 import * as dotenv from "dotenv";
 
 import { ngd } from "../build/ngd.js";
+import * as filters from "../build/filters/filters.js";
 
 dotenv.config();
 
@@ -27,13 +28,16 @@ const polygon = {
 };
 
 async function getData() {
-  const apiKey = process.env.OS_API_KEY
-  const collectionId = "bld-fts-buildingline";
-  let bbox= [-1.475335, 50.936159, -1.466924, 50.939569];
-  let datetime = "2021-12-12T13:20:50Z/.."
-  const options = { limit: 10, bbox, datetime };
-  const response = await ngd.items(apiKey, collectionId, options);
-  console.log(response.features[0].properties)
+  const apiKey = process.env.OS_API_KEY;
+  const collectionId = "bld-fts-buildingpart";
+  const bbox = [-3.545148, 50.727083, -3.53847, 50.728095];
+  const propertyFilter = filters.and(
+    filters.greaterThanOrEqual("relativeheightmaximum", 10),
+    filters.equals("oslandusetiera", "Unknown Or Unused Artificial")
+  );
+  const options = { limit: 4, bbox, filter: propertyFilter };
+  const response = await ngd.features(apiKey, collectionId, options);
+  console.log(response);
 }
 
 getData();
