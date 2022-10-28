@@ -5,63 +5,6 @@ import { Feature, FeatureCollection, Polygon, Geometry } from "geojson";
 
 export { validateParams };
 
-// todo: convert to set, or catch at request stage
-
-const ngdValidFeatureTypes = [
-  "bld-fts-buildingline",
-  "bld-fts-buildingpart",
-  "gnm-fts-namedpoint",
-  "lnd-fts-land",
-  "lnd-fts-landform",
-  "lnd-fts-landformline",
-  "lnd-fts-landformpoint",
-  "lnd-fts-landpoint",
-  "lus-fts-site",
-  "lus-fts-siteaccesslocation",
-  "lus-fts-siteroutingpoint",
-  "str-fts-compoundstructure",
-  "str-fts-structure",
-  "str-fts-structureline",
-  "str-fts-structurepoint",
-  "trn-fts-cartographicraildetail",
-  "trn-fts-rail",
-  "trn-fts-roadline",
-  "trn-fts-roadtrackorpath",
-  "trn-ntwk-connectinglink",
-  "trn-ntwk-connectingnode",
-  "trn-ntwk-ferrylink",
-  "trn-ntwk-ferrynode",
-  "trn-ntwk-ferryterminal",
-  "trn-ntwk-path",
-  "trn-ntwk-pathlink",
-  "trn-ntwk-pathnode",
-  "trn-ntwk-road",
-  "trn-ntwk-roadjunction",
-  "trn-ntwk-roadlink",
-  "trn-ntwk-roadnode",
-  "trn-ntwk-street",
-  "trn-rami-highwaydedication",
-  "trn-rami-maintenancearea",
-  "trn-rami-maintenanceline",
-  "trn-rami-maintenancepoint",
-  "trn-rami-reinstatementarea",
-  "trn-rami-reinstatementline",
-  "trn-rami-reinstatementpoint",
-  "trn-rami-restriction",
-  "trn-rami-routinghazard",
-  "trn-rami-routingstructure",
-  "trn-rami-specialdesignationarea",
-  "trn-rami-specialdesignationline",
-  "trn-rami-specialdesignationpoint",
-  "wtr-fts-intertidalline",
-  "wtr-fts-tidalboundary",
-  "wtr-fts-water",
-  "wtr-fts-waterpoint",
-  "wtr-ntwk-waterlink",
-  "wtr-ntwk-waterlinkset",
-  "wtr-ntwk-waternode",
-];
-
 function isFeature(
   geojson: Feature | FeatureCollection | Polygon
 ): geojson is Feature {
@@ -178,13 +121,6 @@ const validate: { [key: string]: Function } = {
     if (!Number.isInteger(uprn) || uprn < 0 || uprn.toString().length > 12) {
       throw new Error(
         "Invalid UPRN, should be a positive integer (max. 12 digits)"
-      );
-    }
-  },
-  ngd: function (ngdFeatureType: string) {
-    if (!ngdValidFeatureTypes.includes(ngdFeatureType)) {
-      throw new Error(
-        `Unrecognised NGD FeatureType '${ngdFeatureType}'. Aborting.`
       );
     }
   },

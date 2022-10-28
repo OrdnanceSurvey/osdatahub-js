@@ -1,6 +1,6 @@
 // src/handlers/places.ts
 
-import { coords } from "./utils/coords.js"; // no longer required as coords.swivel moved
+import { coords } from "./utils/coords.js";
 import { request } from "./utils/request.js";
 import { geojson } from "./utils/geojson.js";
 import { validateParams } from "./utils/validate.js";

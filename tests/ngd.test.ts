@@ -1,4 +1,3 @@
-// @ts-ignore
 import { describe, expect, test, beforeAll } from "@jest/globals";
 import {
   Feature,
@@ -7,9 +6,7 @@ import {
   Point,
   Position,
 } from "geojson";
-// @ts-ignore
 import * as dotenv from "dotenv";
-// @ts-ignore
 import { ngd } from "../build/ngd.js";
 import { type BBox } from "../src/types.js";
 
