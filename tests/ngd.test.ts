@@ -11,7 +11,6 @@ import {
 import * as dotenv from "dotenv";
 // @ts-ignore
 import { ngd } from "../build/ngd.js";
-import * as filters from "../build/utils/filters";
 import { type BBox } from "../src/types.js";
 
 dotenv.config();
@@ -142,88 +141,6 @@ describe("Features Endpoint", () => {
     // @ts-ignore
     const response = await ngd.features(apiKey, collectionId, options);
     expect(response.features.length).toBeGreaterThanOrEqual(1); // TODO: Test after datetime
-  });
-});
-
-describe("Features with filters", () => {
-  test("Intersects", async () => {
-    const collectionId = "gnm-fts-namedpoint";
-    const polygon = {
-      coordinates: [
-        [
-          [-3.54248, 50.727334],
-          [-3.54248, 50.727844],
-          [-3.541138, 50.727844],
-          [-3.541138, 50.727334],
-          [-3.54248, 50.727334],
-        ],
-      ],
-      type: "Polygon",
-    };
-    const propertyFilter = filters.intersects(polygon);
-    const options = { limit: 4, filter: propertyFilter };
-    const response = await ngd.features(apiKey, collectionId, options);
-    checkPointsInBounds(response, [-3.54248, 50.727334, -3.541138, 50.727844]);
-  });
-
-  test("Like", async () => {
-    const collectionId = "bld-fts-buildingpart";
-    const bbox = [-3.545148, 50.727083, -3.53847, 50.728095];
-    const propertyFilter = filters.like("description", "Archway%");
-    const options = { limit: 4, bbox, filter: propertyFilter };
-    const response = await ngd.features(apiKey, collectionId, options);
-    expect(response.features[0].properties.description).toBe("Archway");
-  });
-
-  test("Equals", async () => {
-    const collectionId = "bld-fts-buildingpart";
-    const bbox = [-3.545148, 50.727083, -3.53847, 50.728095];
-    const propertyFilter = filters.equals("description", "Building");
-    const options = { limit: 4, bbox, filter: propertyFilter };
-    const response = await ngd.features(apiKey, collectionId, options);
-    expect(response.features[0].properties.description).toBe("Building");
-  });
-
-  test("Between", async () => {
-    const collectionId = "bld-fts-buildingpart";
-    const bbox = [-3.545148, 50.727083, -3.53847, 50.728095];
-    const propertyFilter = filters.between("geometry_area", 30, 60);
-    const options = { limit: 4, bbox, filter: propertyFilter };
-    const response = await ngd.features(apiKey, collectionId, options);
-    const geometry_area = response.features[0].properties.geometry_area;
-    expect(geometry_area).toBeGreaterThanOrEqual(30);
-    expect(geometry_area).toBeLessThanOrEqual(60);
-  });
-
-  test("Greater than or equal to", async () => {
-    const collectionId = "bld-fts-buildingpart";
-    const bbox = [-3.545148, 50.727083, -3.53847, 50.728095];
-    const propertyFilter = filters.greaterThanOrEqual(
-      "relativeheightmaximum",
-      20
-    );
-    const options = { limit: 4, bbox, filter: propertyFilter };
-    const response = await ngd.features(apiKey, collectionId, options);
-    expect(
-      response.features[0].properties.relativeheightmaximum
-    ).toBeGreaterThanOrEqual(20);
-  });
-
-  test("And", async () => {
-    const collectionId = "bld-fts-buildingpart";
-    const bbox = [-3.545148, 50.727083, -3.53847, 50.728095];
-    const propertyFilter = filters.and(
-      filters.greaterThanOrEqual("relativeheightmaximum", 10),
-      filters.equals("oslandusetiera", "Unknown Or Unused Artificial")
-    );
-    const options = { limit: 4, bbox, filter: propertyFilter };
-    const response = await ngd.features(apiKey, collectionId, options);
-    expect(
-      response.features[0].properties.relativeheightmaximum
-    ).toBeGreaterThanOrEqual(10);
-    expect(response.features[0].properties.oslandusetiera).toBe(
-      "Unknown Or Unused Artificial"
-    );
   });
 });
 
