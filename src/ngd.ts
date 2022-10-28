@@ -1,8 +1,9 @@
 // src/handlers/ngd.ts
 
-import { requestNGD as request, get } from "./utils/request.js";
+import { requestNGD as request } from "./utils/ngd/request.js";
+import { get } from "./utils/request";
 import { Feature, type FeatureCollection } from "geojson";
-import { buildNGDUrl } from "./utils/url.js";
+import { buildNGDUrl } from "./utils/ngd/url.js";
 import { validateParams } from "./utils/validate.js";
 import { BBox, Config } from "./types.js";
 import { initialiseConfig } from "./utils/config.js";
