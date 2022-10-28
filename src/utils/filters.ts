@@ -14,6 +14,7 @@ export {
   greaterThanOrEqual,
   like,
   between,
+  isin
 };
 
 function isNumber(value: string | number) {
@@ -45,7 +46,7 @@ function or(filter1: string, filter2: string): string {
 /**
  * Creates geospatial intersects filter
  *
- * @param {Geometry | string} geometry - WKT or GeoJSON Geometry (not feature or feature collection)
+ * @param {Geometry | string} geometry - WKT or GeoJSON Geometry in WGS84 (not feature or feature collection)
  * @return {string} - CQL filter string
  */
 function intersects(geometry: Geometry | string): string {
@@ -151,4 +152,9 @@ function between(
   higherValue: number
 ): string {
   return property + "%20BETWEEN%20" + `${lowerValue}%20and%20${higherValue}`;
+}
+
+function isin(property: string, values: string[]): string {
+  const valueStrings = values.map(value => `'${encodeURIComponent(value)}'`)
+  return property + "%20IN%20" + `(${valueStrings.join("%2C")})`
 }

@@ -11,6 +11,7 @@ import {
   greaterThanOrEqual,
   like,
   between,
+  isin
 } from "../build/utils/filters";
 
 describe("Logical Operators", () => {
@@ -118,10 +119,9 @@ describe("Comparison Operators", () => {
     );
   });
 
-  //   // test("In", () => {
-  //   //     expect(in("description", "Archway%")).toBe("description%20LIKE%20'Archway%25")
-
-  //   // });
+    test("In", () => {
+        expect(isin("description", ["Archway", "Building"])).toBe("description%20IN%20('Archway'%2C'Building')")
+    });
 
   test("Between", () => {
     expect(between("geometry_area", 30.5, 60.5)).toBe(
