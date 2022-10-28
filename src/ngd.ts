@@ -1,9 +1,9 @@
 // src/handlers/ngd.ts
 
-import { requestNGD as request } from "./utils/ngd/request.js";
-import { get } from "./utils/request";
+import { request } from "./utils/ngd/request.js";
+import { get } from "./utils/request.js";
 import { Feature, type FeatureCollection } from "geojson";
-import { buildNGDUrl } from "./utils/ngd/url.js";
+import { buildUrl } from "./utils/ngd/url.js";
 import { validateParams } from "./utils/validate.js";
 import { BBox, Config } from "./types.js";
 import { initialiseConfig } from "./utils/config.js";
@@ -104,7 +104,7 @@ const ngd = {
       ...(filter && { filter }),
     });
     const config = initialiseConfig(apiKey, offset, limit);
-    config.url = buildNGDUrl(collectionId, {
+    config.url = buildUrl(collectionId, {
       ...(bbox && { bbox }),
       ...(datetime && { datetime }),
       ...(filter && { filter }),
@@ -166,7 +166,7 @@ const ngd = {
     collectionId: string,
     featureId: string
   ): Promise<Feature> => {
-    const endpoint = buildNGDUrl(collectionId, { featureId });
+    const endpoint = buildUrl(collectionId, { featureId });
     return (await get(endpoint, apiKey).then((response) =>
       response.json()
     )) as Promise<Feature>;

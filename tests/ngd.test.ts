@@ -139,6 +139,43 @@ describe("Features Endpoint", () => {
     const response = await ngd.features(apiKey, collectionId, options);
     expect(response.features.length).toBeGreaterThanOrEqual(1); // TODO: Test after datetime
   });
+
+  test("Features with spatial filter - Point", async () => {
+    const collectionId = "bld-fts-buildingpart";
+    const filter = "INTERSECTS(geometry, POINT(-3.541582 50.727613))";
+    const options = { filter };
+    // @ts-ignore
+    const response = await ngd.features(apiKey, collectionId, options);
+    expect(response.features.length).toEqual(1);
+  });
+
+  test("Features with spatial filter - Polygon", async () => {
+    const collectionId = "gnm-fts-namedpoint";
+    const filter =
+      "INTERSECTS(geometry, POLYGON((-3.54248 50.727334,-3.54248 50.727844,-3.541138 50.727844,-3.541138 50.727334,-3.54248 50.727334)))";
+    const options = { filter, limit: 5 };
+    // @ts-ignore
+    const response = await ngd.features(apiKey, collectionId, options);
+    checkPointsInBounds(response, [-3.54248, 50.727334, -3.541138, 50.727844]);
+  });
+
+  test("Features with comparison filter - equals", async () => {
+    const collectionId = "bld-fts-buildingpart";
+    const filter = "description = 'Building'";
+    const options = { filter, limit: 1 };
+    // @ts-ignore
+    const response = await ngd.features(apiKey, collectionId, options);
+    expect(response.features[0].properties.description).toBe("Building")
+  });
+
+  test("Features with comparison filter - equals", async () => {
+    const collectionId = "bld-fts-buildingpart";
+    const filter = "description = 'Building'";
+    const options = { filter, limit: 1 };
+    // @ts-ignore
+    const response = await ngd.features(apiKey, collectionId, options);
+    expect(response.features[0].properties.description).toBe("Building")
+  });
 });
 
 describe("Collections Endpoint", () => {

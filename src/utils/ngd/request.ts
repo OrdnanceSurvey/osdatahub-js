@@ -6,13 +6,13 @@ import {
   continuePaging,
   checkStatusCode,
   logEndConditions,
-} from "../request";
+} from "../request.js";
 
 import fetch, { type Response } from "node-fetch"; // not required in Node17.5 (LTS) onwards
 
 import { type FeatureCollection } from "geojson";
 
-export { requestNGD };
+export { request };
 
 function getOffsetEndpointNGD(config: Config, featureCount: number): string {
   const limit = Math.min(
@@ -22,7 +22,7 @@ function getOffsetEndpointNGD(config: Config, featureCount: number): string {
   return config.url + "&offset=" + config.paging.position + "&limit=" + limit;
 }
 
-async function requestNGD(config: Config): Promise<FeatureCollection> {
+async function request(config: Config): Promise<FeatureCollection> {
   let endpoint: string;
   let featureCount = 0;
   let output: FeatureCollection | undefined = {

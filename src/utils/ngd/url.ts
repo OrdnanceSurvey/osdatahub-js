@@ -1,9 +1,9 @@
 // src/utils/ngd/url.ts
 import { BBox } from "../../types";
 
-export { buildNGDUrl };
+export { buildUrl };
 
-function buildNGDUrl(
+function buildUrl(
   collectionId: string,
   {
     featureId = null,
