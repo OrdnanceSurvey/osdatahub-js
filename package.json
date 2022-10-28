@@ -61,7 +61,6 @@
   },
   "dependencies": {
     "@jest/globals": "^29.1.2",
-    "@terraformer/wkt": "^2.1.2",
     "node-fetch": "^3.2.10",
     "proj4": "^2.8.0"
   }
