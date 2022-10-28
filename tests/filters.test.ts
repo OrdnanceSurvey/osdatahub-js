@@ -12,6 +12,10 @@ import {
   like,
   between,
   isin,
+  aEquals,
+  aContains,
+  aContainedBy,
+  aOverlaps,
 } from "../build/utils/filters";
 
 describe("Logical Operators", () => {
@@ -128,6 +132,35 @@ describe("Comparison Operators", () => {
   test("Between", () => {
     expect(between("geometry_area", 30.5, 60.5)).toBe(
       "geometry_area%20BETWEEN%2030.5%20and%2060.5"
+    );
+  });
+});
+
+describe("Array Operators", () => {
+  const array = ["Value 1", "Value 2"];
+  const property = "oslandusetier";
+
+  test("Array Equal", () => {
+    expect(aEquals(property, array)).toBe(
+      "oslandusetier%20AEQUALS%20%5B'Value%201'%2C'Value%202'%5D"
+    );
+  });
+
+  test("Array Contains", () => {
+    expect(aContains(property, array)).toBe(
+      "oslandusetier%20ACONTAINS%20%5B'Value%201'%2C'Value%202'%5D"
+    );
+  });
+
+  test("Array Contained By", () => {
+    expect(aContainedBy(property, array)).toBe(
+      "oslandusetier%20CONTAINED%20BY%20%5B'Value%201'%2C'Value%202'%5D"
+    );
+  });
+
+  test("Array Overlaps", () => {
+    expect(aOverlaps(property, array)).toBe(
+      "oslandusetier%20AOVERLAPS%20%5B'Value%201'%2C'Value%202'%5D"
     );
   });
 });

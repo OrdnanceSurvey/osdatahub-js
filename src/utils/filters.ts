@@ -15,6 +15,10 @@ export {
   like,
   between,
   isin,
+  aEquals,
+  aContains,
+  aContainedBy,
+  aOverlaps,
 };
 
 function isNumber(value: string | number) {
@@ -164,4 +168,54 @@ function between(
 function isin(property: string, values: string[]): string {
   const valueStrings = values.map((value) => `'${encodeURIComponent(value)}'`);
   return property + "%20IN%20" + `%28${valueStrings.join("%2C")}%29`;
+}
+
+/**
+ * Filters for array properties whose sets are identical
+ *
+ * @param {string} property - Property name
+ * @param {string[]} values - Array values
+ * @return {string} - CQL filter string
+ */
+function aEquals(property: string, values: string[]): string {
+  const valueStrings = values.map((value) => `'${encodeURIComponent(value)}'`);
+  return property + "%20AEQUALS%20" + `%5B${valueStrings.join("%2C")}%5D`;
+}
+
+/**
+ * Filters for array properties who are a superset of input values
+ *
+ * @param {string} property - Property name
+ * @param {string[]} values - Array values
+ * @return {string} - CQL filter string
+ */
+function aContains(property: string, values: string[]): string {
+  const valueStrings = values.map((value) => `'${encodeURIComponent(value)}'`);
+  return property + "%20ACONTAINS%20" + `%5B${valueStrings.join("%2C")}%5D`;
+}
+
+/**
+ * Filters for array properties who are a subset of input values
+ *
+ * @param {string} property - Property name
+ * @param {string[]} values - Array values
+ * @return {string} - CQL filter string
+ */
+function aContainedBy(property: string, values: string[]): string {
+  const valueStrings = values.map((value) => `'${encodeURIComponent(value)}'`);
+  return (
+    property + "%20CONTAINED%20BY%20" + `%5B${valueStrings.join("%2C")}%5D`
+  );
+}
+
+/**
+ * Filters for array properties who share at least one value
+ *
+ * @param {string} property - Property name
+ * @param {string[]} values - Array values
+ * @return {string} - CQL filter string
+ */
+function aOverlaps(property: string, values: string[]): string {
+  const valueStrings = values.map((value) => `'${encodeURIComponent(value)}'`);
+  return property + "%20AOVERLAPS%20" + `%5B${valueStrings.join("%2C")}%5D`;
 }
