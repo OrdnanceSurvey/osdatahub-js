@@ -41,6 +41,11 @@ interface NGDCollection {
   links: NGDLink[];
 }
 
+interface NGDCollections {
+  links: NGDLink[];
+  collections: NGDCollection[];
+}
+
 interface NGDQueryables {
   $schema: string;
   $id: string;
@@ -121,11 +126,12 @@ const ngd = {
    */
   collections: async (
     collectionId: string = ""
-  ): Promise<NGDCollection | NGDCollection[]> => {
+  ): Promise<NGDCollection | NGDCollections> => {
+    validateParams({ ...(collectionId && { collectionId }) });
     const endpoint = `https://api.os.uk/features/ngd/ofa/v1/collections/${collectionId}`;
     return (await fetch(endpoint).then((response) =>
       response.json()
-    )) as Promise<NGDCollection | NGDCollection[]>;
+    )) as Promise<NGDCollection | NGDCollections>;
   },
 
   /**
@@ -135,6 +141,7 @@ const ngd = {
    * @return {Promise<NGDSchema>} - Labelled schema / feature attirbutes
    */
   schema: async (collectionId: string): Promise<NGDSchema> => {
+    validateParams({ collectionId });
     const endpoint = `https://api.os.uk/features/ngd/ofa/v1/collections/${collectionId}/schema`;
     return (await fetch(endpoint).then((response) =>
       response.json()
@@ -148,6 +155,7 @@ const ngd = {
    * @return {Promise<NGDQueryables>} - JSON containing querable properties
    */
   queryables: async (collectionId: string): Promise<NGDQueryables> => {
+    validateParams({ collectionId });
     const endpoint = `https://api.os.uk/features/ngd/ofa/v1/collections/${collectionId}/queryables`;
     return (await fetch(endpoint).then((response) =>
       response.json()
@@ -166,6 +174,7 @@ const ngd = {
     collectionId: string,
     featureId: string
   ): Promise<Feature> => {
+    validateParams({ collectionId });
     const endpoint = buildUrl(collectionId, { featureId });
     return (await get(endpoint, apiKey).then((response) =>
       response.json()

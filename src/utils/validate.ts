@@ -1,9 +1,24 @@
 // src/utils/validate.ts
 
-import { type ValidationParams } from "../types.js";
 import { Feature, FeatureCollection, Polygon, Geometry } from "geojson";
 
 export { validateParams };
+
+// Types
+interface ValidationParams {
+  apiKey?: string;
+  radius?: number;
+  point?: [number, number];
+  polygon?: Feature | FeatureCollection | Polygon;
+  bbox?: [number, number, number, number];
+  uprn?: number;
+  postcode?: string;
+  query?: string;
+  collectionId?: string;
+  featureId?: string;
+  offset?: number;
+  limit?: number;
+}
 
 function isFeature(
   geojson: Feature | FeatureCollection | Polygon

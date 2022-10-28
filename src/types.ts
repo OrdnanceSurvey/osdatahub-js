@@ -2,9 +2,7 @@ import { FeatureCollection, Feature, Polygon } from "geojson";
 
 export {
   Config,
-  Options,
   OSDataHubResponse,
-  ValidationParams,
   BBox,
   OSFeatureCollection,
   PlacesResponse,
@@ -32,12 +30,6 @@ interface Paging {
   isNextPage: boolean;
 }
 
-// Optional User Input
-
-interface Options {
-  offset?: number;
-  limit?: number;
-}
 
 interface OSDataHubResponseHeader {
   uri: string;
@@ -48,19 +40,6 @@ interface OSDataHubResponse {
   header: OSDataHubResponseHeader;
   // eslint-disable-next-line @typescript-eslint/ban-types
   results: Array<Object>;
-}
-
-interface ValidationParams extends Options {
-  apiKey: string;
-  radius?: number;
-  point?: [number, number];
-  polygon?: Feature | FeatureCollection | Polygon;
-  bbox?: [number, number, number, number];
-  uprn?: number;
-  postcode?: string;
-  query?: string;
-  collectionId?: string;
-  featureId?: string;
 }
 
 type BBox = [number, number, number, number];
