@@ -2,7 +2,7 @@
 
 import { coords } from "./utils/coords.js";
 import { request } from "./utils/request.js";
-import { geojson } from "./utils/geojson.js";
+import { toGeoJSON } from "./utils/geojson.js";
 import { buildUrl } from "./utils/url.js";
 import { validateParams } from "./utils/validate.js";
 import { Config, OSFeatureCollection, NamesResponse } from "./types.js";
@@ -22,7 +22,7 @@ async function requestNames(config: Config): Promise<OSFeatureCollection> {
     result.GAZETTEER_ENTRY.LAT = coordsTemp.lat;
   });
 
-  return geojson.into(responseObject);
+  return toGeoJSON(responseObject);
 }
 
 const names = {

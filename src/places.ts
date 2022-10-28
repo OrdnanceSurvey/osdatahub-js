@@ -2,7 +2,7 @@
 
 import { coords } from "./utils/coords.js";
 import { request } from "./utils/request.js";
-import { geojson } from "./utils/geojson.js";
+import { toGeoJSON } from "./utils/geojson.js";
 import { validateParams } from "./utils/validate.js";
 import { buildUrl } from "./utils/url.js";
 import { Config, OSFeatureCollection, PlacesParams } from "./types.js";
@@ -20,7 +20,7 @@ export { places };
 
 async function requestPlaces(config: Config): Promise<OSFeatureCollection> {
   const responseObject = await request(config);
-  return geojson.into(responseObject);
+  return toGeoJSON(responseObject);
 }
 
 function isFeature(
