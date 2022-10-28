@@ -30,7 +30,6 @@ interface Paging {
   isNextPage: boolean;
 }
 
-
 interface OSDataHubResponseHeader {
   uri: string;
   query: string;
