@@ -14,7 +14,7 @@ export {
   greaterThanOrEqual,
   like,
   between,
-  isin
+  isin,
 };
 
 function isNumber(value: string | number) {
@@ -154,7 +154,14 @@ function between(
   return property + "%20BETWEEN%20" + `${lowerValue}%20and%20${higherValue}`;
 }
 
+/**
+ * Filters for properties whose value is within an approved set of values
+ *
+ * @param {string} property - Property name
+ * @param {string[]} values - Approved property values
+ * @return {string} - CQL filter string
+ */
 function isin(property: string, values: string[]): string {
-  const valueStrings = values.map(value => `'${encodeURIComponent(value)}'`)
-  return property + "%20IN%20" + `(${valueStrings.join("%2C")})`
+  const valueStrings = values.map((value) => `'${encodeURIComponent(value)}'`);
+  return property + "%20IN%20" + `(${valueStrings.join("%2C")})`;
 }
