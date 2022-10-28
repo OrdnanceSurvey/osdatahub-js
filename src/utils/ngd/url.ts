@@ -18,17 +18,17 @@ function buildNGDUrl(
   } = {}
 ) {
   const root = "https://api.os.uk/features/ngd/ofa/v1/collections/";
-  let queryStrings = [];
+  let queryParams: { bbox?: string; datetime?: string; filter?: string } = {};
   if (bbox) {
-    queryStrings.push("bbox=" + bbox.join(","));
+    queryParams["bbox"] = bbox.join(",");
   }
   if (datetime) {
-    queryStrings.push("datetime=" + datetime);
+    queryParams["datetime"] = datetime;
   }
   if (filter) {
-    queryStrings.push("filter=" + filter);
+    queryParams["filter"] = filter;
   }
-  const query = queryStrings.join("&");
+  const query = new URLSearchParams(queryParams).toString();
   const subdirs = `${collectionId}/items${featureId ? `/${featureId}?` : "?"}`;
   return root + subdirs + query;
 }
