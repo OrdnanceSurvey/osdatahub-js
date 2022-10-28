@@ -121,7 +121,7 @@ describe("Comparison Operators", () => {
 
   test("In", () => {
     expect(isin("description", ["Archway", "Building"])).toBe(
-      "description%20IN%20('Archway'%2C'Building')"
+      "description%20IN%20%28'Archway'%2C'Building'%29"
     );
   });
 

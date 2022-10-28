@@ -163,5 +163,5 @@ function between(
  */
 function isin(property: string, values: string[]): string {
   const valueStrings = values.map((value) => `'${encodeURIComponent(value)}'`);
-  return property + "%20IN%20" + `(${valueStrings.join("%2C")})`;
+  return property + "%20IN%20" + `%28${valueStrings.join("%2C")}%29`;
 }
