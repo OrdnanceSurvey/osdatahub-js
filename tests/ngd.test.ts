@@ -165,7 +165,7 @@ describe("Features Endpoint", () => {
     const options = { filter, limit: 1 };
     // @ts-ignore
     const response = await ngd.features(apiKey, collectionId, options);
-    expect(response.features[0].properties.description).toBe("Building")
+    expect(response.features[0].properties.description).toBe("Building");
   });
 
   test("Features with comparison filter - equals", async () => {
@@ -174,7 +174,7 @@ describe("Features Endpoint", () => {
     const options = { filter, limit: 1 };
     // @ts-ignore
     const response = await ngd.features(apiKey, collectionId, options);
-    expect(response.features[0].properties.description).toBe("Building")
+    expect(response.features[0].properties.description).toBe("Building");
   });
 });
 
