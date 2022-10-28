@@ -14,7 +14,7 @@ export {
   greaterThanOrEqual,
   like,
   between,
-  isin
+  isin,
 };
 
 function isNumber(value: string | number) {
@@ -155,6 +155,6 @@ function between(
 }
 
 function isin(property: string, values: string[]): string {
-  const valueStrings = values.map(value => `'${encodeURIComponent(value)}'`)
-  return property + "%20IN%20" + `(${valueStrings.join("%2C")})`
+  const valueStrings = values.map((value) => `'${encodeURIComponent(value)}'`);
+  return property + "%20IN%20" + `(${valueStrings.join("%2C")})`;
 }
