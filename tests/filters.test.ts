@@ -32,7 +32,7 @@ describe("Logical Operators", () => {
 
   test("not", () => {
     const statement = "statement";
-    expect(not(statement)).toBe("NOT%20statement");
+    expect(not(statement)).toBe("NOT%20'statement'");
   });
 });
 
