@@ -64,7 +64,7 @@ const names = {
   find: async (
     apiKey: string,
     query: string,
-    { offset = 0, limit = 1000 }: { offset?: number; limit?: number } = {}
+    { offset = 0, limit = 100 }: { offset?: number; limit?: number } = {}
   ): Promise<OSFeatureCollection> => {
     validateParams({ apiKey, query, offset, limit });
 

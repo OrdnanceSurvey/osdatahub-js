@@ -98,7 +98,7 @@ const places = {
   polygon: async (
     apiKey: string,
     polygon: Feature | FeatureCollection | Polygon,
-    { offset = 0, limit = 1000 }: { offset?: number; limit?: number } = {}
+    { offset = 0, limit = 100 }: { offset?: number; limit?: number } = {}
   ): Promise<OSFeatureCollection> => {
     validateParams({ apiKey, polygon, offset, limit });
 
@@ -131,7 +131,7 @@ const places = {
     apiKey: string,
     point: [number, number],
     radius: number,
-    { offset = 0, limit = 1000 }: { offset?: number; limit?: number } = {}
+    { offset = 0, limit = 100 }: { offset?: number; limit?: number } = {}
   ): Promise<OSFeatureCollection> => {
     validateParams({ apiKey, point, radius, offset, limit });
 
@@ -163,7 +163,7 @@ const places = {
   bbox: async (
     apiKey: string,
     bbox: [number, number, number, number],
-    { offset = 0, limit = 1000 }: { offset?: number; limit?: number } = {}
+    { offset = 0, limit = 100 }: { offset?: number; limit?: number } = {}
   ): Promise<OSFeatureCollection> => {
     validateParams({ apiKey, bbox, offset, limit });
 
@@ -240,7 +240,7 @@ const places = {
   postcode: async (
     apiKey: string,
     postcode: string,
-    { offset = 0, limit = 1000 }: { offset?: number; limit?: number } = {}
+    { offset = 0, limit = 100 }: { offset?: number; limit?: number } = {}
   ): Promise<OSFeatureCollection> => {
     validateParams({ apiKey, postcode, offset, limit });
 
@@ -268,7 +268,7 @@ const places = {
   find: async (
     apiKey: string,
     query: string,
-    { offset = 0, limit = 1000 }: { offset?: number; limit?: number } = {}
+    { offset = 0, limit = 100 }: { offset?: number; limit?: number } = {}
   ): Promise<OSFeatureCollection> => {
     validateParams({ apiKey, query, offset, limit });
 

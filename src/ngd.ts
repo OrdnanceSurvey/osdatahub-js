@@ -92,7 +92,7 @@ const ngd = {
     collectionId: string,
     {
       offset = 0,
-      limit = 1000,
+      limit = 100,
       bbox = null,
       datetime = null,
       filter = null,
