@@ -114,6 +114,7 @@ Different APIs support different search operations. Let's explore them...
 <br>
 
 ### OS NGD API
+
 ---
 
 The OS NGD API can be accessed via `osdatahub.NGDAPI`. For further information on using the OS NGD API and its capabilities, please refer to the [OS Data Hub](https://osdatahub.os.uk/docs/ofa/overview) documentation and technical specification.
@@ -161,10 +162,9 @@ Optional Parameters (within the `{}` object at the end):
 
 - `crs` (string or number, default null) - CRS return GeoJSON [null defaults to WGS84]
 
-
 #### **Collections**
 
-Get information about a specific collection - if no collection ID is given 
+Get information about a specific collection - if no collection ID is given
 function returns a list of all available collections!
 
 ```javascript
@@ -175,7 +175,6 @@ osdatahub.NGDAPI.collections(collectionId); // Get info for specific collection
 Parameters:
 
 - `collectionId`[Optional] (string) - A valid collection ID e.g. (bld-fts-buildingpart)
-  
 
 #### **Schema**
 
@@ -189,7 +188,6 @@ Parameters:
 
 - `collectionId` (string) - A valid collection ID e.g. (bld-fts-buildingpart)
 
-
 #### **Queryables**
 
 Get all queryable attributes in a given collection
@@ -202,8 +200,8 @@ Parameters:
 
 - `collectionId` (string) - A valid collection ID e.g. (bld-fts-buildingpart)
 
-
 ### OS Places API
+
 ---
 
 The OS Places API can be accessed via `osdatahub.placesAPI`. For further information on using the OS Places API and its capabilities, please refer to the [OS Data Hub](https://osdatahub.os.uk/docs/places/overview) documentation and technical specification.
@@ -328,7 +326,9 @@ Optional Parameters (within the `{}` object at the end):
 <br>
 
 ### OS Names API
+
 ---
+
 The OS Names API can be accessed via `osdatahub.namesAPI`. For further information on using the OS Names API and its capabilities, please refer to the [OS Data Hub](https://osdatahub.os.uk/docs/names/overview) documentation and technical specification.
 
 #### Nearest Feature
