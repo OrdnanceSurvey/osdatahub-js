@@ -38,9 +38,9 @@ Ordnance Survey is the national mapping agency for Great Britain and produces a 
 
 `osdatahub` (JavaScript) supports the following Ordnance Survey APIs:
 
-- [x] OS Names API
-- [x] OS Places API
-- [x] OS NGD Features API (Coming Soon!)
+- OS Names API
+- OS Places API
+- OS NGD Features API
 
 ## Features
 

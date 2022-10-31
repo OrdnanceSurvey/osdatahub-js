@@ -75,15 +75,15 @@ const ngd = {
    * Get NGD features.
    *
    * @param {string} apiKey - A valid OS Data Hub key
-   * @param {string} collectionId - A known collection ID
+   * @param {string} collectionId - A known collection ID. To view available collection IDs, use the ngd.collections() method.
    * @param {Object} options - Optional arguments
    * @param {number} [options.offset] - The starting value for the offset
    * @param {number} [options.limit] - The max number of features to return
-   * @param {string} [options.crs] - CRS of return geoJSON (epsg number or full string e.g. "epsg:27700") [default WGS84]
+   * @param {string} [options.crs] - CRS of return geoJSON (epsg number or full string e.g. "epsg:27700"). Available CRS values are: EPSG:27700, EPSG:4326, EPSG:7405, EPSG:3857, and CRS84. Defaults to CRS84
    * @param {number[]} [options.bbox] - Bounding box [left, bottom, right, top]
-   * @param {string | number} [options.bboxCRS] - CRS of bounding box (epsg number or full string e.g. "epsg:27700") [default WGS84]
+   * @param {string | number} [options.bboxCRS] - CRS of bounding box (epsg number or full string e.g. "epsg:27700")Available CRS values are: EPSG:27700, EPSG:4326, EPSG:3857, and CRS84. Defaults to CRS84
    * @param {string} [options.filter] - CQL filter string
-   * @param {string} [options.filterCRS] - CRS used if filter contains spatial operation (epsg number or full string e.g. "epsg:27700") [default WGS84]
+   * @param {string} [options.filterCRS] - CRS used if filter contains spatial operation (epsg number or full string e.g. "epsg:27700"). Available CRS values are: EPSG:27700, EPSG:4326, EPSG:7405, EPSG:3857, and CRS84. Defaults to CRS84
    * @param {string} [options.datetime] -  A valid date-time with UTC time zone (Z) or an open or closed interval e.g. 2021-12-12T13:20:50Z
    * @return {Promise<OSFeatureCollection>} - A GeoJSON Feature Collection
    */
@@ -132,7 +132,7 @@ const ngd = {
    * Get information about a specific collection - if no collection ID is given
    * function returns a list of all available collections!
    *
-   * @param {string} collectionId - A known collection ID
+   * @param {string} collectionId - A known collection ID. To view available collection IDs, use the ngd.collections() method.
    * @return {Promise<NGDCollection | NGDCollection[]>} - Collection information
    */
   collections: async (
@@ -147,7 +147,7 @@ const ngd = {
   /**
    * Get details of the feature attributes (properties) in a given collection
    *
-   * @param {string} collectionId - A known collection ID
+   * @param {string} collectionId - A known collection ID. To view available collection IDs, use the ngd.collections() method.
    * @return {Promise<NGDSchema>} - Labelled schema / feature attirbutes
    */
   schema: async (collectionId: string): Promise<NGDSchema> => {
@@ -160,7 +160,7 @@ const ngd = {
   /**
    * Get all queryable attributes in a given collection
    *
-   * @param {string} collectionId - A known collection ID
+   * @param {string} collectionId - A known collection ID. To view available collection IDs, use the ngd.collections() method.
    * @return {Promise<NGDQueryables>} - JSON containing querable properties
    */
   queryables: async (collectionId: string): Promise<NGDQueryables> => {
@@ -173,10 +173,10 @@ const ngd = {
   /**
    * Get GeoJSON feature with specific feature ID
    *
-   * @param {string} collectionId - A known collection ID
+   * @param {string} collectionId - A known collection ID. To view available collection IDs, use the ngd.collections() method.
    * @param {string} featureId - A known feature ID
    * @param {Object} options - Optional arguments
-   * @param {string} [options.crs] - CRS of return geoJSON (epsg number or full string e.g. "epsg:27700") [default WGS84]
+   * @param {string} [options.crs] - CRS of return geoJSON (epsg number or full string e.g. "epsg:27700"). Available CRS values are: EPSG:27700, EPSG:4326, EPSG:7405, EPSG:3857, and CRS84. Defaults to CRS84
    * @return {Feature} - GeoJSON Feature
    */
   feature: async (
