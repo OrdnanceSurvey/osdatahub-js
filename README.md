@@ -124,7 +124,7 @@ Get GeoJSON features from a specific product collection (e.g. Building Parts),
 using various parameter filters and/or geospatial filters
 
 ```javascript
-osdatahub.NGDAPI.features(apiKey, collectionId, {});
+osdatahub.ngd.features(apiKey, collectionId, {});
 ```
 
 Parameters:
@@ -148,7 +148,7 @@ Optional Parameters (within the `{}` object at the end):
 Get a single GeoJSON feature from a specific product collection and feature Id
 
 ```javascript
-osdatahub.NGDAPI.feature(apiKey, collectionId, featureId, {});
+osdatahub.ngd.feature(apiKey, collectionId, featureId, {});
 ```
 
 Parameters:
@@ -168,8 +168,8 @@ Get information about a specific collection - if no collection ID is given
 function returns a list of all available collections!
 
 ```javascript
-osdatahub.NGDAPI.collections(); // View all available collections
-osdatahub.NGDAPI.collections(collectionId); // Get info for specific collection
+osdatahub.ngd.collections(); // View all available collections
+osdatahub.ngd.collections(collectionId); // Get info for specific collection
 ```
 
 Parameters:
@@ -182,7 +182,7 @@ Parameters:
 Get details of the feature attributes (properties) in a given collection
 
 ```javascript
-osdatahub.NGDAPI.schema(collectionId);
+osdatahub.ngd.schema(collectionId);
 ```
 
 Parameters:
@@ -195,7 +195,7 @@ Parameters:
 Get all queryable attributes in a given collection
 
 ```javascript
-osdatahub.NGDAPI.queryables(collectionId);
+osdatahub.ngd.queryables(collectionId);
 ```
 
 Parameters:
