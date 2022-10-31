@@ -6,8 +6,6 @@ import fetch, { type Response } from "node-fetch"; // not required in Node17.5 (
 
 export {
   request,
-  get,
-  post,
   checkStatusCode,
   logEndConditions,
   continuePaging,
