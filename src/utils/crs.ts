@@ -2,7 +2,7 @@
 
 export { getCRS };
 
-const validCRS: {[key: string]: string} = {
+const validCRS: { [key: string]: string } = {
   "epsg:27700": "http://www.opengis.net/def/crs/EPSG/0/27700",
   "epsg:7405": "http://www.opengis.net/def/crs/EPSG/0/7405",
   wgs84: "http://www.opengis.net/def/crs/OGC/1.3/CRS84",
