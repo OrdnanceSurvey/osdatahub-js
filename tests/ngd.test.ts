@@ -176,6 +176,78 @@ describe("Features Endpoint", () => {
     const response = await ngd.features(apiKey, collectionId, options);
     expect(response.features[0].properties.description).toBe("Building");
   });
+
+  test("Features with epsg crs", async () => {
+    const collectionId = "bld-fts-buildingpart";
+    const crs = 27700;
+    const options = { crs, limit: 1 };
+    // @ts-ignore
+    const response = await ngd.features(apiKey, collectionId, options);
+    expect(response.features.length).toEqual(1); // TODO: Check coords change to CRS
+  });
+
+  test("Features with string crs", async () => {
+    const collectionId = "bld-fts-buildingpart";
+    const crs = "epsg:3857";
+    const options = { crs, limit: 1 };
+    // @ts-ignore
+    const response = await ngd.features(apiKey, collectionId, options);
+    expect(response.features.length).toEqual(1); // TODO: Check coords change to CRS
+  });
+
+  test("Features fails with invalid crs", async () => {
+    const collectionId = "bld-fts-buildingpart";
+    const crs = "epsg:3857v5";
+    const options = { crs, limit: 1 };
+    // @ts-ignore
+    const error = await testError(async () => {
+      // @ts-ignore
+      return await ngd.features(apiKey, collectionId, options);
+    });
+    expect(error).toEqual(new Error("Unrecognised CRS"));
+  });
+
+  test("Features with bboxCRS", async () => {
+    const collectionId = "bld-fts-buildingpart";
+    const bboxCRS = 27700;
+    const options = { bboxCRS, limit: 1 };
+    // @ts-ignore
+    const response = await ngd.features(apiKey, collectionId, options);
+    expect(response.features.length).toEqual(1); // TODO: Check coords change to CRS
+  });
+
+  test("Features fails with invalid bboxCRS", async () => {
+    const collectionId = "bld-fts-buildingpart";
+    const bboxCRS = "epsg:3857v5";
+    const options = { bboxCRS, limit: 1 };
+    // @ts-ignore
+    const error = await testError(async () => {
+      // @ts-ignore
+      return await ngd.features(apiKey, collectionId, options);
+    });
+    expect(error).toEqual(new Error("Unrecognised CRS"));
+  });
+
+  test("Features with filterCRS", async () => {
+    const collectionId = "bld-fts-buildingpart";
+    const filterCRS = 27700;
+    const options = { filterCRS, limit: 1 };
+    // @ts-ignore
+    const response = await ngd.features(apiKey, collectionId, options);
+    expect(response.features.length).toEqual(1); // TODO: Check coords change to CRS
+  });
+
+  test("Features fails with invalid filterCRS", async () => {
+    const collectionId = "bld-fts-buildingpart";
+    const filterCRS = "epsg:3s7v5";
+    const options = { filterCRS, limit: 1 };
+    // @ts-ignore
+    const error = await testError(async () => {
+      // @ts-ignore
+      return await ngd.features(apiKey, collectionId, options);
+    });
+    expect(error).toEqual(new Error("Unrecognised CRS"));
+  });
 });
 
 describe("Collections Endpoint", () => {
@@ -210,5 +282,48 @@ describe("Feature Endpoint", () => {
     const featureId = "00000016-e0a2-45ca-855a-645753d72716";
     const response = await ngd.feature(apiKey, collectionId, featureId);
     expect(response.id).toBe(featureId);
+  });
+
+  test("Features with epsg crs", async () => {
+    const collectionId = "bld-fts-buildingline";
+    const featureId = "00000016-e0a2-45ca-855a-645753d72716";
+    const crs = 27700;
+    const options = { crs };
+    const response = await ngd.feature(
+      apiKey,
+      collectionId,
+      featureId,
+      // @ts-ignore
+      options
+    );
+    expect(response.id).toBe(featureId); // TODO: Check coords change to CRS
+  });
+
+  test("Feature with string crs", async () => {
+    const collectionId = "bld-fts-buildingline";
+    const featureId = "00000016-e0a2-45ca-855a-645753d72716";
+    const crs = "epsg:3857";
+    const options = { crs };
+    const response = await ngd.feature(
+      apiKey,
+      collectionId,
+      featureId,
+      // @ts-ignore
+      options
+    );
+    expect(response.id).toBe(featureId); // TODO: Check coords change to CRS
+  });
+
+  test("Feature fails with invalid crs", async () => {
+    const collectionId = "bld-fts-buildingline";
+    const featureId = "00000016-e0a2-45ca-855a-645753d72716";
+    const crs = "epsg:3857v5";
+    const options = { crs };
+    // @ts-ignore
+    const error = await testError(async () => {
+      // @ts-ignore
+      return await ngd.feature(apiKey, collectionId, featureId, options);
+    });
+    expect(error).toEqual(new Error("Unrecognised CRS"));
   });
 });

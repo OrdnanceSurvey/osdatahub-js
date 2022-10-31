@@ -8,6 +8,7 @@ import { validateParams } from "./utils/validate.js";
 import { BBox, Config } from "./types.js";
 import { initialiseConfig } from "./utils/config.js";
 import fetch from "node-fetch";
+import { getCRS } from "./utils/crs.js";
 
 export { ngd };
 
@@ -91,12 +92,18 @@ const ngd = {
       bbox = null,
       datetime = null,
       filter = null,
+      crs = null,
+      bboxCRS = null,
+      filterCRS = null,
     }: {
       offset?: number;
       limit?: number;
       bbox?: null | BBox;
       datetime?: null | string;
       filter?: null | string;
+      crs?: null | string | number;
+      bboxCRS?: null | string | number;
+      filterCRS?: null | string | number;
     } = {}
   ): Promise<FeatureCollection> => {
     validateParams({
@@ -110,9 +117,12 @@ const ngd = {
     });
     const config = initialiseConfig(apiKey, offset, limit);
     config.url = buildUrl(collectionId, {
-      ...(bbox && { bbox }),
-      ...(datetime && { datetime }),
-      ...(filter && { filter }),
+      bbox,
+      datetime,
+      filter,
+      crs,
+      bboxCRS,
+      filterCRS,
     });
     return await requestNGD(config);
   },
@@ -172,10 +182,15 @@ const ngd = {
   feature: async (
     apiKey: string,
     collectionId: string,
-    featureId: string
+    featureId: string,
+    {
+      crs = null,
+    }: {
+      crs?: null | string | number;
+    } = {}
   ): Promise<Feature> => {
     validateParams({ collectionId });
-    const endpoint = buildUrl(collectionId, { featureId });
+    const endpoint = buildUrl(collectionId, { featureId, crs });
     return (await get(endpoint, apiKey).then((response) =>
       response.json()
     )) as Promise<Feature>;

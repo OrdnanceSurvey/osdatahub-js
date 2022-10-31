@@ -14,15 +14,15 @@ async function testError(callback: Function): Promise<any> {
 
 describe("Get valid CRS", () => {
   test("getCRS with string passes", () => {
-    expect(getCRS("epsg:27700")).toBe("epsg:27700");
+    expect(getCRS("epsg:27700")).toBe("http://www.opengis.net/def/crs/EPSG/0/27700");
   });
 
   test("getCRS with number passes", () => {
-    expect(getCRS(4326)).toBe("epsg:4326");
+    expect(getCRS(4326)).toBe("http://www.opengis.net/def/crs/EPSG/0/4326");
   });
 
   test("getCRS with uppercase string passes", () => {
-    expect(getCRS("WGS84")).toBe("wgs84");
+    expect(getCRS("WGS84")).toBe("http://www.opengis.net/def/crs/OGC/1.3/CRS84");
   });
 
   test("getCRS fails for unsupported epsg", async () => {
