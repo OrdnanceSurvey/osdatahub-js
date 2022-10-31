@@ -110,7 +110,7 @@ const ngd = {
       apiKey,
       collectionId,
       offset,
-      limit
+      limit,
     });
     const config = initialiseConfig(apiKey, offset, limit);
     config.url = buildUrl(collectionId, {
