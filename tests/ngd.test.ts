@@ -59,8 +59,8 @@ function checkPointsInBounds(featureCollection: FeatureCollection, bbox: BBox) {
 }
 
 function checkNotWGS84(coordinate: Position) {
-  expect(Math.abs(coordinate[0])).toBeGreaterThan(180)
-  expect(Math.abs(coordinate[1])).toBeGreaterThan(180)
+  expect(Math.abs(coordinate[0])).toBeGreaterThan(180);
+  expect(Math.abs(coordinate[1])).toBeGreaterThan(180);
 }
 
 function checkPointsNotWGS84(featureCollection: FeatureCollection) {
@@ -70,23 +70,7 @@ function checkPointsNotWGS84(featureCollection: FeatureCollection) {
   });
 }
 
-describe("Features Endpoint", () => {
-  test("Items Endpoint Passes", async () => {
-    const collectionId = "bld-fts-buildingline";
-    const options = { limit: 10 };
-    const response = await ngd.features(apiKey, collectionId, options);
-    expect(response.features.length).toEqual(10);
-  });
-
-  test("Features with bbox", async () => {
-    const collectionId = "bld-fts-buildingline";
-    const bbox: BBox = [-1.475335, 50.936159, -1.466924, 50.939569];
-    const options = { limit: 4, bbox };
-    // @ts-ignore
-    const response = await ngd.features(apiKey, collectionId, options);
-    checkLinesInBounds(response, bbox);
-  });
-
+describe("Features Endpoint Fails", () => {
   test("Features fails with invalid BBox", async () => {
     const collectionId = "bld-fts-buildingline";
 
@@ -143,6 +127,60 @@ describe("Features Endpoint", () => {
     );
   });
 
+  test("Features fails with invalid crs", async () => {
+    const collectionId = "bld-fts-buildingpart";
+    const crs = "epsg:3857v5";
+    const options = { crs, limit: 1 };
+    // @ts-ignore
+    const error = await testError(async () => {
+      // @ts-ignore
+      return await ngd.features(apiKey, collectionId, options);
+    });
+    expect(error).toEqual(new Error("Unrecognised CRS"));
+  });
+
+  test("Features fails with invalid bboxCRS", async () => {
+    const collectionId = "bld-fts-buildingpart";
+    const bboxCRS = "epsg:3857v5";
+    const options = { bboxCRS, limit: 1 };
+    // @ts-ignore
+    const error = await testError(async () => {
+      // @ts-ignore
+      return await ngd.features(apiKey, collectionId, options);
+    });
+    expect(error).toEqual(new Error("Unrecognised CRS"));
+  });
+
+  test("Features fails with invalid filterCRS", async () => {
+    const collectionId = "bld-fts-buildingpart";
+    const filterCRS = "epsg:3s7v5";
+    const options = { filterCRS, limit: 1 };
+    // @ts-ignore
+    const error = await testError(async () => {
+      // @ts-ignore
+      return await ngd.features(apiKey, collectionId, options);
+    });
+    expect(error).toEqual(new Error("Unrecognised CRS"));
+  });
+});
+
+describe("Features Endpoint Passes", () => {
+  test("Items Endpoint Passes", async () => {
+    const collectionId = "bld-fts-buildingline";
+    const options = { limit: 10 };
+    const response = await ngd.features(apiKey, collectionId, options);
+    expect(response.features.length).toEqual(10);
+  });
+
+  test("Features with bbox", async () => {
+    const collectionId = "bld-fts-buildingline";
+    const bbox: BBox = [-1.475335, 50.936159, -1.466924, 50.939569];
+    const options = { limit: 4, bbox };
+    // @ts-ignore
+    const response = await ngd.features(apiKey, collectionId, options);
+    checkLinesInBounds(response, bbox);
+  });
+
   test("Features with datetime", async () => {
     const collectionId = "bld-fts-buildingline";
     const datetime = "2022-06-12T13:20:50Z/..";
@@ -195,7 +233,7 @@ describe("Features Endpoint", () => {
     const options = { crs, limit: 1 };
     // @ts-ignore
     const response = await ngd.features(apiKey, collectionId, options);
-    checkPointsNotWGS84(response)
+    checkPointsNotWGS84(response);
   });
 
   test("Features with string crs", async () => {
@@ -204,19 +242,7 @@ describe("Features Endpoint", () => {
     const options = { crs, limit: 1 };
     // @ts-ignore
     const response = await ngd.features(apiKey, collectionId, options);
-    checkPointsNotWGS84(response)
-  });
-
-  test("Features fails with invalid crs", async () => {
-    const collectionId = "bld-fts-buildingpart";
-    const crs = "epsg:3857v5";
-    const options = { crs, limit: 1 };
-    // @ts-ignore
-    const error = await testError(async () => {
-      // @ts-ignore
-      return await ngd.features(apiKey, collectionId, options);
-    });
-    expect(error).toEqual(new Error("Unrecognised CRS"));
+    checkPointsNotWGS84(response);
   });
 
   test("Features with bboxCRS", async () => {
@@ -228,18 +254,6 @@ describe("Features Endpoint", () => {
     expect(response.features).toHaveLength(1);
   });
 
-  test("Features fails with invalid bboxCRS", async () => {
-    const collectionId = "bld-fts-buildingpart";
-    const bboxCRS = "epsg:3857v5";
-    const options = { bboxCRS, limit: 1 };
-    // @ts-ignore
-    const error = await testError(async () => {
-      // @ts-ignore
-      return await ngd.features(apiKey, collectionId, options);
-    });
-    expect(error).toEqual(new Error("Unrecognised CRS"));
-  });
-
   test("Features with filterCRS", async () => {
     const collectionId = "bld-fts-buildingpart";
     const filterCRS = 27700;
@@ -247,18 +261,6 @@ describe("Features Endpoint", () => {
     // @ts-ignore
     const response = await ngd.features(apiKey, collectionId, options);
     expect(response.features).toHaveLength(1); // TODO: Check coords change to CRS
-  });
-
-  test("Features fails with invalid filterCRS", async () => {
-    const collectionId = "bld-fts-buildingpart";
-    const filterCRS = "epsg:3s7v5";
-    const options = { filterCRS, limit: 1 };
-    // @ts-ignore
-    const error = await testError(async () => {
-      // @ts-ignore
-      return await ngd.features(apiKey, collectionId, options);
-    });
-    expect(error).toEqual(new Error("Unrecognised CRS"));
   });
 });
 
@@ -308,7 +310,7 @@ describe("Feature Endpoint", () => {
       // @ts-ignore
       options
     );
-    checkNotWGS84(response.geometry.coordinates)
+    checkNotWGS84(response.geometry.coordinates);
   });
 
   test("Feature with string crs", async () => {
@@ -323,7 +325,7 @@ describe("Feature Endpoint", () => {
       // @ts-ignore
       options
     );
-    checkNotWGS84(response.geometry.coordinates)
+    checkNotWGS84(response.geometry.coordinates);
   });
 
   test("Feature fails with invalid crs", async () => {

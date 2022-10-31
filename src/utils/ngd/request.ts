@@ -1,12 +1,6 @@
 // src/utils/request.ts
 import { type Config, type OSDataHubResponse } from "../../types.js";
-import {
-  get,
-  post,
-  continuePaging,
-  checkStatusCode,
-  logEndConditions,
-} from "../request.js";
+import { get, post, continuePaging, logEndConditions } from "../request.js";
 
 import fetch, { type Response } from "node-fetch"; // not required in Node17.5 (LTS) onwards
 
@@ -20,6 +14,15 @@ function getOffsetEndpointNGD(config: Config, featureCount: number): string {
     100
   );
   return config.url + "&offset=" + config.paging.position + "&limit=" + limit;
+}
+
+function checkStatus(response: Response): void {
+  if (response.status != 200) {
+    response.json().then((error) => {
+      // @ts-ignore
+      throw new Error(error.description);
+    });
+  }
 }
 
 async function request(config: Config): Promise<FeatureCollection> {
@@ -41,7 +44,7 @@ async function request(config: Config): Promise<FeatureCollection> {
 
     let response: Response = await getData(endpoint, config.key, config.body);
 
-    checkStatusCode(response.status);
+    checkStatus(response);
 
     const responseJson: FeatureCollection = <FeatureCollection>(
       await response.json()
