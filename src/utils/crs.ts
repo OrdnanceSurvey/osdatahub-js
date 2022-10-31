@@ -10,7 +10,7 @@ const validCRS = new Set([
   "epsg:3857",
 ]);
 
-function getCRS(value: string | number) {
+function getCRS(value: string | number): string {
   let crs = "";
 
   if (typeof value == "string") {
