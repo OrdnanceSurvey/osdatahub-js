@@ -110,10 +110,7 @@ const ngd = {
       apiKey,
       collectionId,
       offset,
-      limit,
-      ...(bbox && { bbox }),
-      ...(datetime && { datetime }),
-      ...(filter && { filter }),
+      limit
     });
     const config = initialiseConfig(apiKey, offset, limit);
     config.url = buildUrl(collectionId, {
@@ -137,7 +134,6 @@ const ngd = {
   collections: async (
     collectionId: string = ""
   ): Promise<NGDCollection | NGDCollections> => {
-    validateParams({ ...(collectionId && { collectionId }) });
     const endpoint = `https://api.os.uk/features/ngd/ofa/v1/collections/${collectionId}`;
     return (await fetch(endpoint).then((response) =>
       response.json()
@@ -151,7 +147,6 @@ const ngd = {
    * @return {Promise<NGDSchema>} - Labelled schema / feature attirbutes
    */
   schema: async (collectionId: string): Promise<NGDSchema> => {
-    validateParams({ collectionId });
     const endpoint = `https://api.os.uk/features/ngd/ofa/v1/collections/${collectionId}/schema`;
     return (await fetch(endpoint).then((response) =>
       response.json()
@@ -165,7 +160,6 @@ const ngd = {
    * @return {Promise<NGDQueryables>} - JSON containing querable properties
    */
   queryables: async (collectionId: string): Promise<NGDQueryables> => {
-    validateParams({ collectionId });
     const endpoint = `https://api.os.uk/features/ngd/ofa/v1/collections/${collectionId}/queryables`;
     return (await fetch(endpoint).then((response) =>
       response.json()
@@ -189,7 +183,6 @@ const ngd = {
       crs?: null | string | number;
     } = {}
   ): Promise<Feature> => {
-    validateParams({ collectionId });
     const endpoint = buildUrl(collectionId, { featureId, crs });
     return (await get(endpoint, apiKey).then((response) =>
       response.json()

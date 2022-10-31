@@ -71,62 +71,6 @@ function checkPointsNotWGS84(featureCollection: FeatureCollection) {
 }
 
 describe("Features Endpoint Fails", () => {
-  test("Features fails with invalid BBox", async () => {
-    const collectionId = "bld-fts-buildingline";
-
-    // West and East are switched
-    let error = await testError(async () => {
-      // @ts-ignore
-      return await ngd.features(apiKey, collectionId, {
-        bbox: [-1.907287, 52.479173, -1.917543, 52.485211],
-      });
-    });
-    expect(error).toEqual(
-      new Error(
-        "Invalid bounding box (bbox), expected [minLng, minLat, maxLng, maxLat] or [minLat, minLng, maxLat, maxLng]"
-      )
-    );
-
-    // North and South are switched
-    error = await testError(async () => {
-      // @ts-ignore
-      return await ngd.features(apiKey, collectionId, {
-        bbox: [-1.917543, 52.485211, -1.907287, 52.479173],
-      });
-    });
-    expect(error).toEqual(
-      new Error(
-        "Invalid bounding box (bbox), expected [minLng, minLat, maxLng, maxLat] or [minLat, minLng, maxLat, maxLng]"
-      )
-    );
-
-    // // Obviously not latitude and longitude
-    error = await testError(async () => {
-      // @ts-ignore
-      return await ngd.features(apiKey, collectionId, {
-        bbox: [-1000, 0, 1000, 500],
-      });
-    });
-    expect(error).toEqual(
-      new Error(
-        "Invalid bounding box (bbox), not within the UK (Lng, Lat): [-7.910156, 49.781264, 2.043457, 59.164668]"
-      )
-    );
-
-    // // Invalid latitude values (need to be -90 <= x <= 90)
-    error = await testError(async () => {
-      // @ts-ignore
-      return await ngd.features(apiKey, collectionId, {
-        bbox: [-1, 100, 1, 120],
-      });
-    });
-    expect(error).toEqual(
-      new Error(
-        "Invalid bounding box (bbox), not within the UK (Lng, Lat): [-7.910156, 49.781264, 2.043457, 59.164668]"
-      )
-    );
-  });
-
   test("Features fails with invalid crs", async () => {
     const collectionId = "bld-fts-buildingpart";
     const crs = "epsg:3857v5";
@@ -247,8 +191,9 @@ describe("Features Endpoint Passes", () => {
 
   test("Features with bboxCRS", async () => {
     const collectionId = "bld-fts-buildingpart";
+    const bbox = [474976, 260490, 475976, 261490];
     const bboxCRS = 27700;
-    const options = { bboxCRS, limit: 1 };
+    const options = { bboxCRS, bbox, limit: 1 };
     // @ts-ignore
     const response = await ngd.features(apiKey, collectionId, options);
     expect(response.features).toHaveLength(1);
@@ -256,11 +201,13 @@ describe("Features Endpoint Passes", () => {
 
   test("Features with filterCRS", async () => {
     const collectionId = "bld-fts-buildingpart";
+    const filter =
+      "INTERSECTS(geometry, POLYGON((474976 260490, 475976 260490, 475976 261490, 474976 261490, 474976 260490)))";
     const filterCRS = 27700;
-    const options = { filterCRS, limit: 1 };
+    const options = { filterCRS, filter, limit: 1 };
     // @ts-ignore
     const response = await ngd.features(apiKey, collectionId, options);
-    expect(response.features).toHaveLength(1); // TODO: Check coords change to CRS
+    expect(response.features).toHaveLength(1);
   });
 });
 
