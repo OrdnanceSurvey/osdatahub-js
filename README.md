@@ -27,9 +27,9 @@ Ordnance Survey is the national mapping agency for Great Britain and produces a 
     - [Installing in NodeJS (via NPM)](#installing-in-nodejs-via-npm)
     - [Installing in the Browser](#installing-in-the-browser)
   - [Getting Started](#getting-started)
-  - [### OS NGD API](#-os-ngd-api)
-  - [### OS Places API](#-os-places-api)
-  - [### OS Names API](#-os-names-api)
+    - [OS NGD API](#os-ngd-api)
+    - [OS Places API](#os-places-api)
+    - [OS Names API](#os-names-api)
   - [Authors](#authors)
   - [Contribute](#contribute)
     - [Support](#support)
@@ -40,7 +40,7 @@ Ordnance Survey is the national mapping agency for Great Britain and produces a 
 
 - [x] OS Names API
 - [x] OS Places API
-- [ ] OS NGD Features API (Coming Soon!)
+- [x] OS NGD Features API (Coming Soon!)
 
 ## Features
 
@@ -117,7 +117,7 @@ Different APIs support different search operations. Let's explore them...
 
 ---
 
-The OS NGD API can be accessed via `osdatahub.NGDAPI`. For further information on using the OS NGD API and its capabilities, please refer to the [OS Data Hub](https://osdatahub.os.uk/docs/ofa/overview) documentation and technical specification.
+The OS NGD API can be accessed via `osdatahub.ngd`. For further information on using the OS NGD API and its capabilities, please refer to the [OS Data Hub](https://osdatahub.os.uk/docs/ofa/overview) documentation and technical specification.
 
 #### **Features (Collection Items)**
 
@@ -133,7 +133,7 @@ Parameters:
 - `apiKey` (string) - Your OS Data Hub API Key
 - `collectionId` (string) - A valid collection ID e.g. (bld-fts-buildingpart)
 
-Optional Parameters (within the `{}` object at the end):
+Optional Parameters (add as named arguments e.g. `{crs: 27700}`):
 
 - `offset` (integer, default 0) - The starting position to collect features
 - `limit` (integer, default 1,000) - The maximum number of features to return
@@ -158,7 +158,7 @@ Parameters:
 - `collectionId` (string) - A valid collection ID e.g. (bld-fts-buildingpart)
 - `featureId` (string) - A valid feature ID e.g. (00000016-e0a2-45ca-855a-645753d72716)
 
-Optional Parameters (within the `{}` object at the end):
+Optional Parameters (add as named arguments e.g. `{crs: 27700}`):
 
 - `crs` (string or number, default null) - CRS return GeoJSON [null defaults to WGS84]
 
@@ -219,7 +219,7 @@ Parameters:
 - `apiKey` (string) - Your OS Data Hub API Key
 - `geoJson` (object) - Either a Feature or FeatureCollection as an object (in `ESPG:4326`)
 
-Optional Parameters (within the `{}` object at the end):
+Optional Parameters (add as named arguments e.g. `{crs: 27700}`):
 
 - `offset` (integer, default 0) - The starting position to collect features
 - `limit` (integrer, default 1,000) - The maximum number of features to return
@@ -238,7 +238,7 @@ Parameters:
 - `[lng, lat]` (array of numbers) - Point feature (in `ESPG:4326`)
 - `searchRadius` (number) - Distance (meters) to search around point (maximum 1,000)
 
-Optional Parameters (within the `{}` object at the end):
+Optional Parameters (add as named arguments e.g. `{crs: 27700}`):
 
 - `offset` (integer, default 0) - The starting position to collect features
 - `limit` (integrer, default 1,000) - The maximum number of features to return
@@ -269,7 +269,7 @@ Parameters:
 - `apiKey` (string) - Your OS Data Hub API Key
 - `[b,b,o,x]` (array of four numbers) - Bounding-box (West, South, East, North) to search within (in `ESPG:4326`)
 
-Optional Parameters (within the `{}` object at the end):
+Optional Parameters (add as named arguments e.g. `{crs: 27700}`):
 
 - `offset` (integer, default 0) - The starting position to collect features
 - `limit` (integrer, default 1,000) - The maximum number of features to return
@@ -300,7 +300,7 @@ Parameters:
 - `apiKey` (string) - Your OS Data Hub API Key
 - `postcode` (string) - Full/Partial postcode to search in
 
-Optional Parameters (within the `{}` object at the end):
+Optional Parameters (add as named arguments e.g. `{crs: 27700}`):
 
 - `offset` (integer, default 0) - The starting position to collect features
 - `limit` (integrer, default 1,000) - The maximum number of features to return
@@ -318,7 +318,7 @@ Parameters:
 - `apiKey` (string) - Your OS Data Hub API Key
 - `query` (string) - A plain-text search string
 
-Optional Parameters (within the `{}` object at the end):
+Optional Parameters (add as named arguments e.g. `{crs: 27700}`):
 
 - `offset` (integer, default 0) - The starting position to collect features
 - `limit` (integrer, default 1,000) - The maximum number of features to return
@@ -357,7 +357,7 @@ Parameters:
 - `apiKey` (string) - Your OS Data Hub API Key
 - `query` (string) - A plain-text search string
 
-Optional Parameters (within the `{}` object at the end):
+Optional Parameters (add as named arguments e.g. `{crs: 27700}`):
 
 - `offset` (integer, default 0) - The starting position to collect features
 - `limit` (integrer, default 1,000) - The maximum number of features to return
