@@ -14,7 +14,9 @@ async function testError(callback: Function): Promise<any> {
 
 describe("Get valid CRS", () => {
   test("getCRS with string passes", () => {
-    expect(getCRS("epsg:27700")).toBe("http://www.opengis.net/def/crs/EPSG/0/27700");
+    expect(getCRS("epsg:27700")).toBe(
+      "http://www.opengis.net/def/crs/EPSG/0/27700"
+    );
   });
 
   test("getCRS with number passes", () => {
@@ -22,7 +24,9 @@ describe("Get valid CRS", () => {
   });
 
   test("getCRS with uppercase string passes", () => {
-    expect(getCRS("WGS84")).toBe("http://www.opengis.net/def/crs/OGC/1.3/CRS84");
+    expect(getCRS("WGS84")).toBe(
+      "http://www.opengis.net/def/crs/OGC/1.3/CRS84"
+    );
   });
 
   test("getCRS fails for unsupported epsg", async () => {
