@@ -3,7 +3,7 @@
 import { request } from "./utils/ngd/request.js";
 import { get } from "./utils/ngd/request.js";
 import { Feature, type FeatureCollection } from "geojson";
-import { buildUrl } from "./utils/ngd/url.js";
+import { buildUrl, root } from "./utils/ngd/url.js";
 import { validateParams } from "./utils/validate.js";
 import { BBox, Config } from "./types.js";
 import { initialiseConfig } from "./utils/config.js";
@@ -81,7 +81,7 @@ const ngd = {
    * @param {number} [options.limit] - The max number of features to return
    * @param {string} [options.crs] - CRS of return geoJSON (epsg number or full string e.g. "epsg:27700"). Available CRS values are: EPSG:27700, EPSG:4326, EPSG:7405, EPSG:3857, and CRS84. Defaults to CRS84
    * @param {number[]} [options.bbox] - Bounding box [left, bottom, right, top]
-   * @param {string | number} [options.bboxCRS] - CRS of bounding box (epsg number or full string e.g. "epsg:27700")Available CRS values are: EPSG:27700, EPSG:4326, EPSG:3857, and CRS84. Defaults to CRS84
+   * @param {string | number} [options.bboxCRS] - CRS of bounding box (epsg number or full string e.g. "epsg:27700"). Available CRS values are: EPSG:27700, EPSG:4326, EPSG:3857, and CRS84. Defaults to CRS84
    * @param {string} [options.filter] - CQL filter string
    * @param {string} [options.filterCRS] - CRS used if filter contains spatial operation (epsg number or full string e.g. "epsg:27700"). Available CRS values are: EPSG:27700, EPSG:4326, EPSG:7405, EPSG:3857, and CRS84. Defaults to CRS84
    * @param {string} [options.datetime] -  A valid date-time with UTC time zone (Z) or an open or closed interval e.g. 2021-12-12T13:20:50Z
@@ -138,7 +138,7 @@ const ngd = {
   collections: async (
     collectionId: string = ""
   ): Promise<NGDCollection | NGDCollections> => {
-    const endpoint = `https://api.os.uk/features/ngd/ofa/v1/collections/${collectionId}`;
+    const endpoint = root + `${collectionId}`;
     return (await fetch(endpoint).then((response) =>
       response.json()
     )) as Promise<NGDCollection | NGDCollections>;
@@ -151,7 +151,7 @@ const ngd = {
    * @return {Promise<NGDSchema>} - Labelled schema / feature attirbutes
    */
   schema: async (collectionId: string): Promise<NGDSchema> => {
-    const endpoint = `https://api.os.uk/features/ngd/ofa/v1/collections/${collectionId}/schema`;
+    const endpoint = root + `${collectionId}/schema`;
     return (await fetch(endpoint).then((response) =>
       response.json()
     )) as Promise<NGDSchema>;
@@ -164,7 +164,7 @@ const ngd = {
    * @return {Promise<NGDQueryables>} - JSON containing querable properties
    */
   queryables: async (collectionId: string): Promise<NGDQueryables> => {
-    const endpoint = `https://api.os.uk/features/ngd/ofa/v1/collections/${collectionId}/queryables`;
+    const endpoint = root + `${collectionId}/queryables`;
     return (await fetch(endpoint).then((response) =>
       response.json()
     )) as Promise<NGDQueryables>;

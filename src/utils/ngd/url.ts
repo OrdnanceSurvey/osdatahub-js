@@ -2,7 +2,9 @@
 import { BBox } from "../../types";
 import { getCRS } from "../crs";
 
-export { buildUrl };
+export { buildUrl, root };
+
+const root = "https://api.os.uk/features/ngd/ofa/v1/collections/";
 
 function buildUrl(
   collectionId: string,
@@ -24,7 +26,6 @@ function buildUrl(
     filterCRS?: null | number | string;
   } = {}
 ) {
-  const root = "https://api.os.uk/features/ngd/ofa/v1/collections/";
   let queryParams: {
     bbox?: string;
     datetime?: string;
