@@ -123,7 +123,7 @@ Get GeoJSON features from a specific product collection (e.g. Building Parts),
 using various parameter filters and/or geospatial filters
 
 ```javascript
-osdatahub.NGDAPI.features(apiKey, collectionId, {})
+osdatahub.NGDAPI.features(apiKey, collectionId, {});
 ```
 
 Parameters:
