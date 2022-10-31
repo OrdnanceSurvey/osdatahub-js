@@ -311,4 +311,30 @@ describe("Feature Endpoint", () => {
     });
     expect(error).toEqual(new Error("Unrecognised CRS"));
   });
+
+  test("Feature fails with invalid key", async () => {
+    const collectionId = "bld-fts-buildingline";
+    const featureId = "00000016-e0a2-45ca-855a-645753d72716";
+    // @ts-ignore
+    const error = await testError(async () => {
+      // @ts-ignore
+      return await ngd.feature("uselesskey", collectionId, featureId);
+    });
+    expect(error).toEqual(new Error("Invalid API Key"));
+  });
+
+  test("Feature fails with invalid collectionId", async () => {
+    const collectionId = "bld-fts-buildingsline";
+    const featureId = "00000016-e0a2-45ca-855a-645753d72716";
+    // @ts-ignore
+    const error = await testError(async () => {
+      // @ts-ignore
+      return await ngd.feature(apiKey, collectionId, featureId);
+    });
+    expect(error).toEqual(
+      new Error(
+        "The feature collection 'bld-fts-buildingsline' could not be found. Please check it is a supported collection."
+      )
+    );
+  });
 });
