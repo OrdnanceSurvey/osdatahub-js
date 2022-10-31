@@ -79,7 +79,11 @@ const ngd = {
    * @param {Object} options - Optional arguments
    * @param {number} [options.offset] - The starting value for the offset
    * @param {number} [options.limit] - The max number of features to return
-   * @param {number[]} [options.bbox] - Lng/Lat bounding box [left, bottom, right, top]
+   * @param {string} [options.crs] - CRS of return geoJSON (epsg number or full string e.g. "epsg:27700") [default WGS84]
+   * @param {number[]} [options.bbox] - Bounding box [left, bottom, right, top]
+   * @param {string | number} [options.bboxCRS] - CRS of bounding box (epsg number or full string e.g. "epsg:27700") [default WGS84]
+   * @param {string} [options.filter] - CQL filter string
+   * @param {string} [options.filterCRS] - CRS used if filter contains spatial operation (epsg number or full string e.g. "epsg:27700") [default WGS84]
    * @param {string} [options.datetime] -  A valid date-time with UTC time zone (Z) or an open or closed interval e.g. 2021-12-12T13:20:50Z
    * @return {Promise<OSFeatureCollection>} - A GeoJSON Feature Collection
    */
@@ -171,6 +175,8 @@ const ngd = {
    *
    * @param {string} collectionId - A known collection ID
    * @param {string} featureId - A known feature ID
+   * @param {Object} options - Optional arguments
+   * @param {string} [options.crs] - CRS of return geoJSON (epsg number or full string e.g. "epsg:27700") [default WGS84]
    * @return {Feature} - GeoJSON Feature
    */
   feature: async (
