@@ -59,8 +59,8 @@ function checkPointsInBounds(featureCollection: FeatureCollection, bbox: BBox) {
 }
 
 function checkNotWGS84(coordinate: Position) {
-  expect(Math.abs(coordinate[0])).toBeGreaterThan(180)
-  expect(Math.abs(coordinate[1])).toBeGreaterThan(180)
+  expect(Math.abs(coordinate[0])).toBeGreaterThan(180);
+  expect(Math.abs(coordinate[1])).toBeGreaterThan(180);
 }
 
 function checkPointsNotWGS84(featureCollection: FeatureCollection) {
@@ -195,7 +195,7 @@ describe("Features Endpoint", () => {
     const options = { crs, limit: 1 };
     // @ts-ignore
     const response = await ngd.features(apiKey, collectionId, options);
-    checkPointsNotWGS84(response)
+    checkPointsNotWGS84(response);
   });
 
   test("Features with string crs", async () => {
@@ -204,7 +204,7 @@ describe("Features Endpoint", () => {
     const options = { crs, limit: 1 };
     // @ts-ignore
     const response = await ngd.features(apiKey, collectionId, options);
-    checkPointsNotWGS84(response)
+    checkPointsNotWGS84(response);
   });
 
   test("Features fails with invalid crs", async () => {
@@ -308,7 +308,7 @@ describe("Feature Endpoint", () => {
       // @ts-ignore
       options
     );
-    checkNotWGS84(response.geometry.coordinates)
+    checkNotWGS84(response.geometry.coordinates);
   });
 
   test("Feature with string crs", async () => {
@@ -323,7 +323,7 @@ describe("Feature Endpoint", () => {
       // @ts-ignore
       options
     );
-    checkNotWGS84(response.geometry.coordinates)
+    checkNotWGS84(response.geometry.coordinates);
   });
 
   test("Feature fails with invalid crs", async () => {
