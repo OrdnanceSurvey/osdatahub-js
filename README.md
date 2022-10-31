@@ -27,6 +27,7 @@ Ordnance Survey is the national mapping agency for Great Britain and produces a 
     - [Installing in NodeJS (via NPM)](#installing-in-nodejs-via-npm)
     - [Installing in the Browser](#installing-in-the-browser)
   - [Getting Started](#getting-started)
+    - [OS NGD API](#os-ngd-api)
     - [OS Places API](#os-places-api)
     - [OS Names API](#os-names-api)
   - [Authors](#authors)
@@ -111,6 +112,32 @@ In the example above, we're querying the **OS Places API** using a **Bounding Bo
 Different APIs support different search operations. Let's explore them...
 
 <br>
+
+### OS NGD API
+
+The OS NGD API can be accessed via `osdatahub.NGDAPI`. For further information on using the OS NGD API and its capabilities, please refer to the [OS Data Hub](https://osdatahub.os.uk/docs/ofa/overview) documentation and technical specification.
+
+#### Features (Collection Items)
+
+Get GeoJSON features from a specific product collection (e.g. Building Parts),
+using various parameter filters and/or geospatial filters
+
+```javascript
+osdatahub.NGDAPI.features(apiKey, collectionId, {})
+```
+
+Parameters:
+
+- `apiKey` (string) - Your OS Data Hub API Key
+- `collectionId` (string) - A valid collection ID e.g. (bld-fts-buildingpart)
+
+Optional Parameters (within the `{}` object at the end):
+
+- `offset` (integer, default 0) - The starting position to collect features
+- `limit` (integer, default 1,000) - The maximum number of features to return
+- `bbox` (array, default null) - Bounding-box [West, South, East, North] to search within (in `ESPG:4326`)
+- `datetime` (string, default null) - A valid date-time with UTC time zone (Z) or an open or closed interval. Only features that have a temporal geometry (versionavailablefromdate or versionavailabletodate) that intersects the value in the datetime parameter are selected. [RFC 3339 Format](https://www.rfc-editor.org/rfc/rfc3339#section-5.6)
+- `filter` (string, default null) - Common Query Language (CQL) filter
 
 ### OS Places API
 
