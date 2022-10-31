@@ -19,13 +19,13 @@ async function get(endpoint: string, key: string): Promise<Response> {
   }).then(async (res) => {
     if (res.ok) return res;
 
-    const body = res.text()
+    const body = res.text();
 
-    if ((await body).includes("InvalidApiKey")){
+    if ((await body).includes("InvalidApiKey")) {
       throw new Error("Invalid API Key");
     }
 
-    throw new Error(JSON.parse(await body).description)
+    throw new Error(JSON.parse(await body).description);
   });
 }
 

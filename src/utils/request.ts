@@ -4,12 +4,7 @@ import { logging } from "./logging.js";
 import { type Config, type OSDataHubResponse } from "../types.js";
 import fetch, { type Response } from "node-fetch"; // not required in Node17.5 (LTS) onwards
 
-export {
-  request,
-  checkStatusCode,
-  logEndConditions,
-  continuePaging,
-};
+export { request, checkStatusCode, logEndConditions, continuePaging };
 
 async function post(
   endpoint: string,
