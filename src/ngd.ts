@@ -83,7 +83,7 @@ const ngd = {
    * @param {string | number} [options.bboxCRS] - CRS of bounding box (epsg number or full string e.g. "epsg:27700"). Available CRS values are: EPSG:27700, EPSG:4326, EPSG:3857, and CRS84. Defaults to CRS84
    * @param {string} [options.filter] - CQL filter string
    * @param {string} [options.filterCRS] - CRS used if filter contains spatial operation (epsg number or full string e.g. "epsg:27700"). Available CRS values are: EPSG:27700, EPSG:4326, EPSG:7405, EPSG:3857, and CRS84. Defaults to CRS84
-   * @param {string} [options.datetime] -  A valid date-time with UTC time zone (Z) or an open or closed interval e.g. 2021-12-12T13:20:50Z
+   * @param {string} [options.datetime] -  A valid date-time with UTC time zone (Z) or an open or closed interval e.g. 2021-12-12T13:20:50Z or 2021-12-12T13:20:50Z/.. or ../2021-12-12T13:20:50Z or 2021-08-12T13:20:50Z/2021-12-12T13:20:50Z
    * @return {Promise<OSFeatureCollection>} - A GeoJSON Feature Collection
    */
   features: async (
