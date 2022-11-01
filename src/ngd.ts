@@ -109,7 +109,7 @@ const ngd = {
       filterCRS?: null | string | number;
     } = {}
   ): Promise<FeatureCollection> => {
-    validateParams({bbox, datetime})
+    validateParams({ bbox, datetime });
     const config = initialiseConfig(apiKey, offset, limit);
     config.url = buildUrl(collectionId, {
       bbox,
