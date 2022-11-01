@@ -6,6 +6,7 @@ node_modules
 
 
 # Remove build files
+/dist
 /build
 .env
 

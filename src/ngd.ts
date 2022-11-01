@@ -13,7 +13,6 @@ import {
   NGDSchema,
   NGDQueryables,
 } from "./utils/ngd/types.js";
-import fetch from "node-fetch";
 
 export { ngd };
 
