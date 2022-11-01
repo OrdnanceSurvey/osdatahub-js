@@ -18,5 +18,6 @@
 
 import { names as namesAPI } from "./names.js";
 import { places as placesAPI } from "./places.js";
+import { ngd } from "./ngd.js";
 
-export { namesAPI, placesAPI };
+export { namesAPI, placesAPI, ngd };

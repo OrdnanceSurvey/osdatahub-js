@@ -4,7 +4,7 @@ import { logging } from "./logging.js";
 import { type Config, type OSDataHubResponse } from "../types.js";
 import fetch, { type Response } from "node-fetch"; // not required in Node17.5 (LTS) onwards
 
-export { request };
+export { request, checkStatusCode, logEndConditions, continuePaging };
 
 async function post(
   endpoint: string,
@@ -57,18 +57,21 @@ function checkStatusCode(statusCode: number): void {
   }
 }
 
-function logEndConditions(config: Config): void {
+function logEndConditions(config: Config, featureCount: number): void {
   if (config.paging.position == config.paging.limitValue) {
     logging.warn(
       `🔸 The hard limit (${config.paging.limitValue} features) was reached. Additional features may be available to collect.`
     );
   } else {
-    logging.info(
-      `🔹 All features (${
-        config.paging.position - config.paging.startValue
-      }) have been collected.`
-    );
+    logging.info(`🔹 All features (${featureCount}) have been collected.`);
   }
+}
+
+function continuePaging(config: Config) {
+  return (
+    config.paging.isNextPage &&
+    config.paging.position < config.paging.limitValue
+  );
 }
 
 async function request(config: Config): Promise<OSDataHubResponse> {
@@ -76,18 +79,16 @@ async function request(config: Config): Promise<OSDataHubResponse> {
   let featureCount = 0;
   let output: OSDataHubResponse | undefined;
 
-  while (
-    config.paging.isNextPage &&
-    config.paging.position < config.paging.limitValue
-  ) {
-    endpoint = config.paging.enabled
-      ? getOffsetEndpoint(config, featureCount)
-      : config.url;
+  const getEndpoint = config.paging.enabled
+    ? getOffsetEndpoint
+    : () => config.url;
 
-    const response: Response =
-      config.method == "get"
-        ? await get(endpoint, config.key)
-        : await post(endpoint, config.key, config.body);
+  const getData = config.method == "get" ? get : post;
+
+  while (continuePaging(config)) {
+    endpoint = getEndpoint(config, featureCount);
+
+    let response: Response = await getData(endpoint, config.key, config.body);
 
     checkStatusCode(response.status);
 
@@ -117,10 +118,11 @@ async function request(config: Config): Promise<OSDataHubResponse> {
     featureCount = output.results.length;
   }
 
-  logEndConditions(config);
+  logEndConditions(config, featureCount);
+
   if (typeof output === "undefined") {
     throw Error("There is no output at the end of request");
-  } else {
-    return output;
   }
+
+  return output;
 }

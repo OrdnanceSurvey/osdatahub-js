@@ -27,6 +27,7 @@ Ordnance Survey is the national mapping agency for Great Britain and produces a 
     - [Installing in NodeJS (via NPM)](#installing-in-nodejs-via-npm)
     - [Installing in the Browser](#installing-in-the-browser)
   - [Getting Started](#getting-started)
+    - [OS NGD API](#os-ngd-api)
     - [OS Places API](#os-places-api)
     - [OS Names API](#os-names-api)
   - [Authors](#authors)
@@ -37,9 +38,9 @@ Ordnance Survey is the national mapping agency for Great Britain and produces a 
 
 `osdatahub` (JavaScript) supports the following Ordnance Survey APIs:
 
-- [x] OS Names API
-- [x] OS Places API
-- [ ] OS NGD Features API (Coming Soon!)
+- OS Names API
+- OS Places API
+- OS NGD Features API
 
 ## Features
 
@@ -112,7 +113,96 @@ Different APIs support different search operations. Let's explore them...
 
 <br>
 
+### OS NGD API
+
+---
+
+The OS NGD API can be accessed via `osdatahub.ngd`. For further information on using the OS NGD API and its capabilities, please refer to the [OS Data Hub](https://osdatahub.os.uk/docs/ofa/overview) documentation and technical specification.
+
+#### **Features (Collection Items)**
+
+Get GeoJSON features from a specific product collection (e.g. Building Parts),
+using various parameter filters and/or geospatial filters
+
+```javascript
+osdatahub.ngd.features(apiKey, collectionId, {});
+```
+
+Parameters:
+
+- `apiKey` (string) - Your OS Data Hub API Key
+- `collectionId` (string) - A valid collection ID e.g. (bld-fts-buildingpart)
+
+Optional Parameters (add as named arguments e.g. `{crs: 27700}`):
+
+- `offset` (integer, default 0) - The starting position to collect features
+- `limit` (integer, default 1,000) - The maximum number of features to return
+- `crs` (string or number, default null) - CRS return GeoJSON [null defaults to WGS84]
+- `bbox` (array, default null) - Bounding-box [West, South, East, North] to search within (in `ESPG:4326`)
+- `bboxCRS` (string or number, default null) - CRS of bbox [null defaults to WGS84]
+- `datetime` (string, default null) - A valid date-time with UTC time zone (Z) or an open or closed interval. Only features that have a temporal geometry (versionavailablefromdate or versionavailabletodate) that intersects the value in the datetime parameter are selected. [RFC 3339 Format](https://www.rfc-editor.org/rfc/rfc3339#section-5.6)
+- `filter` (string, default null) - Common Query Language (CQL) filter
+- `filterCRS` (string or number, default null) - CRS of filter if a spatial operation is used [null defaults to WGS84]
+
+#### **Feature (Single Collection Item)**
+
+Get a single GeoJSON feature from a specific product collection and feature Id
+
+```javascript
+osdatahub.ngd.feature(apiKey, collectionId, featureId, {});
+```
+
+Parameters:
+
+- `apiKey` (string) - Your OS Data Hub API Key
+- `collectionId` (string) - A valid collection ID e.g. (bld-fts-buildingpart)
+- `featureId` (string) - A valid feature ID e.g. (00000016-e0a2-45ca-855a-645753d72716)
+
+Optional Parameters (add as named arguments e.g. `{crs: 27700}`):
+
+- `crs` (string or number, default null) - CRS return GeoJSON [null defaults to WGS84]
+
+#### **Collections**
+
+Get information about a specific collection - if no collection ID is given
+function returns a list of all available collections!
+
+```javascript
+osdatahub.ngd.collections(); // View all available collections
+osdatahub.ngd.collections(collectionId); // Get info for specific collection
+```
+
+Parameters:
+
+- `collectionId`[Optional] (string) - A valid collection ID e.g. (bld-fts-buildingpart)
+
+#### **Schema**
+
+Get details of the feature attributes (properties) in a given collection
+
+```javascript
+osdatahub.ngd.schema(collectionId);
+```
+
+Parameters:
+
+- `collectionId` (string) - A valid collection ID e.g. (bld-fts-buildingpart)
+
+#### **Queryables**
+
+Get all queryable attributes in a given collection
+
+```javascript
+osdatahub.ngd.queryables(collectionId);
+```
+
+Parameters:
+
+- `collectionId` (string) - A valid collection ID e.g. (bld-fts-buildingpart)
+
 ### OS Places API
+
+---
 
 The OS Places API can be accessed via `osdatahub.placesAPI`. For further information on using the OS Places API and its capabilities, please refer to the [OS Data Hub](https://osdatahub.os.uk/docs/places/overview) documentation and technical specification.
 
@@ -129,7 +219,7 @@ Parameters:
 - `apiKey` (string) - Your OS Data Hub API Key
 - `geoJson` (object) - Either a Feature or FeatureCollection as an object (in `ESPG:4326`)
 
-Optional Parameters (within the `{}` object at the end):
+Optional Parameters (add as named arguments e.g. `{crs: 27700}`):
 
 - `offset` (integer, default 0) - The starting position to collect features
 - `limit` (integrer, default 1,000) - The maximum number of features to return
@@ -148,7 +238,7 @@ Parameters:
 - `[lng, lat]` (array of numbers) - Point feature (in `ESPG:4326`)
 - `searchRadius` (number) - Distance (meters) to search around point (maximum 1,000)
 
-Optional Parameters (within the `{}` object at the end):
+Optional Parameters (add as named arguments e.g. `{crs: 27700}`):
 
 - `offset` (integer, default 0) - The starting position to collect features
 - `limit` (integrer, default 1,000) - The maximum number of features to return
@@ -179,7 +269,7 @@ Parameters:
 - `apiKey` (string) - Your OS Data Hub API Key
 - `[b,b,o,x]` (array of four numbers) - Bounding-box (West, South, East, North) to search within (in `ESPG:4326`)
 
-Optional Parameters (within the `{}` object at the end):
+Optional Parameters (add as named arguments e.g. `{crs: 27700}`):
 
 - `offset` (integer, default 0) - The starting position to collect features
 - `limit` (integrer, default 1,000) - The maximum number of features to return
@@ -210,7 +300,7 @@ Parameters:
 - `apiKey` (string) - Your OS Data Hub API Key
 - `postcode` (string) - Full/Partial postcode to search in
 
-Optional Parameters (within the `{}` object at the end):
+Optional Parameters (add as named arguments e.g. `{crs: 27700}`):
 
 - `offset` (integer, default 0) - The starting position to collect features
 - `limit` (integrer, default 1,000) - The maximum number of features to return
@@ -228,7 +318,7 @@ Parameters:
 - `apiKey` (string) - Your OS Data Hub API Key
 - `query` (string) - A plain-text search string
 
-Optional Parameters (within the `{}` object at the end):
+Optional Parameters (add as named arguments e.g. `{crs: 27700}`):
 
 - `offset` (integer, default 0) - The starting position to collect features
 - `limit` (integrer, default 1,000) - The maximum number of features to return
@@ -236,6 +326,8 @@ Optional Parameters (within the `{}` object at the end):
 <br>
 
 ### OS Names API
+
+---
 
 The OS Names API can be accessed via `osdatahub.namesAPI`. For further information on using the OS Names API and its capabilities, please refer to the [OS Data Hub](https://osdatahub.os.uk/docs/names/overview) documentation and technical specification.
 
@@ -265,7 +357,7 @@ Parameters:
 - `apiKey` (string) - Your OS Data Hub API Key
 - `query` (string) - A plain-text search string
 
-Optional Parameters (within the `{}` object at the end):
+Optional Parameters (add as named arguments e.g. `{crs: 27700}`):
 
 - `offset` (integer, default 0) - The starting position to collect features
 - `limit` (integrer, default 1,000) - The maximum number of features to return

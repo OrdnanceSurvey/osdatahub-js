@@ -1,11 +1,15 @@
 {
   "name": "osdatahub",
   "version": "0.1.1",
-  "description": "A JavaScript wrapper for the Ordnance Survey Names API and Places API.",
+  "description": "A JavaScript wrapper for the Ordnance Survey NGD API, Names API and Places API.",
   "main": "build/index.js",
   "type": "module",
   "scripts": {
-    "test": "jest",
+    "test": "npm run build && jest",
+    "test-places": "npm test -- .\\tests\\places.test.ts",
+    "test-ngd": "npm test -- .\\tests\\ngd.test.ts",
+    "test-names": "npm test -- .\\tests\\names.test.ts",
+    "test-crs": "npm test -- .\\tests\\crs.test.ts",
     "build": "npx tsc",
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
     "lint": "npx eslint .",
@@ -56,6 +60,7 @@
     "typescript": "^4.8.4"
   },
   "dependencies": {
+    "@jest/globals": "^29.1.2",
     "node-fetch": "^3.2.10",
     "proj4": "^2.8.0"
   }
