@@ -4,10 +4,15 @@ import { continuePaging, logEndConditions } from "../request.js";
 import { logging } from "../logging.js";
 
 import fetch, { type Response } from "node-fetch"; // not required in Node17.5 (LTS) onwards
-
+import { type NGDLink } from "../../ngd.js";
 import { type FeatureCollection } from "geojson";
 
 export { request, get };
+
+interface NGDOutput extends FeatureCollection {
+  links: NGDLink[];
+  numberReturned: number;
+}
 
 async function get(endpoint: string, key: string): Promise<Response> {
   logging.info("🔍 " + endpoint);
@@ -37,12 +42,20 @@ function getOffsetEndpointNGD(config: Config, featureCount: number): string {
   return config.url + "&offset=" + config.paging.position + "&limit=" + limit;
 }
 
-async function request(config: Config): Promise<FeatureCollection> {
+function filterSelfLink(links: NGDLink[]): NGDLink {
+  return links.filter((link) => {
+    return link.rel == "self";
+  })[0];
+}
+
+async function request(config: Config): Promise<NGDOutput> {
   let endpoint: string;
   let featureCount = 0;
-  let output: FeatureCollection | undefined = {
+  let output: NGDOutput | undefined = {
     type: "FeatureCollection",
     features: [],
+    numberReturned: 0,
+    links: [],
   };
 
   const getEndpoint = config.paging.enabled
@@ -54,11 +67,10 @@ async function request(config: Config): Promise<FeatureCollection> {
 
     let response: Response = await get(endpoint, config.key);
 
-    const responseJson: FeatureCollection = <FeatureCollection>(
-      await response.json()
-    );
+    const responseJson: NGDOutput = <NGDOutput>await response.json();
 
     output.features = output.features.concat(responseJson.features);
+    output.links = output.links.concat(filterSelfLink(responseJson.links));
 
     if (responseJson.features && responseJson.features.length == 100) {
       config.paging.position += 100;
@@ -75,5 +87,6 @@ async function request(config: Config): Promise<FeatureCollection> {
     throw Error("There is no output at the end of request");
   }
 
+  output.numberReturned = featureCount;
   return output;
 }

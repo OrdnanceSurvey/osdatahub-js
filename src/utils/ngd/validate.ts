@@ -1,6 +1,6 @@
 // src/utils/validate.ts
 
-import { BBox } from "../../types";
+import { BBox } from "../../types.js";
 
 export { validateParams, datetimeError };
 

@@ -9,7 +9,7 @@ import { BBox, Config } from "./types.js";
 import { initialiseConfig } from "./utils/config.js";
 import fetch from "node-fetch";
 
-export { ngd };
+export { ngd, NGDLink };
 
 // Types
 interface NGDExtent {
@@ -109,7 +109,7 @@ const ngd = {
       filterCRS?: null | string | number;
     } = {}
   ): Promise<FeatureCollection> => {
-    validateParams({bbox, datetime})
+    validateParams({ bbox, datetime });
     const config = initialiseConfig(apiKey, offset, limit);
     config.url = buildUrl(collectionId, {
       bbox,

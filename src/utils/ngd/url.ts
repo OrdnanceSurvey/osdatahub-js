@@ -1,6 +1,6 @@
 // src/utils/ngd/url.ts
-import { BBox } from "../../types";
-import { getCRS } from "../crs";
+import { BBox } from "../../types.js";
+import { getCRS } from "../crs.js";
 
 export { buildUrl, root };
 
