@@ -136,7 +136,7 @@ Parameters:
 Optional Parameters (add as named arguments e.g. `{crs: 27700}`):
 
 - `offset` (integer, default 0) - The starting position to collect features
-- `limit` (integer, default 1,000) - The maximum number of features to return
+- `limit` (integer, default 100) - The maximum number of features to return
 - `crs` (string or number, default null) - CRS return GeoJSON [null defaults to WGS84]
 - `bbox` (array, default null) - Bounding-box [West, South, East, North] to search within (in `ESPG:4326`)
 - `bboxCRS` (string or number, default null) - CRS of bbox [null defaults to WGS84]
