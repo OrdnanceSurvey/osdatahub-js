@@ -11,10 +11,10 @@
     "test-names": "npm test -- .\\tests\\names.test.ts",
     "test-crs": "npm test -- .\\tests\\crs.test.ts",
     "build": "npx tsc",
-    "bundle": "mkdir dist && browserify .\\build\\index.js --standalone osdatahub > dist\\bundle.js -t babelify",
+    "bundle": "mkdir dist && browserify .\\build\\index.js --standalone osdatahub > dist\\bundle.js -t babelify && uglifyjs .\\dist\\bundle.js -o .\\dist\\bundle.min.js",
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
     "lint": "npx eslint .",
-    "prepare": "npm run build",
+    "prepare": "npm run build && npm run bundle",
     "prepublishOnly": "npm test && npm run lint",
     "preversion": "npm run lint",
     "version": "npm run format && git add -A src"
@@ -39,7 +39,8 @@
     "url": "https://github.com/OrdnanceSurvey/osdatahub-js/issues"
   },
   "files": [
-    "build/**/*"
+    "build/**/*",
+    "dist/**"
   ],
   "homepage": "https://github.com/OrdnanceSurvey/osdatahub-js#readme",
   "devDependencies": {
