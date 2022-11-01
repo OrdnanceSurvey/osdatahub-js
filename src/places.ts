@@ -246,7 +246,6 @@ const places = {
 
     const config = initialiseConfig(apiKey, offset, limit);
 
-    postcode = encodeURIComponent(postcode);
     config.url = buildUrl("places", "postcode", {
       output_srs: "WGS84",
       postcode,
@@ -274,7 +273,6 @@ const places = {
 
     const config = initialiseConfig(apiKey, offset, limit);
 
-    query = encodeURIComponent(query);
     config.url = buildUrl("places", "find", { output_srs: "WGS84", query });
 
     return await requestPlaces(config);
