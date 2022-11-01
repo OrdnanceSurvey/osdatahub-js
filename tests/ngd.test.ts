@@ -9,6 +9,7 @@ import {
 import * as dotenv from "dotenv";
 import { ngd } from "../build/ngd.js";
 import { type BBox } from "../src/types.js";
+import { validateParams, datetimeError } from "../src/utils/ngd/validate";
 
 dotenv.config();
 
@@ -107,6 +108,22 @@ describe("Features Endpoint Fails", () => {
     expect(error).toEqual(new Error("Unrecognised CRS"));
   });
 
+  test("Features fails with invalid bbox", async () => {
+    const collectionId = "bld-fts-buildingpart";
+    const bbox: BBox = [-1.466924, 50.939569, -1.475335, 50.936159];
+    const options = { bbox, limit: 1 };
+    // @ts-ignore
+    const error = await testError(async () => {
+      // @ts-ignore
+      return await ngd.features(apiKey, collectionId, options);
+    });
+    expect(error).toEqual(
+      new Error(
+        "Invalid bounding box (bbox), expected [minLng, minLat, maxLng, maxLat] or [minLat, minLng, maxLat, maxLng]"
+      )
+    );
+  });
+
   test("Features fails with invalid key", async () => {
     const collectionId = "bld-fts-buildingpart";
     // @ts-ignore
@@ -149,7 +166,7 @@ describe("Features Endpoint Passes", () => {
     checkLinesInBounds(response, bbox);
   });
 
-  test("Features with datetime", async () => {
+  test("Features with open interval datetime [forwards]", async () => {
     const collectionId = "bld-fts-buildingline";
     const datetime = "2022-06-12T13:20:50Z/..";
     const options = { limit: 4, datetime };
@@ -336,5 +353,50 @@ describe("Feature Endpoint", () => {
         "The feature collection 'bld-fts-buildingsline' could not be found. Please check it is a supported collection."
       )
     );
+  });
+});
+
+describe("Validation", () => {
+  test("datetime - single", () => {
+    const datetime = "2021-12-12T23:20:50Z";
+    expect(validateParams({ datetime })).toBeTruthy();
+  });
+
+  test("datetime - open forward", () => {
+    const datetime = "2021-12-12T23:20:50Z/..";
+    expect(validateParams({ datetime })).toBeTruthy();
+  });
+
+  test("datetime - open forward (no dots)", () => {
+    const datetime = "2021-12-12T23:20:50Z/";
+    expect(validateParams({ datetime })).toBeTruthy();
+  });
+
+  test("datetime - open backward", () => {
+    const datetime = "../2021-12-12T23:20:50Z";
+    expect(validateParams({ datetime })).toBeTruthy();
+  });
+
+  test("datetime - closed", () => {
+    const datetime = "2021-04-12T23:20:50Z/2021-12-12T23:20:50Z";
+    expect(validateParams({ datetime })).toBeTruthy();
+  });
+
+  test("datetime - fail single dot", async () => {
+    const datetime = "2021-04-12T23:20:50Z/.";
+    const error = await testError(() => {
+      // @ts-ignore
+      return validateParams({ datetime });
+    });
+    expect(error).toEqual(datetimeError());
+  });
+
+  test("datetime - fail incorrect year", async () => {
+    const datetime = "21-04-12T23:20:50Z";
+    const error = await testError(() => {
+      // @ts-ignore
+      return validateParams({ datetime });
+    });
+    expect(error).toEqual(datetimeError());
   });
 });

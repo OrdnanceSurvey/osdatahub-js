@@ -4,11 +4,10 @@ import { request } from "./utils/ngd/request.js";
 import { get } from "./utils/ngd/request.js";
 import { Feature, type FeatureCollection } from "geojson";
 import { buildUrl, root } from "./utils/ngd/url.js";
-import { validateParams } from "./utils/validate.js";
+import { validateParams } from "./utils/ngd/validate.js";
 import { BBox, Config } from "./types.js";
 import { initialiseConfig } from "./utils/config.js";
 import fetch from "node-fetch";
-import { getCRS } from "./utils/crs.js";
 
 export { ngd };
 
@@ -110,12 +109,7 @@ const ngd = {
       filterCRS?: null | string | number;
     } = {}
   ): Promise<FeatureCollection> => {
-    validateParams({
-      apiKey,
-      collectionId,
-      offset,
-      limit,
-    });
+    validateParams({bbox, datetime})
     const config = initialiseConfig(apiKey, offset, limit);
     config.url = buildUrl(collectionId, {
       bbox,
