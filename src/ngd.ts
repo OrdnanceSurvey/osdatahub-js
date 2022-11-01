@@ -7,63 +7,15 @@ import { buildUrl, root } from "./utils/ngd/url.js";
 import { validateParams } from "./utils/ngd/validate.js";
 import { BBox, Config } from "./types.js";
 import { initialiseConfig } from "./utils/config.js";
+import {
+  NGDCollection,
+  NGDCollections,
+  NGDSchema,
+  NGDQueryables,
+} from "./utils/ngd/types.js";
 import fetch from "node-fetch";
 
-export { ngd, NGDLink };
-
-// Types
-interface NGDExtent {
-  spatial: {
-    bbox: number[][];
-    crs: string;
-  };
-  temporal: {
-    interval: string[][];
-    trs: string;
-  };
-}
-
-interface NGDLink {
-  href: string;
-  rel: string;
-  type: string;
-  title: string;
-}
-
-interface NGDCollection {
-  id: string;
-  title: string;
-  description: string;
-  crs: string[];
-  storageCrs: string;
-  itemType: string;
-  extent: NGDExtent;
-  links: NGDLink[];
-}
-
-interface NGDCollections {
-  links: NGDLink[];
-  collections: NGDCollection[];
-}
-
-interface NGDQueryables {
-  $schema: string;
-  $id: string;
-  type: string;
-  title: string;
-  description: string;
-  properties: any;
-}
-
-interface NGDSchema {
-  $schema: string;
-  $id: string;
-  type: string;
-  title: string;
-  description: string;
-  extent: NGDExtent;
-  properties: any;
-}
+export { ngd };
 
 async function requestNGD(config: Config): Promise<FeatureCollection> {
   return await request(config);

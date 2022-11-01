@@ -4,15 +4,9 @@ import { continuePaging, logEndConditions } from "../request.js";
 import { logging } from "../logging.js";
 
 import fetch, { type Response } from "node-fetch"; // not required in Node17.5 (LTS) onwards
-import { type NGDLink } from "../../ngd.js";
-import { type FeatureCollection } from "geojson";
+import { NGDLink, NGDOutput } from "./types.js";
 
 export { request, get };
-
-interface NGDOutput extends FeatureCollection {
-  links: NGDLink[];
-  numberReturned: number;
-}
 
 async function get(endpoint: string, key: string): Promise<Response> {
   logging.info("🔍 " + endpoint);
