@@ -49,7 +49,7 @@ interface NGDQueryables {
   type: string;
   title: string;
   description: string;
-  properties: {[key: string]: unknown};
+  properties: { [key: string]: unknown };
 }
 
 interface NGDSchema {
@@ -59,7 +59,7 @@ interface NGDSchema {
   title: string;
   description: string;
   extent: NGDExtent;
-  properties: {[key: string]: unknown};
+  properties: { [key: string]: unknown };
 }
 
 interface NGDOutput extends FeatureCollection {

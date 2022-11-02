@@ -17,7 +17,6 @@ beforeAll(() => {
   }
 });
 
-
 describe("Nearest Endpoint", () => {
   test("Nearest Endpoint Passes", async () => {
     const point: [number, number] = [-1.471237, 50.938189];

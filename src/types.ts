@@ -75,4 +75,4 @@ interface NamesResponse extends OSDataHubResponse {
 type PlacesParams = {
   srs?: string;
   maxresults?: string;
-}
+};
