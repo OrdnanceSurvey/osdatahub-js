@@ -32,8 +32,8 @@ Ordnance Survey is the national mapping agency for Great Britain and produces a 
   - [Supported APIs](#supported-apis)
   - [Features](#features)
   - [Installation](#installation)
-    - [Installing in NodeJS (via NPM)](#installing-in-nodejs-via-npm)
-    - [Installing in the Browser](#installing-in-the-browser)
+    - [NodeJS (via NPM)](#nodejs-via-npm)
+    - [Browser](#browser)
   - [Getting Started](#getting-started)
     - [OS NGD API](#os-ngd-api)
     - [OS Places API](#os-places-api)
@@ -77,7 +77,7 @@ You'll need to sign-up for an account on the [OS Data Hub](https://osdatahub.os.
 4. Select _Add an API to this project_
 5. Choose the APIs you would like to use and click _Done_
 
-### Installing in NodeJS (via NPM)
+### NodeJS (via NPM)
 
 Install the `osdatahub` package into your project, via NPM:
 
@@ -97,9 +97,14 @@ import * as osdatahub from "osdatahub";
 import { placesAPI } from "osdatahub";
 ```
 
-### Installing in the Browser
+### Browser
 
-We're working hard to bring `osdatahub` to the browser, please watch this space!
+Use directly in the browser with the following script tag:
+
+```html
+<script src="unpkg.com/osdatahub/dist/bundle.min.js"></script>
+```
+**Note:** Be wary of exposing your OS Data Hub API key when running osdatahub in the browser!
 
 ## Getting Started
 
