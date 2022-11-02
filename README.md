@@ -1,3 +1,8 @@
+[![Tests Passing](https://github.com/OrdnanceSurvey/osdatahub-js/actions/workflows/node.js.yml/badge.svg)](https://github.com/OrdnanceSurvey/osdatahub-js/actions/workflows/python-package.yml)
+[![Languages Count](https://img.shields.io/github/languages/count/OrdnanceSurvey/osdatahub-js)](https://img.shields.io/github/languages/count/OrdnanceSurvey/osdatahub-js)
+[![Top Language](https://img.shields.io/github/languages/top/OrdnanceSurvey/osdatahub-js)](https://img.shields.io/github/languages/top/OrdnanceSurvey/osdatahub-js)
+[![GitHub issues](https://img.shields.io/github/issues/OrdnanceSurvey/osdatahub-js)](https://github.com/OrdnanceSurvey/osdatahub-js/issues)
+
 # osdatahub (JavaScript)
 
 > Coding in Python?  
