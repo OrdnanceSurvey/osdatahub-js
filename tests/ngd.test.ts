@@ -262,6 +262,20 @@ describe("Collections Endpoint", () => {
     const response = await ngd.collections("bld-fts-buildingline");
     expect(response.id).toBe("bld-fts-buildingline");
   });
+
+  test("Collections fails with invalid collectionId", async () => {
+    const collectionId = "bld-fts-buildingpjart";
+    // @ts-ignore
+    const error = await testError(async () => {
+      // @ts-ignore
+      return await ngd.collections(collectionId);
+    });
+    expect(error).toEqual(
+      new Error(
+        "The feature collection 'bld-fts-buildingpjart' could not be found. Please check it is a supported collection."
+      )
+    );
+  });
 });
 
 describe("Schema Endpoint", () => {
@@ -269,12 +283,40 @@ describe("Schema Endpoint", () => {
     const response = await ngd.schema("bld-fts-buildingline");
     expect(response).toHaveProperty("properties");
   });
+
+  test("Schema fails with invalid collectionId", async () => {
+    const collectionId = "bld-fts-buildingpjart";
+    // @ts-ignore
+    const error = await testError(async () => {
+      // @ts-ignore
+      return await ngd.schema(collectionId);
+    });
+    expect(error).toEqual(
+      new Error(
+        "The feature collection 'bld-fts-buildingpjart' could not be found. Please check it is a supported collection."
+      )
+    );
+  });
 });
 
 describe("Queryables Endpoint", () => {
   test("Queryables Endpoint Passes ", async () => {
     const response = await ngd.queryables("bld-fts-buildingline");
     expect(response).toHaveProperty("properties");
+  });
+
+  test("Queryables fails with invalid collectionId", async () => {
+    const collectionId = "bld-fts-buildingpjart";
+    // @ts-ignore
+    const error = await testError(async () => {
+      // @ts-ignore
+      return await ngd.queryables(collectionId);
+    });
+    expect(error).toEqual(
+      new Error(
+        "The feature collection 'bld-fts-buildingpjart' could not be found. Please check it is a supported collection."
+      )
+    );
   });
 });
 

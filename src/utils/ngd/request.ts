@@ -7,7 +7,7 @@ import fetch from "cross-fetch";
 
 export { request, get };
 
-async function get(endpoint: string, key: string): Promise<Response> {
+async function get(endpoint: string, key: string = ""): Promise<Response> {
   logging.info("🔍 " + endpoint);
   return fetch(endpoint, {
     method: "get",

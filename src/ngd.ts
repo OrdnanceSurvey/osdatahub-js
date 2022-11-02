@@ -85,7 +85,7 @@ const ngd = {
     collectionId: string = ""
   ): Promise<NGDCollection | NGDCollections> => {
     const endpoint = root + `${collectionId}`;
-    return (await fetch(endpoint).then((response) =>
+    return (await get(endpoint).then((response) =>
       response.json()
     )) as Promise<NGDCollection | NGDCollections>;
   },
@@ -98,7 +98,7 @@ const ngd = {
    */
   schema: async (collectionId: string): Promise<NGDSchema> => {
     const endpoint = root + `${collectionId}/schema`;
-    return (await fetch(endpoint).then((response) =>
+    return (await get(endpoint).then((response) =>
       response.json()
     )) as Promise<NGDSchema>;
   },
@@ -111,7 +111,7 @@ const ngd = {
    */
   queryables: async (collectionId: string): Promise<NGDQueryables> => {
     const endpoint = root + `${collectionId}/queryables`;
-    return (await fetch(endpoint).then((response) =>
+    return (await get(endpoint).then((response) =>
       response.json()
     )) as Promise<NGDQueryables>;
   },
