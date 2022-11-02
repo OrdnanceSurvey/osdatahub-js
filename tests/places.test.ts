@@ -1,5 +1,5 @@
 import { type BBox } from "../src/types";
-import { describe, expect, test, beforeAll } from "@jest/globals";
+import { describe, expect, test, beforeAll, jest } from "@jest/globals";
 import * as dotenv from "dotenv";
 import { places } from "../build/places.js";
 import { Feature, FeatureCollection, Polygon } from "geojson";
@@ -64,6 +64,7 @@ const invalidPolygon: Polygon = {
   ],
 };
 
+jest.setTimeout(50000);
 let apiKey: string;
 beforeAll(() => {
   if (typeof process.env.OS_API_KEY === "string") {

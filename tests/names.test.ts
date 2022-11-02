@@ -1,10 +1,11 @@
-import { describe, expect, test, beforeAll } from "@jest/globals";
+import { describe, expect, test, beforeAll, jest } from "@jest/globals";
 import * as dotenv from "dotenv";
 import { names } from "../build/names.js";
 import { testError } from "./utils";
 
 dotenv.config();
 
+jest.setTimeout(50000);
 let apiKey: string;
 beforeAll(() => {
   if (typeof process.env.OS_API_KEY === "string") {
