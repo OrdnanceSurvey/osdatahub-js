@@ -104,6 +104,7 @@ Use directly in the browser with the following script tag:
 ```html
 <script src="unpkg.com/osdatahub/dist/bundle.min.js"></script>
 ```
+
 **Note:** Be wary of exposing your OS Data Hub API key when running osdatahub in the browser!
 
 ## Getting Started
