@@ -2,9 +2,8 @@
 import { type Config, type OSDataHubResponse } from "../../types.js";
 import { continuePaging, logEndConditions } from "../request.js";
 import { logging } from "../logging.js";
-
-import fetch, { type Response } from "node-fetch"; // not required in Node17.5 (LTS) onwards
 import { NGDLink, NGDOutput } from "./types.js";
+import fetch from "cross-fetch";
 
 export { request, get };
 

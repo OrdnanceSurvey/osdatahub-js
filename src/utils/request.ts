@@ -2,7 +2,7 @@
 
 import { logging } from "./logging.js";
 import { type Config, type OSDataHubResponse } from "../types.js";
-import fetch, { type Response } from "node-fetch"; // not required in Node17.5 (LTS) onwards
+import fetch from "cross-fetch";
 
 export { request, checkStatusCode, logEndConditions, continuePaging };
 

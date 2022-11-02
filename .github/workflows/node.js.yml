@@ -12,6 +12,7 @@ on:
     branches: 
       - 'main'
       - 'dev'
+  workflow_dispatch:
 
 env:
   OS_API_KEY: ${{ secrets.OS_API_KEY }}
@@ -33,13 +34,13 @@ jobs:
           with:
             # This part is also where you can pass other options, for example:
             prettier_options: --write **/*.{js,md,ts}
-  build:
+  test:
 
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        node-version: [16.x, 18.x]
+        node-version: [18.x, 16.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
@@ -49,5 +50,6 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
+    - run: npm i -g browserify uglify-js
     - run: npm ci
     - run: npm test
