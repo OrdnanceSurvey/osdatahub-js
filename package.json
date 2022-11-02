@@ -11,7 +11,7 @@
     "test-names": "npm test -- ./tests/names.test.ts",
     "test-crs": "npm test -- ./tests/crs.test.ts",
     "build": "npx tsc",
-    "bundle": "npx mkdirp dist && browserify ./build/index.js --standalone osdatahub > dist/bundle.js -t babelify && uglifyjs ./dist/bundle.js -o ./dist/bundle.min.js",
+    "bundle": "npm run build && npx mkdirp dist && browserify ./build/index.js --standalone osdatahub > dist/bundle.js -t babelify && uglifyjs ./dist/bundle.js -o ./dist/bundle.min.js",
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
     "lint": "npx eslint .",
     "prepare": "npm run build && npm run bundle",
@@ -64,6 +64,7 @@
   },
   "dependencies": {
     "@jest/globals": "^29.1.2",
+    "isomorphic-fetch": "^3.0.0",
     "node-fetch": "^3.2.10",
     "proj4": "^2.8.0"
   }
