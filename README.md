@@ -1,7 +1,10 @@
-[![Tests Passing](https://github.com/OrdnanceSurvey/osdatahub-js/actions/workflows/node.js.yml/badge.svg)](https://github.com/OrdnanceSurvey/osdatahub-js/actions/workflows/python-package.yml)
+[![Tests Passing](https://github.com/OrdnanceSurvey/osdatahub-js/actions/workflows/node.js.yml/badge.svg)](https://github.com/OrdnanceSurvey/osdatahub-js/actions/workflows/node.js.yml)
+![Node Version](https://img.shields.io/badge/Node-v16%2B-brightgreen)
+[![Browser Compatibility](https://img.shields.io/badge/Browser%20Compatibility-Supported-brightgreen)]()
 [![Languages Count](https://img.shields.io/github/languages/count/OrdnanceSurvey/osdatahub-js)](https://img.shields.io/github/languages/count/OrdnanceSurvey/osdatahub-js)
 [![Top Language](https://img.shields.io/github/languages/top/OrdnanceSurvey/osdatahub-js)](https://img.shields.io/github/languages/top/OrdnanceSurvey/osdatahub-js)
 [![GitHub issues](https://img.shields.io/github/issues/OrdnanceSurvey/osdatahub-js)](https://github.com/OrdnanceSurvey/osdatahub-js/issues)
+[![Open Government License](https://img.shields.io/badge/license-OGL-blue)](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/)
 
 # osdatahub (JavaScript)
 
