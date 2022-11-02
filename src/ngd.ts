@@ -85,9 +85,9 @@ const ngd = {
     collectionId: string = ""
   ): Promise<NGDCollection | NGDCollections> => {
     const endpoint = root + `${collectionId}`;
-    return (await get(endpoint).then((response) =>
-      response.json()
-    )) as Promise<NGDCollection | NGDCollections>;
+    return (await get(endpoint).then((response) => response.json())) as Promise<
+      NGDCollection | NGDCollections
+    >;
   },
 
   /**
