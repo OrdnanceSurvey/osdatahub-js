@@ -6,14 +6,15 @@
   "type": "module",
   "scripts": {
     "test": "npm run build && jest",
-    "test-places": "npm test -- .\\tests\\places.test.ts",
-    "test-ngd": "npm test -- .\\tests\\ngd.test.ts",
-    "test-names": "npm test -- .\\tests\\names.test.ts",
-    "test-crs": "npm test -- .\\tests\\crs.test.ts",
+    "test-places": "npm test -- ./tests/places.test.ts",
+    "test-ngd": "npm test -- ./tests/ngd.test.ts",
+    "test-names": "npm test -- ./tests/names.test.ts",
+    "test-crs": "npm test -- ./tests/crs.test.ts",
     "build": "npx tsc",
+    "bundle": "npm run build && npx mkdirp dist && browserify ./build/index.js --standalone osdatahub > dist/bundle.js -t babelify && uglifyjs ./dist/bundle.js -o ./dist/bundle.min.js",
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
     "lint": "npx eslint .",
-    "prepare": "npm run build",
+    "prepare": "npm run build && npm run bundle",
     "prepublishOnly": "npm test && npm run lint",
     "preversion": "npm run lint",
     "version": "npm run format && git add -A src"
@@ -38,11 +39,12 @@
     "url": "https://github.com/OrdnanceSurvey/osdatahub-js/issues"
   },
   "files": [
-    "build/**/*"
+    "build/**/*",
+    "dist/**"
   ],
   "homepage": "https://github.com/OrdnanceSurvey/osdatahub-js#readme",
   "devDependencies": {
-    "@babel/preset-env": "^7.19.3",
+    "@babel/preset-env": "^7.19.4",
     "@babel/preset-typescript": "^7.18.6",
     "@tsconfig/node16": "^1.0.3",
     "@types/geojson": "^7946.0.10",
@@ -50,6 +52,7 @@
     "@types/proj4": "^2.5.2",
     "@typescript-eslint/eslint-plugin": "^5.39.0",
     "@typescript-eslint/parser": "^5.39.0",
+    "babelify": "^10.0.0",
     "dotenv": "^16.0.2",
     "eslint": "^8.24.0",
     "generate-license-file": "^2.0.0",
@@ -61,7 +64,7 @@
   },
   "dependencies": {
     "@jest/globals": "^29.1.2",
-    "node-fetch": "^3.2.10",
+    "cross-fetch": "^3.1.5",
     "proj4": "^2.8.0"
   }
 }
