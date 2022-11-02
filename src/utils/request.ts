@@ -2,6 +2,7 @@
 
 import { logging } from "./logging.js";
 import { type Config, type OSDataHubResponse } from "../types.js";
+import fetch from 'cross-fetch';
 
 export { request, checkStatusCode, logEndConditions, continuePaging };
 
