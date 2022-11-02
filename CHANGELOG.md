@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0](https://github.com/OrdnanceSurvey/osdatahub-js/releases/tag/v0.2.0) - 2022-11-02
+
 ### Added
 
 - Support for Ordnance Survey's NGD API
@@ -30,3 +32,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - OGL License
 
 [Unreleased]: [https://github.com/OrdnanceSurvey/osdatahub-js/compare/main...dev ](https://github.com/OrdnanceSurvey/osdatahub-js/compare/main...dev)
+
+[0.2.0]: [https://github.com/OrdnanceSurvey/osdatahub-js/compare/v0.1.1...v0.2.0 ](https://github.com/OrdnanceSurvey/osdatahub-js/compare/v0.1.1...v0.2.0)
+
+[0.1.1]: [https://github.com/OrdnanceSurvey/osdatahub-js/releases/tag/v0.1.1 ](https://github.com/OrdnanceSurvey/osdatahub-js/releases/tag/v0.1.1)
