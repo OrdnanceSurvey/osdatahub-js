@@ -13,6 +13,7 @@ import {
   NGDSchema,
   NGDQueryables,
 } from "./utils/ngd/types.js";
+import fetch from 'cross-fetch';
 
 export { ngd };
 

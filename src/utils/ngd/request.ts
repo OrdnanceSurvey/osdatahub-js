@@ -3,6 +3,7 @@ import { type Config, type OSDataHubResponse } from "../../types.js";
 import { continuePaging, logEndConditions } from "../request.js";
 import { logging } from "../logging.js";
 import { NGDLink, NGDOutput } from "./types.js";
+import fetch from 'cross-fetch';
 
 export { request, get };
 
