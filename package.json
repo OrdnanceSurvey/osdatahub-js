@@ -13,7 +13,7 @@
     "build": "npx tsc",
     "bundle": "npm run build && npx mkdirp dist && browserify ./build/index.js --standalone osdatahub > dist/bundle.js -t babelify && uglifyjs ./dist/bundle.js -o ./dist/bundle.min.js",
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
-    "lint": "npx eslint .",
+    "lint": "npx eslint ./src ./tests",
     "prepare": "npm run build && npm run bundle",
     "prepublishOnly": "npm test && npm run lint",
     "preversion": "npm run lint",

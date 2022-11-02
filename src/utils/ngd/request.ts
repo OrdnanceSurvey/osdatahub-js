@@ -1,5 +1,5 @@
 // src/utils/request.ts
-import { type Config, type OSDataHubResponse } from "../../types.js";
+import { type Config } from "../../types.js";
 import { continuePaging, logEndConditions } from "../request.js";
 import { logging } from "../logging.js";
 import { NGDLink, NGDOutput } from "./types.js";
@@ -7,7 +7,7 @@ import fetch from "cross-fetch";
 
 export { request, get };
 
-async function get(endpoint: string, key: string = ""): Promise<Response> {
+async function get(endpoint: string, key = ""): Promise<Response> {
   logging.info("🔍 " + endpoint);
   return fetch(endpoint, {
     method: "get",
@@ -44,7 +44,7 @@ function filterSelfLink(links: NGDLink[]): NGDLink {
 async function request(config: Config): Promise<NGDOutput> {
   let endpoint: string;
   let featureCount = 0;
-  let output: NGDOutput | undefined = {
+  const output: NGDOutput | undefined = {
     type: "FeatureCollection",
     features: [],
     numberReturned: 0,
@@ -58,7 +58,7 @@ async function request(config: Config): Promise<NGDOutput> {
   while (continuePaging(config)) {
     endpoint = getEndpoint(config, featureCount);
 
-    let response: Response = await get(endpoint, config.key);
+    const response: Response = await get(endpoint, config.key);
 
     const responseJson: NGDOutput = <NGDOutput>await response.json();
 

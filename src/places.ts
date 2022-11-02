@@ -106,7 +106,7 @@ const places = {
     const params: PlacesParams = { srs: "WGS84" };
 
     if (config.paging.limitValue < 100) {
-      params.maxresults = config.paging.limitValue;
+      params.maxresults = config.paging.limitValue.toString();
     }
 
     config.url = buildUrl("places", "polygon", params);
@@ -144,7 +144,7 @@ const places = {
     config.url = buildUrl("places", "radius", {
       srs: "WGS84",
       point: pointSwivelled,
-      radius,
+      radius: radius.toString(),
     });
 
     return await requestPlaces(config);
@@ -221,7 +221,10 @@ const places = {
 
     const config = initialiseConfig(apiKey);
 
-    config.url = buildUrl("places", "uprn", { output_srs: "WGS84", uprn });
+    config.url = buildUrl("places", "uprn", {
+      output_srs: "WGS84",
+      uprn: uprn.toString(),
+    });
     config.paging.enabled = false;
 
     return await requestPlaces(config);

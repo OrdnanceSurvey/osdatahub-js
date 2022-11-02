@@ -13,7 +13,6 @@ import {
   NGDSchema,
   NGDQueryables,
 } from "./utils/ngd/types.js";
-import fetch from "cross-fetch";
 
 export { ngd };
 
@@ -30,11 +29,11 @@ const ngd = {
    * @param {Object} options - Optional arguments
    * @param {number} [options.offset] - The starting value for the offset
    * @param {number} [options.limit] - The max number of features to return
-   * @param {string} [options.crs] - CRS of return geoJSON (epsg number or full string e.g. "epsg:27700"). Available CRS values are: EPSG:27700, EPSG:4326, EPSG:7405, EPSG:3857, and CRS84. Defaults to CRS84
+   * @param {string | number} [options.crs] - CRS of return geoJSON (epsg number or full string e.g. "epsg:27700"). Available CRS values are: EPSG:27700, EPSG:4326, EPSG:7405, EPSG:3857, and CRS84. Defaults to CRS84
    * @param {number[]} [options.bbox] - Bounding box [left, bottom, right, top]
    * @param {string | number} [options.bboxCRS] - CRS of bounding box (epsg number or full string e.g. "epsg:27700"). Available CRS values are: EPSG:27700, EPSG:4326, EPSG:3857, and CRS84. Defaults to CRS84
    * @param {string} [options.filter] - CQL filter string
-   * @param {string} [options.filterCRS] - CRS used if filter contains spatial operation (epsg number or full string e.g. "epsg:27700"). Available CRS values are: EPSG:27700, EPSG:4326, EPSG:7405, EPSG:3857, and CRS84. Defaults to CRS84
+   * @param {string | number} [options.filterCRS] - CRS used if filter contains spatial operation (epsg number or full string e.g. "epsg:27700"). Available CRS values are: EPSG:27700, EPSG:4326, EPSG:7405, EPSG:3857, and CRS84. Defaults to CRS84
    * @param {string} [options.datetime] -  A valid date-time with UTC time zone (Z) or an open or closed interval e.g. 2021-12-12T13:20:50Z or 2021-12-12T13:20:50Z/.. or ../2021-12-12T13:20:50Z or 2021-08-12T13:20:50Z/2021-12-12T13:20:50Z
    * @return {Promise<OSFeatureCollection>} - A GeoJSON Feature Collection
    */
@@ -82,7 +81,7 @@ const ngd = {
    * @return {Promise<NGDCollection | NGDCollection[]>} - Collection information
    */
   collections: async (
-    collectionId: string = ""
+    collectionId = ""
   ): Promise<NGDCollection | NGDCollections> => {
     const endpoint = root + `${collectionId}`;
     return (await get(endpoint).then((response) => response.json())) as Promise<
@@ -119,10 +118,11 @@ const ngd = {
   /**
    * Get GeoJSON feature with specific feature ID
    *
+   * @param {string} apiKey - A valid OS Data Hub key
    * @param {string} collectionId - A known collection ID. To view available collection IDs, use the ngd.collections() method.
    * @param {string} featureId - A known feature ID
    * @param {Object} options - Optional arguments
-   * @param {string} [options.crs] - CRS of return geoJSON (epsg number or full string e.g. "epsg:27700"). Available CRS values are: EPSG:27700, EPSG:4326, EPSG:7405, EPSG:3857, and CRS84. Defaults to CRS84
+   * @param {string | number} [options.crs] - CRS of return geoJSON (epsg number or full string e.g. "epsg:27700"). Available CRS values are: EPSG:27700, EPSG:4326, EPSG:7405, EPSG:3857, and CRS84. Defaults to CRS84
    * @return {Feature} - GeoJSON Feature
    */
   feature: async (

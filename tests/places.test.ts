@@ -3,6 +3,7 @@ import { describe, expect, test, beforeAll } from "@jest/globals";
 import * as dotenv from "dotenv";
 import { places } from "../build/places.js";
 import { Feature, FeatureCollection, Polygon } from "geojson";
+import { testError } from "./utils";
 
 dotenv.config();
 
@@ -74,17 +75,6 @@ beforeAll(() => {
     );
   }
 });
-
-// eslint-disable-next-line @typescript-eslint/ban-types
-async function testError(callback: Function): Promise<any> {
-  let error: any;
-  try {
-    await callback();
-  } catch (e: any) {
-    error = e;
-  }
-  return error;
-}
 
 describe("Polygon Endpoint", () => {
   test("Polygon Endpoint With FeatureCollection", async () => {

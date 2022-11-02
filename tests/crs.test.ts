@@ -1,16 +1,6 @@
-import { describe, expect, test, beforeAll } from "@jest/globals";
+import { describe, expect, test } from "@jest/globals";
 import { getCRS } from "../build/utils/crs.js";
-
-// eslint-disable-next-line @typescript-eslint/ban-types
-async function testError(callback: Function): Promise<any> {
-  let error: any;
-  try {
-    await callback();
-  } catch (e: any) {
-    error = e;
-  }
-  return error;
-}
+import { testError } from "./utils";
 
 describe("Get valid CRS", () => {
   test("getCRS with string passes", () => {

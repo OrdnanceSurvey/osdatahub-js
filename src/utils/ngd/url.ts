@@ -26,7 +26,7 @@ function buildUrl(
     filterCRS?: null | number | string;
   } = {}
 ) {
-  let queryParams: {
+  const queryParams: {
     bbox?: string;
     datetime?: string;
     filter?: string;
