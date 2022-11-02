@@ -6,29 +6,21 @@ import {
   OSFeatureCollection,
   PlacesResponse,
 } from "../types.js";
-import { Feature, Geometry, GeoJsonProperties } from "geojson";
 
-export { geojson };
+import { type Feature, Geometry, GeoJsonProperties } from "geojson";
 
-/*
+export { toGeoJSON };
 
-    geojson.from
-    geojson.into
-
-*/
-
-const geojson = {
-  into: function (response: OSDataHubResponse): OSFeatureCollection {
-    if (response.results.length == 0) {
-      return {
-        type: "FeatureCollection",
-        features: [],
-        header: response.header,
-      };
-    }
-    return responseToFeatureCollection(response);
-  },
-};
+function toGeoJSON(response: OSDataHubResponse): OSFeatureCollection {
+  if (response.results.length == 0) {
+    return {
+      type: "FeatureCollection",
+      features: [],
+      header: response.header,
+    };
+  }
+  return responseToFeatureCollection(response);
+}
 
 function responseToFeatureCollection(
   response: OSDataHubResponse

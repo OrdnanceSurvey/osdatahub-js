@@ -1,8 +1,8 @@
 // src/handlers/places.ts
 
-import { coords } from "./utils/coords.js"; // no longer required as coords.swivel moved
+import { coords } from "./utils/coords.js";
 import { request } from "./utils/request.js";
-import { geojson } from "./utils/geojson.js";
+import { toGeoJSON } from "./utils/geojson.js";
 import { validateParams } from "./utils/validate.js";
 import { buildUrl } from "./utils/url.js";
 import { Config, OSFeatureCollection, PlacesParams } from "./types.js";
@@ -20,7 +20,7 @@ export { places };
 
 async function requestPlaces(config: Config): Promise<OSFeatureCollection> {
   const responseObject = await request(config);
-  return geojson.into(responseObject);
+  return toGeoJSON(responseObject);
 }
 
 function isFeature(
@@ -98,7 +98,7 @@ const places = {
   polygon: async (
     apiKey: string,
     polygon: Feature | FeatureCollection | Polygon,
-    { offset = 0, limit = 1000 }: { offset?: number; limit?: number } = {}
+    { offset = 0, limit = 100 }: { offset?: number; limit?: number } = {}
   ): Promise<OSFeatureCollection> => {
     validateParams({ apiKey, polygon, offset, limit });
 
@@ -106,7 +106,7 @@ const places = {
     const params: PlacesParams = { srs: "WGS84" };
 
     if (config.paging.limitValue < 100) {
-      params.maxresults = config.paging.limitValue;
+      params.maxresults = config.paging.limitValue.toString();
     }
 
     config.url = buildUrl("places", "polygon", params);
@@ -131,7 +131,7 @@ const places = {
     apiKey: string,
     point: [number, number],
     radius: number,
-    { offset = 0, limit = 1000 }: { offset?: number; limit?: number } = {}
+    { offset = 0, limit = 100 }: { offset?: number; limit?: number } = {}
   ): Promise<OSFeatureCollection> => {
     validateParams({ apiKey, point, radius, offset, limit });
 
@@ -144,7 +144,7 @@ const places = {
     config.url = buildUrl("places", "radius", {
       srs: "WGS84",
       point: pointSwivelled,
-      radius,
+      radius: radius.toString(),
     });
 
     return await requestPlaces(config);
@@ -163,7 +163,7 @@ const places = {
   bbox: async (
     apiKey: string,
     bbox: [number, number, number, number],
-    { offset = 0, limit = 1000 }: { offset?: number; limit?: number } = {}
+    { offset = 0, limit = 100 }: { offset?: number; limit?: number } = {}
   ): Promise<OSFeatureCollection> => {
     validateParams({ apiKey, bbox, offset, limit });
 
@@ -221,7 +221,10 @@ const places = {
 
     const config = initialiseConfig(apiKey);
 
-    config.url = buildUrl("places", "uprn", { output_srs: "WGS84", uprn });
+    config.url = buildUrl("places", "uprn", {
+      output_srs: "WGS84",
+      uprn: uprn.toString(),
+    });
     config.paging.enabled = false;
 
     return await requestPlaces(config);
@@ -240,13 +243,12 @@ const places = {
   postcode: async (
     apiKey: string,
     postcode: string,
-    { offset = 0, limit = 1000 }: { offset?: number; limit?: number } = {}
+    { offset = 0, limit = 100 }: { offset?: number; limit?: number } = {}
   ): Promise<OSFeatureCollection> => {
     validateParams({ apiKey, postcode, offset, limit });
 
     const config = initialiseConfig(apiKey, offset, limit);
 
-    postcode = encodeURIComponent(postcode);
     config.url = buildUrl("places", "postcode", {
       output_srs: "WGS84",
       postcode,
@@ -268,13 +270,12 @@ const places = {
   find: async (
     apiKey: string,
     query: string,
-    { offset = 0, limit = 1000 }: { offset?: number; limit?: number } = {}
+    { offset = 0, limit = 100 }: { offset?: number; limit?: number } = {}
   ): Promise<OSFeatureCollection> => {
     validateParams({ apiKey, query, offset, limit });
 
     const config = initialiseConfig(apiKey, offset, limit);
 
-    query = encodeURIComponent(query);
     config.url = buildUrl("places", "find", { output_srs: "WGS84", query });
 
     return await requestPlaces(config);

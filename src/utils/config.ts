@@ -3,7 +3,7 @@ import { type Config } from "../types.js";
 
 export { initialiseConfig };
 
-function initialiseConfig(apiKey: string, offset = 0, limit = 1000): Config {
+function initialiseConfig(apiKey: string, offset = 0, limit = 100): Config {
   return {
     url: "",
     key: apiKey,

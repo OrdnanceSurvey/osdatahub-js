@@ -1,9 +1,11 @@
-import { describe, expect, test, beforeAll } from "@jest/globals";
+import { describe, expect, test, beforeAll, jest } from "@jest/globals";
 import * as dotenv from "dotenv";
 import { names } from "../build/names.js";
+import { testError } from "./utils";
 
 dotenv.config();
 
+jest.setTimeout(50000);
 let apiKey: string;
 beforeAll(() => {
   if (typeof process.env.OS_API_KEY === "string") {
@@ -15,17 +17,6 @@ beforeAll(() => {
     );
   }
 });
-
-// eslint-disable-next-line @typescript-eslint/ban-types
-async function testError(callback: Function): Promise<any> {
-  let error: any;
-  try {
-    await callback();
-  } catch (e: any) {
-    error = e;
-  }
-  return error;
-}
 
 describe("Nearest Endpoint", () => {
   test("Nearest Endpoint Passes", async () => {

@@ -6,5 +6,8 @@ node_modules
 
 
 # Remove build files
+/dist
 /build
 .env
+
+/tests/sample.js

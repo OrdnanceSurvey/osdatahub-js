@@ -1,8 +1,9 @@
 import { type BBox } from "../src/types";
-import { describe, expect, test, beforeAll } from "@jest/globals";
+import { describe, expect, test, beforeAll, jest } from "@jest/globals";
 import * as dotenv from "dotenv";
 import { places } from "../build/places.js";
 import { Feature, FeatureCollection, Polygon } from "geojson";
+import { testError } from "./utils";
 
 dotenv.config();
 
@@ -63,6 +64,7 @@ const invalidPolygon: Polygon = {
   ],
 };
 
+jest.setTimeout(50000);
 let apiKey: string;
 beforeAll(() => {
   if (typeof process.env.OS_API_KEY === "string") {
@@ -74,17 +76,6 @@ beforeAll(() => {
     );
   }
 });
-
-// eslint-disable-next-line @typescript-eslint/ban-types
-async function testError(callback: Function): Promise<any> {
-  let error: any;
-  try {
-    await callback();
-  } catch (e: any) {
-    error = e;
-  }
-  return error;
-}
 
 describe("Polygon Endpoint", () => {
   test("Polygon Endpoint With FeatureCollection", async () => {
@@ -358,7 +349,7 @@ describe("UPRN Endpoint", () => {
 describe("Postcode Endpoint", () => {
   test("Postcode Endpoint Passes", async () => {
     let postcode = "SO16 0AS";
-    const options: { offset?: number; limit?: number } = { limit: 5 };
+    const options: { offset?: number; limit?: number } = { limit: 1 };
     let response = await places.postcode(apiKey, postcode, options);
     expect(response.features.length).toBeGreaterThanOrEqual(1);
 
@@ -367,8 +358,8 @@ describe("Postcode Endpoint", () => {
     expect(response.features.length).toBeGreaterThanOrEqual(1);
 
     postcode = "SO16";
-    response = await places.postcode(apiKey, postcode, { limit: 100 });
-    expect(response.features.length).toEqual(100);
+    response = await places.postcode(apiKey, postcode, { limit: 5 });
+    expect(response.features.length).toBeGreaterThanOrEqual(1);
   });
 
   test("Postcode Endpoint fails with invalid postcode", async () => {

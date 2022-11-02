@@ -1,10 +1,8 @@
-import { FeatureCollection, Feature, Polygon } from "geojson";
+import { FeatureCollection } from "geojson";
 
 export {
   Config,
-  Options,
   OSDataHubResponse,
-  ValidationParams,
   BBox,
   OSFeatureCollection,
   PlacesResponse,
@@ -32,13 +30,6 @@ interface Paging {
   isNextPage: boolean;
 }
 
-// Optional User Input
-
-interface Options {
-  paging?: [number, number];
-  filter?: string;
-}
-
 interface OSDataHubResponseHeader {
   uri: string;
   query: string;
@@ -48,19 +39,6 @@ interface OSDataHubResponse {
   header: OSDataHubResponseHeader;
   // eslint-disable-next-line @typescript-eslint/ban-types
   results: Array<Object>;
-}
-
-interface ValidationParams extends Options {
-  apiKey: string;
-  offset?: number;
-  limit?: number;
-  radius?: number;
-  point?: [number, number];
-  polygon?: Feature | FeatureCollection | Polygon;
-  bbox?: [number, number, number, number];
-  uprn?: number;
-  postcode?: string;
-  query?: string;
 }
 
 type BBox = [number, number, number, number];
@@ -94,7 +72,7 @@ interface NamesResponse extends OSDataHubResponse {
   results: Array<NamesFeature>;
 }
 
-interface PlacesParams {
+type PlacesParams = {
   srs?: string;
-  maxresults?: number;
-}
+  maxresults?: string;
+};
