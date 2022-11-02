@@ -88,7 +88,7 @@ async function request(config: Config): Promise<OSDataHubResponse> {
   while (continuePaging(config)) {
     endpoint = getEndpoint(config, featureCount);
 
-    let response: Response = await getData(endpoint, config.key, config.body);
+    const response: Response = await getData(endpoint, config.key, config.body);
 
     checkStatusCode(response.status);
 

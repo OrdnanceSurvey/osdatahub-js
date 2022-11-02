@@ -1,4 +1,4 @@
-import { FeatureCollection, Feature, Polygon } from "geojson";
+import { FeatureCollection } from "geojson";
 
 export {
   Config,
@@ -72,7 +72,7 @@ interface NamesResponse extends OSDataHubResponse {
   results: Array<NamesFeature>;
 }
 
-interface PlacesParams {
+type PlacesParams = {
   srs?: string;
-  maxresults?: number;
+  maxresults?: string;
 }
