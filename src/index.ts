@@ -19,5 +19,6 @@
 import { names as namesAPI } from "./names.js";
 import { places as placesAPI } from "./places.js";
 import { ngd } from "./ngd.js";
+import "isomorphic-fetch";
 
 export { namesAPI, placesAPI, ngd };
