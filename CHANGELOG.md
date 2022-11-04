@@ -7,7 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [0.2.0](https://github.com/OrdnanceSurvey/osdatahub-js/releases/tag/v0.2.0) - 2022-11-02
+## [[0.2.1](https://github.com/OrdnanceSurvey/osdatahub-js/releases/tag/v0.2.1)] - 2022-11-04
+
+### Changed
+
+- Updated README with correct UNPKG link for browser use of osdatahub
+
+## [[0.2.0](https://github.com/OrdnanceSurvey/osdatahub-js/releases/tag/v0.2.0)] - 2022-11-02
 
 ### Added
 
@@ -21,7 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - node-fetch replaced by cross-fetch
 - Default limits set to 100 (from 1000)
 
-## [0.1.1](https://github.com/OrdnanceSurvey/osdatahub-js/releases/tag/v0.1.1) - 2022-10-10
+## [[0.1.1](https://github.com/OrdnanceSurvey/osdatahub-js/releases/tag/v0.1.1)] - 2022-10-10
 
 ### Added
 
@@ -32,6 +38,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - OGL License
 
 [Unreleased]: [https://github.com/OrdnanceSurvey/osdatahub-js/compare/main...dev ](https://github.com/OrdnanceSurvey/osdatahub-js/compare/main...dev)
+
+[0.2.1]: [https://github.com/OrdnanceSurvey/osdatahub-js/compare/v0.2.0...v0.2.1 ](https://github.com/OrdnanceSurvey/osdatahub-js/compare/v0.2.0...v0.2.1)
 
 [0.2.0]: [https://github.com/OrdnanceSurvey/osdatahub-js/compare/v0.1.1...v0.2.0 ](https://github.com/OrdnanceSurvey/osdatahub-js/compare/v0.1.1...v0.2.0)
 

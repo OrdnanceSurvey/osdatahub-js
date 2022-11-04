@@ -1,6 +1,6 @@
 {
   "name": "osdatahub",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "A JavaScript wrapper for the Ordnance Survey NGD API, Names API and Places API.",
   "main": "build/index.js",
   "type": "module",
@@ -12,7 +12,7 @@
     "test-crs": "npm test -- ./tests/crs.test.ts",
     "build": "npx tsc",
     "bundle": "npm run build && npx mkdirp dist && browserify ./build/index.js --standalone osdatahub > dist/bundle.js -t babelify && uglifyjs ./dist/bundle.js -o ./dist/bundle.min.js",
-    "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
+    "format": "prettier --write \"src/**/*.ts\"",
     "lint": "npx eslint ./src ./tests",
     "prepare": "npm run build && npm run bundle",
     "prepublishOnly": "npm test && npm run lint && npm run bundle",
