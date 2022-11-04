@@ -102,7 +102,7 @@ import { placesAPI } from "osdatahub";
 Use directly in the browser with the following script tag:
 
 ```html
-<script src="https://unpkg.com/osdatahub@0.2.0/dist/bundle.min.js"></script>
+<script src="https://unpkg.com/osdatahub/dist/bundle.min.js"></script>
 ```
 
 **Note:** Be wary of exposing your OS Data Hub API key when running osdatahub in the browser!
