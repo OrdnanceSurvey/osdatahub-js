@@ -15,7 +15,7 @@
 
 Ordnance Survey is the national mapping agency for Great Britain and produces a large variety of mapping and geospatial products. Much of OS' data is available via the [OS Data Hub](https://osdatahub.os.uk), a platform that hosts both free and premium data products. `osdatahub` provides a user-friendly way to interact with these data products.
 
-![Ordnance Survey Logo](https://github.com/OrdnanceSurvey/osdatahub-js/blob/main/media/os-logo.png)
+![Ordnance Survey Logo](https://raw.githubusercontent.com/OrdnanceSurvey/osdatahub-js/main/media/os-logo.png)
 
 ## Links <!-- omit in toc -->
 
@@ -106,6 +106,10 @@ Use directly in the browser with the following script tag:
 ```
 
 **Note:** Be wary of exposing your OS Data Hub API key when running osdatahub in the browser!
+
+You can find an example html page that uses the osdatahub package, here \[[Source](https://github.com/OrdnanceSurvey/osdatahub-js/tree/main/examples/browser_example.html)\].
+
+![osdatahub browser demo](https://raw.githubusercontent.com/OrdnanceSurvey/osdatahub-js/main/media/browser_examples_screenshot.jpg)
 
 ## Getting Started
 

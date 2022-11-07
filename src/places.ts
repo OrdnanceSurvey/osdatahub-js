@@ -1,5 +1,8 @@
 // src/handlers/places.ts
-
+/**
+ * This module provides a wrapper to Ordanance Survey's Places API. 
+ * @module
+ */
 import { coords } from "./utils/coords.js";
 import { request } from "./utils/request.js";
 import { toGeoJSON } from "./utils/geojson.js";
@@ -15,8 +18,6 @@ import {
   Geometry,
   Position,
 } from "geojson";
-
-export { places };
 
 async function requestPlaces(config: Config): Promise<OSFeatureCollection> {
   const responseObject = await request(config);
@@ -84,200 +85,201 @@ function preprocessPlacesPolygon(
   }
 }
 
-const places = {
-  /**
-   * Get places within a polygon extent.
-   *
-   * @param {string} apiKey - A valid OS Data Hub key
-   * @param {FeatureCollection | Feature} polygon - A GeoJSON polygon
-   * @param {Object} options - Optional arguments
-   * @param {number} [options.offset] - The starting value for the offset
-   * @param {number} [options.limit] - The max number of features to return
-   * @return {Promise<OSFeatureCollection>} - A GeoJSON Feature Collection
-   */
-  polygon: async (
-    apiKey: string,
-    polygon: Feature | FeatureCollection | Polygon,
-    { offset = 0, limit = 100 }: { offset?: number; limit?: number } = {}
-  ): Promise<OSFeatureCollection> => {
-    validateParams({ apiKey, polygon, offset, limit });
+/**
+ * Get places within a polygon extent.
+ *
+ * @param {string} apiKey - A valid OS Data Hub key
+ * @param {FeatureCollection | Feature} polygon - A GeoJSON polygon
+ * @param {Object} options - Optional arguments
+ * @param {number} [options.offset] - The starting value for the offset
+ * @param {number} [options.limit] - The max number of features to return
+ * @return {Promise<OSFeatureCollection>} - A GeoJSON Feature Collection
+ */
+export const polygon = async (
+  apiKey: string,
+  polygon: Feature | FeatureCollection | Polygon,
+  { offset = 0, limit = 100 }: { offset?: number; limit?: number } = {}
+): Promise<OSFeatureCollection> => {
+  validateParams({ apiKey, polygon, offset, limit });
 
-    const config = initialiseConfig(apiKey, offset, limit);
-    const params: PlacesParams = { srs: "WGS84" };
+  const config = initialiseConfig(apiKey, offset, limit);
+  const params: PlacesParams = { srs: "WGS84" };
 
-    if (config.paging.limitValue < 100) {
-      params.maxresults = config.paging.limitValue.toString();
-    }
+  if (config.paging.limitValue < 100) {
+    params.maxresults = config.paging.limitValue.toString();
+  }
 
-    config.url = buildUrl("places", "polygon", params);
-    config.method = "post";
-    config.body = JSON.stringify(preprocessPlacesPolygon(polygon));
+  config.url = buildUrl("places", "polygon", params);
+  config.method = "post";
+  config.body = JSON.stringify(preprocessPlacesPolygon(polygon));
 
-    return await requestPlaces(config);
-  },
+  return await requestPlaces(config);
+};
 
-  /**
-   * Get places within a radius.
-   *
-   * @param {string} apiKey - A valid OS Data Hub key
-   * @param {number[]} point - A Lng/Lat coordinate
-   * @param {number} radius - Search radius (m)
-   * @param {Object} options - Optional arguments
-   * @param {number} [options.offset] - The starting value for the offset
-   * @param {number} [options.limit] - The max number of features to return
-   * @return {Promise<OSFeatureCollection>} - A GeoJSON Feature Collection
-   */
-  radius: async (
-    apiKey: string,
-    point: [number, number],
-    radius: number,
-    { offset = 0, limit = 100 }: { offset?: number; limit?: number } = {}
-  ): Promise<OSFeatureCollection> => {
-    validateParams({ apiKey, point, radius, offset, limit });
+/**
+ * Get places within a radius.
+ *
+ * @param {string} apiKey - A valid OS Data Hub key
+ * @param {number[]} point - A Lng/Lat coordinate
+ * @param {number} radius - Search radius (m)
+ * @param {Object} options - Optional arguments
+ * @param {number} [options.offset] - The starting value for the offset
+ * @param {number} [options.limit] - The max number of features to return
+ * @return {Promise<OSFeatureCollection>} - A GeoJSON Feature Collection
+ */
+export const radius = async (
+  apiKey: string,
+  point: [number, number],
+  radius: number,
+  { offset = 0, limit = 100 }: { offset?: number; limit?: number } = {}
+): Promise<OSFeatureCollection> => {
+  validateParams({ apiKey, point, radius, offset, limit });
 
-    const config = initialiseConfig(apiKey, offset, limit);
+  const config = initialiseConfig(apiKey, offset, limit);
 
-    const pointSwivelled = coords
-      .swivelPoint(point)
-      .toString()
-      .replaceAll(" ", "");
-    config.url = buildUrl("places", "radius", {
-      srs: "WGS84",
-      point: pointSwivelled,
-      radius: radius.toString(),
-    });
+  const pointSwivelled = coords
+    .swivelPoint(point)
+    .toString()
+    .replaceAll(" ", "");
+  config.url = buildUrl("places", "radius", {
+    srs: "WGS84",
+    point: pointSwivelled,
+    radius: radius.toString(),
+  });
 
-    return await requestPlaces(config);
-  },
+  return await requestPlaces(config);
+};
 
-  /**
-   * Get places within a bounding box (bbox).
-   *
-   * @param {string} apiKey - A valid OS Data Hub key
-   * @param {number[]} bbox - Lng/Lat bounding box [left, bottom, right, top]
-   * @param {Object} options - Optional arguments
-   * @param {number} [options.offset] - The starting value for the offset
-   * @param {number} [options.limit] - The max number of features to return
-   * @return {Promise<OSFeatureCollection>} - A GeoJSON Feature Collection
-   */
-  bbox: async (
-    apiKey: string,
-    bbox: [number, number, number, number],
-    { offset = 0, limit = 100 }: { offset?: number; limit?: number } = {}
-  ): Promise<OSFeatureCollection> => {
-    validateParams({ apiKey, bbox, offset, limit });
+/**
+ * Get places within a bounding box (bbox).
+ *
+ * @param {string} apiKey - A valid OS Data Hub key
+ * @param {number[]} bbox - Lng/Lat bounding box [left, bottom, right, top]
+ * @param {Object} options - Optional arguments
+ * @param {number} [options.offset] - The starting value for the offset
+ * @param {number} [options.limit] - The max number of features to return
+ * @return {Promise<OSFeatureCollection>} - A GeoJSON Feature Collection
+ */
+export const bbox = async (
+  apiKey: string,
+  bbox: [number, number, number, number],
+  { offset = 0, limit = 100 }: { offset?: number; limit?: number } = {}
+): Promise<OSFeatureCollection> => {
+  validateParams({ apiKey, bbox, offset, limit });
 
-    const config = initialiseConfig(apiKey, offset, limit);
+  const config = initialiseConfig(apiKey, offset, limit);
 
-    const bboxSwivelled = coords
-      .swivelBounds(bbox)
-      .toString()
-      .replaceAll(" ", "");
-    config.url = buildUrl("places", "bbox", {
-      srs: "WGS84",
-      bbox: bboxSwivelled,
-    });
+  const bboxSwivelled = coords
+    .swivelBounds(bbox)
+    .toString()
+    .replaceAll(" ", "");
+  config.url = buildUrl("places", "bbox", {
+    srs: "WGS84",
+    bbox: bboxSwivelled,
+  });
 
-    return await requestPlaces(config);
-  },
+  return await requestPlaces(config);
+};
 
-  /**
-   * Get the nearest place to an input coordinate.
-   *
-   * @param {string} apiKey - A valid OS Data Hub key
-   * @param {number[]} point - A Lng/Lat coordinate
-   * @return {Promise<OSFeatureCollection>} - A GeoJSON Feature Collection
-   */
-  nearest: async (
-    apiKey: string,
-    point: [number, number]
-  ): Promise<OSFeatureCollection> => {
-    validateParams({ apiKey, point });
+/**
+ * Get the nearest place to an input coordinate.
+ *
+ * @param {string} apiKey - A valid OS Data Hub key
+ * @param {number[]} point - A Lng/Lat coordinate
+ * @return {Promise<OSFeatureCollection>} - A GeoJSON Feature Collection
+ */
+export const nearest = async (
+  apiKey: string,
+  point: [number, number]
+): Promise<OSFeatureCollection> => {
+  validateParams({ apiKey, point });
 
-    const config = initialiseConfig(apiKey);
+  const config = initialiseConfig(apiKey);
 
-    const pointSwivelled = coords
-      .swivelPoint(point)
-      .toString()
-      .replaceAll(" ", "");
-    config.url = buildUrl("places", "nearest", {
-      srs: "WGS84",
-      point: pointSwivelled,
-    });
-    config.paging.enabled = false;
+  const pointSwivelled = coords
+    .swivelPoint(point)
+    .toString()
+    .replaceAll(" ", "");
+  config.url = buildUrl("places", "nearest", {
+    srs: "WGS84",
+    point: pointSwivelled,
+  });
+  config.paging.enabled = false;
 
-    return await requestPlaces(config);
-  },
+  return await requestPlaces(config);
+};
 
-  /**
-   * Get the address for a specific UPRN.
-   *
-   * @param {string} apiKey - A valid OS Data Hub key
-   * @param {number} uprn - Address UPRN
-   * @return {Promise<OSFeatureCollection>} - A GeoJSON Feature Collection
-   */
-  uprn: async (apiKey: string, uprn: number): Promise<OSFeatureCollection> => {
-    validateParams({ apiKey, uprn });
+/**
+ * Get the address for a specific UPRN.
+ *
+ * @param {string} apiKey - A valid OS Data Hub key
+ * @param {number} uprn - Address UPRN
+ * @return {Promise<OSFeatureCollection>} - A GeoJSON Feature Collection
+ */
+export const uprn = async (
+  apiKey: string,
+  uprn: number
+): Promise<OSFeatureCollection> => {
+  validateParams({ apiKey, uprn });
 
-    const config = initialiseConfig(apiKey);
+  const config = initialiseConfig(apiKey);
 
-    config.url = buildUrl("places", "uprn", {
-      output_srs: "WGS84",
-      uprn: uprn.toString(),
-    });
-    config.paging.enabled = false;
+  config.url = buildUrl("places", "uprn", {
+    output_srs: "WGS84",
+    uprn: uprn.toString(),
+  });
+  config.paging.enabled = false;
 
-    return await requestPlaces(config);
-  },
+  return await requestPlaces(config);
+};
 
-  /**
-   * Find places that match a full or partial postcode.
-   *
-   * @param {string} apiKey - A valid OS Data Hub key
-   * @param {string} postcode - Full or partial postcode
-   * @param {Object} options - Optional arguments
-   * @param {number} [options.offset] - The starting value for the offset
-   * @param {number} [options.limit] - The max number of features to return
-   * @return {Promise<OSFeatureCollection>} - A GeoJSON Feature Collection
-   */
-  postcode: async (
-    apiKey: string,
-    postcode: string,
-    { offset = 0, limit = 100 }: { offset?: number; limit?: number } = {}
-  ): Promise<OSFeatureCollection> => {
-    validateParams({ apiKey, postcode, offset, limit });
+/**
+ * Find places that match a full or partial postcode.
+ *
+ * @param {string} apiKey - A valid OS Data Hub key
+ * @param {string} postcode - Full or partial postcode
+ * @param {Object} options - Optional arguments
+ * @param {number} [options.offset] - The starting value for the offset
+ * @param {number} [options.limit] - The max number of features to return
+ * @return {Promise<OSFeatureCollection>} - A GeoJSON Feature Collection
+ */
+export const postcode = async (
+  apiKey: string,
+  postcode: string,
+  { offset = 0, limit = 100 }: { offset?: number; limit?: number } = {}
+): Promise<OSFeatureCollection> => {
+  validateParams({ apiKey, postcode, offset, limit });
 
-    const config = initialiseConfig(apiKey, offset, limit);
+  const config = initialiseConfig(apiKey, offset, limit);
 
-    config.url = buildUrl("places", "postcode", {
-      output_srs: "WGS84",
-      postcode,
-    });
+  config.url = buildUrl("places", "postcode", {
+    output_srs: "WGS84",
+    postcode,
+  });
 
-    return await requestPlaces(config);
-  },
+  return await requestPlaces(config);
+};
 
-  /**
-   * Find places that match a free text search.
-   *
-   * @param {string} apiKey - A valid OS Data Hub key
-   * @param {string} query - Free text search parameter
-   * @param {Object} options - Optional arguments
-   * @param {number} [options.offset] - The starting value for the offset
-   * @param {number} [options.limit] - The max number of features to return
-   * @return {Promise<OSFeatureCollection>} - A GeoJSON Feature Collection
-   */
-  find: async (
-    apiKey: string,
-    query: string,
-    { offset = 0, limit = 100 }: { offset?: number; limit?: number } = {}
-  ): Promise<OSFeatureCollection> => {
-    validateParams({ apiKey, query, offset, limit });
+/**
+ * Find places that match a free text search.
+ *
+ * @param {string} apiKey - A valid OS Data Hub key
+ * @param {string} query - Free text search parameter
+ * @param {Object} options - Optional arguments
+ * @param {number} [options.offset] - The starting value for the offset
+ * @param {number} [options.limit] - The max number of features to return
+ * @return {Promise<OSFeatureCollection>} - A GeoJSON Feature Collection
+ */
+export const find = async (
+  apiKey: string,
+  query: string,
+  { offset = 0, limit = 100 }: { offset?: number; limit?: number } = {}
+): Promise<OSFeatureCollection> => {
+  validateParams({ apiKey, query, offset, limit });
 
-    const config = initialiseConfig(apiKey, offset, limit);
+  const config = initialiseConfig(apiKey, offset, limit);
 
-    config.url = buildUrl("places", "find", { output_srs: "WGS84", query });
+  config.url = buildUrl("places", "find", { output_srs: "WGS84", query });
 
-    return await requestPlaces(config);
-  },
+  return await requestPlaces(config);
 };

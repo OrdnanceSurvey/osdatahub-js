@@ -1,7 +1,7 @@
 import { type BBox } from "../src/types";
 import { describe, expect, test, beforeAll, jest } from "@jest/globals";
 import * as dotenv from "dotenv";
-import { places } from "../build/places.js";
+import { placesAPI } from "../build/index.js";
 import { Feature, FeatureCollection, Polygon } from "geojson";
 import { testError } from "./utils";
 
@@ -84,7 +84,7 @@ describe("Polygon Endpoint", () => {
       limit: 5,
     };
 
-    const response = await places.polygon(
+    const response = await placesAPI.polygon(
       apiKey,
       <FeatureCollection>featureCollection,
       options
@@ -101,7 +101,7 @@ describe("Polygon Endpoint", () => {
       offset: 0,
       limit: 5,
     };
-    const response = await places.polygon(apiKey, <Polygon>polygon, options);
+    const response = await placesAPI.polygon(apiKey, <Polygon>polygon, options);
     const requiredProperties = ["features", "header", "type"];
     requiredProperties.map((prop: string) =>
       expect(response).toHaveProperty(prop)
@@ -113,7 +113,7 @@ describe("Polygon Endpoint", () => {
     const requiredProperties = ["features", "header", "type"];
 
     const options: { offset?: number; limit?: number } = { limit: 7 };
-    const response = await places.polygon(apiKey, featureCollection, options);
+    const response = await placesAPI.polygon(apiKey, featureCollection, options);
     requiredProperties.map((prop: string) =>
       expect(response).toHaveProperty(prop)
     );
@@ -123,7 +123,7 @@ describe("Polygon Endpoint", () => {
   test("Polygon endpoint fails with point", async () => {
     const options: { offset?: number; limit?: number } = { limit: 5 };
     const error = await testError(async () => {
-      return await places.polygon(apiKey, point, options);
+      return await placesAPI.polygon(apiKey, point, options);
     });
     expect(error).toEqual(new Error("Expected Polygon, got Point"));
   });
@@ -133,7 +133,7 @@ describe("Polygon Endpoint", () => {
       offset: 0,
       limit: 5,
     };
-    const response = await places.polygon(apiKey, invalidPolygon, options);
+    const response = await placesAPI.polygon(apiKey, invalidPolygon, options);
     expect(response.features.length).toBeGreaterThanOrEqual(1);
   });
 });
@@ -142,17 +142,17 @@ describe("Radius Endpoint", () => {
   test("Radius Endpoint Passes", async () => {
     const center: [number, number] = [-1.4730370044708252, 50.936113462996616];
     const options: { offset?: number; limit?: number } = { limit: 7 };
-    const response = await places.radius(apiKey, center, 200, options);
+    const response = await placesAPI.radius(apiKey, center, 200, options);
     expect(response.features.length).toBeGreaterThanOrEqual(1);
   });
 
   test("Radius Endpoint passes with non-standard numbers of results", async () => {
     const center: [number, number] = [-1.4730370044708252, 50.936113462996616];
     const radius = 500;
-    let response = await places.radius(apiKey, center, radius, { limit: 7 });
+    let response = await placesAPI.radius(apiKey, center, radius, { limit: 7 });
     expect(response.features.length).toEqual(7);
 
-    response = await places.radius(apiKey, center, radius, {
+    response = await placesAPI.radius(apiKey, center, radius, {
       offset: 5,
       limit: 2,
     });
@@ -164,21 +164,21 @@ describe("Radius Endpoint", () => {
     const options: { offset?: number; limit?: number } = { limit: 5 };
 
     let error = await testError(async () => {
-      return await places.radius(apiKey, center, -1, options);
+      return await placesAPI.radius(apiKey, center, -1, options);
     });
     expect(error).toEqual(
       new RangeError("Radius must be an integer between 1-1000m")
     );
 
     error = await testError(async () => {
-      return await places.radius(apiKey, center, 5000, options);
+      return await placesAPI.radius(apiKey, center, 5000, options);
     });
     expect(error).toEqual(
       new RangeError("Radius must be an integer between 1-1000m")
     );
 
     error = await testError(async () => {
-      return await places.radius(apiKey, center, 0.001, options);
+      return await placesAPI.radius(apiKey, center, 0.001, options);
     });
     expect(error).toEqual(
       new Error("Radius must be an integer between 1-1000m")
@@ -188,7 +188,7 @@ describe("Radius Endpoint", () => {
   test("Radius enpoint succeeds with lat lng geometries", async () => {
     const center: [number, number] = [50.936113462996616, -1.4730370044708252];
     const options: { offset?: number; limit?: number } = { limit: 7 };
-    const response = await places.radius(apiKey, center, 200, options);
+    const response = await placesAPI.radius(apiKey, center, 200, options);
     expect(response.features.length).toBeGreaterThanOrEqual(1);
   });
 });
@@ -197,32 +197,32 @@ describe("BBox Endpoint", () => {
   test("BBox Endpoint Passes", async () => {
     let bbox: BBox = [-1.475335, 50.936159, -1.466924, 50.939569];
     const options: { offset?: number; limit?: number } = { limit: 5 };
-    let response = await places.bbox(apiKey, bbox, options);
+    let response = await placesAPI.bbox(apiKey, bbox, options);
     expect(response.features.length).toBeGreaterThanOrEqual(1);
 
     bbox = [-1.917543, 52.479173, -1.907287, 52.485211];
-    response = await places.bbox(apiKey, bbox, options);
+    response = await placesAPI.bbox(apiKey, bbox, options);
     expect(response.features.length).toBeGreaterThanOrEqual(1);
   });
 
   test("BBox endpoint passes with non-standard paging", async () => {
     const bbox: BBox = [-1.475335, 50.936159, -1.466924, 50.939569];
 
-    let response = await places.bbox(apiKey, bbox, { limit: 5 });
+    let response = await placesAPI.bbox(apiKey, bbox, { limit: 5 });
     expect(response.features.length).toEqual(5);
 
-    response = await places.bbox(apiKey, bbox, { offset: 7, limit: 2 });
+    response = await placesAPI.bbox(apiKey, bbox, { offset: 7, limit: 2 });
     expect(response.features.length).toEqual(2);
   });
 
   test("BBox Endpoint Passes with Lat Lng bounds", async () => {
     let bbox: BBox = [50.936159, -1.475335, 50.939569, -1.466924];
     const options: { offset?: number; limit?: number } = { limit: 5 };
-    let response = await places.bbox(apiKey, bbox, options);
+    let response = await placesAPI.bbox(apiKey, bbox, options);
     expect(response.features.length).toBeGreaterThanOrEqual(1);
 
     bbox = [-1.917543, 52.479173, -1.907287, 52.485211];
-    response = await places.bbox(apiKey, bbox, options);
+    response = await placesAPI.bbox(apiKey, bbox, options);
     expect(response.features.length).toBeGreaterThanOrEqual(1);
   });
 
@@ -231,7 +231,7 @@ describe("BBox Endpoint", () => {
 
     // West and East are switched
     let error = await testError(async () => {
-      return await places.bbox(
+      return await placesAPI.bbox(
         apiKey,
         [-1.907287, 52.479173, -1.917543, 52.485211],
         options
@@ -245,7 +245,7 @@ describe("BBox Endpoint", () => {
 
     // North and South are switched
     error = await testError(async () => {
-      return await places.bbox(
+      return await placesAPI.bbox(
         apiKey,
         [-1.917543, 52.485211, -1.907287, 52.479173],
         options
@@ -259,7 +259,7 @@ describe("BBox Endpoint", () => {
 
     // // Obviously not latitude and longitude
     error = await testError(async () => {
-      return await places.bbox(apiKey, [-1000, 0, 1000, 500], options);
+      return await placesAPI.bbox(apiKey, [-1000, 0, 1000, 500], options);
     });
     expect(error).toEqual(
       new Error(
@@ -269,7 +269,7 @@ describe("BBox Endpoint", () => {
 
     // // Invalid latitude values (need to be -90 <= x <= 90)
     error = await testError(async () => {
-      return await places.bbox(apiKey, [-1, 100, 1, 120], options);
+      return await placesAPI.bbox(apiKey, [-1, 100, 1, 120], options);
     });
     expect(error).toEqual(
       new Error(
@@ -282,27 +282,27 @@ describe("BBox Endpoint", () => {
 describe("Nearest Endpoint", () => {
   test("Nearest Endpoint Passes", async () => {
     let point: [number, number] = [-1.471237, 50.938189];
-    let response = await places.nearest(apiKey, point);
+    let response = await placesAPI.nearest(apiKey, point);
     expect(response.features.length).toEqual(1);
 
     point = [-1.924796, 52.47918];
-    response = await places.nearest(apiKey, point);
+    response = await placesAPI.nearest(apiKey, point);
     expect(response.features.length).toEqual(1);
   });
 
   test("Nearest Endpoint Passes with Lat Lng point", async () => {
     let point: [number, number] = [50.938189, -1.471237];
-    let response = await places.nearest(apiKey, point);
+    let response = await placesAPI.nearest(apiKey, point);
     expect(response.features.length).toEqual(1);
 
     point = [-1.924796, 52.47918];
-    response = await places.nearest(apiKey, point);
+    response = await placesAPI.nearest(apiKey, point);
     expect(response.features.length).toEqual(1);
   });
 
   test("Nearest endpoing fails with invalid point", async () => {
     const error = await testError(async () => {
-      return await places.nearest(apiKey, [-12.720966, 39.099627]);
+      return await placesAPI.nearest(apiKey, [-12.720966, 39.099627]);
     });
     expect(error).toEqual(
       new Error(
@@ -315,14 +315,14 @@ describe("Nearest Endpoint", () => {
 describe("UPRN Endpoint", () => {
   test("UPRN endpoint passes", async () => {
     const uprn = 200010019924;
-    const response = await places.uprn(apiKey, uprn);
+    const response = await placesAPI.uprn(apiKey, uprn);
     expect(response.features.length).toEqual(1);
   });
 
   test("UPRN endpoint fails with invalid UPRN", async () => {
     // can't be a negative number
     let error = await testError(async () => {
-      return await places.uprn(apiKey, -1000);
+      return await placesAPI.uprn(apiKey, -1000);
     });
     expect(error).toEqual(
       new Error("Invalid UPRN, should be a positive integer (max. 12 digits)")
@@ -330,7 +330,7 @@ describe("UPRN Endpoint", () => {
 
     // can't be a decimal
     error = await testError(async () => {
-      return await places.uprn(apiKey, 1.2345);
+      return await placesAPI.uprn(apiKey, 1.2345);
     });
     expect(error).toEqual(
       new Error("Invalid UPRN, should be a positive integer (max. 12 digits)")
@@ -338,7 +338,7 @@ describe("UPRN Endpoint", () => {
 
     // can't be greater than 12 characters
     error = await testError(async () => {
-      return await places.uprn(apiKey, 1234567890123);
+      return await placesAPI.uprn(apiKey, 1234567890123);
     });
     expect(error).toEqual(
       new Error("Invalid UPRN, should be a positive integer (max. 12 digits)")
@@ -350,22 +350,22 @@ describe("Postcode Endpoint", () => {
   test("Postcode Endpoint Passes", async () => {
     let postcode = "SO16 0AS";
     const options: { offset?: number; limit?: number } = { limit: 1 };
-    let response = await places.postcode(apiKey, postcode, options);
+    let response = await placesAPI.postcode(apiKey, postcode, options);
     expect(response.features.length).toBeGreaterThanOrEqual(1);
 
     postcode = "KT11 3BB";
-    response = await places.postcode(apiKey, postcode, options);
+    response = await placesAPI.postcode(apiKey, postcode, options);
     expect(response.features.length).toBeGreaterThanOrEqual(1);
 
     postcode = "SO16";
-    response = await places.postcode(apiKey, postcode, { limit: 5 });
+    response = await placesAPI.postcode(apiKey, postcode, { limit: 5 });
     expect(response.features.length).toBeGreaterThanOrEqual(1);
   });
 
   test("Postcode Endpoint fails with invalid postcode", async () => {
     const options: { offset?: number; limit?: number } = { limit: 5 };
     let error = await testError(async () => {
-      return await places.postcode(apiKey, "asdfasdf", options);
+      return await placesAPI.postcode(apiKey, "asdfasdf", options);
     });
     expect(error).toEqual(
       new Error(
@@ -375,7 +375,7 @@ describe("Postcode Endpoint", () => {
 
     // Requested postcode must contain a minimum of the sector plus 1 digit of the district e.g. SO1
     error = await testError(async () => {
-      return await places.postcode(apiKey, "CM", options);
+      return await placesAPI.postcode(apiKey, "CM", options);
     });
     expect(error).toEqual(
       new Error(
@@ -386,7 +386,7 @@ describe("Postcode Endpoint", () => {
 
   test("Postcode Endpoint passes with non-standard numbers of results", async () => {
     const postcode = "SO16";
-    const response = await places.postcode(apiKey, postcode, { limit: 120 });
+    const response = await placesAPI.postcode(apiKey, postcode, { limit: 120 });
     expect(response.features.length).toEqual(120);
   });
 });
@@ -395,20 +395,20 @@ describe("Find Endpoint", () => {
   test("Find Endpoint Passes", async () => {
     let query = "10 Downing Street, London, SW1";
     const options: { offset?: number; limit?: number } = { limit: 5 };
-    let response = await places.find(apiKey, query, options);
+    let response = await placesAPI.find(apiKey, query, options);
     expect(response.features.length).toBeGreaterThanOrEqual(1);
 
     query = "Adanac Drive, SO16";
-    response = await places.find(apiKey, query, options);
+    response = await placesAPI.find(apiKey, query, options);
     expect(response.features.length).toBeGreaterThanOrEqual(1);
   });
 
   test("Postcode endpoint passes with non-standard paging", async () => {
     const query = "10 Downing Street, London, SW1";
-    let response = await places.find(apiKey, query, { limit: 9 });
+    let response = await placesAPI.find(apiKey, query, { limit: 9 });
     expect(response.features.length).toEqual(9);
 
-    response = await places.find(apiKey, query, { offset: 2, limit: 1 });
+    response = await placesAPI.find(apiKey, query, { offset: 2, limit: 1 });
     expect(response.features.length).toEqual(1);
   });
 });
