@@ -92,7 +92,7 @@
     [52.3987, -0.7317],
     13
   );
-  new L.Control.Zoom({ position: "topright" }).addTo(map);
+  new L.Control.Zoom({ position: "bottomright" }).addTo(map);
   const tileLayer = L.tileLayer(
     "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
     {
@@ -139,6 +139,7 @@
     padding: 2rem;
     border-radius: 0.4rem;
     box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2);
+    box-sizing: border-box;
   }
 
   #text div {
@@ -163,6 +164,7 @@
 
   input {
     height: 100%;
+    width: 100%;
     font-size: inherit;
   }
 
