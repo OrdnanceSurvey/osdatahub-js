@@ -5,6 +5,26 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="./media/favicon/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="./media/favicon/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="./media/favicon/favicon-16x16.png"
+    />
+    <link rel="manifest" href="./media/favicon/site.webmanifest" />
+
+    <!-- Import Leaflet -->
+    <link
       rel="stylesheet"
       href="https://unpkg.com/leaflet@1.9.2/dist/leaflet.css"
       integrity="sha256-sA+zWATbFveLLNqWO2gtiw3HL/lh1giY/Inf1BJ0z14="
@@ -15,13 +35,16 @@
       integrity="sha256-o9N1jGDZrf5tS+Ft4gbIK7mYMipq9lqpVJ91xHSyKhg="
       crossorigin=""
     ></script>
+
+    <!-- Import osdatahub -->
     <script src="https://unpkg.com/osdatahub/dist/bundle.min.js"></script>
     <title>OS Data Hub JS</title>
   </head>
   <body>
     <main>
       <section id="text">
-        <h1>osdatahub (JavaScript) Examples</h1>
+        <img src="./media//os-logo.png" alt="Ordnance Survey Logo" width="200px">
+        <h1>osdatahub Examples</h1>
         <p>
           Here is an example webpage that utilises the osdatahub JavaScript
           package.
@@ -129,7 +152,7 @@
   button {
     padding: 0.7rem;
     cursor: pointer;
-    background: #453C90;
+    background: #453c90;
     color: white;
     border: none;
   }
