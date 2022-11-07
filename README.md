@@ -107,7 +107,7 @@ Use directly in the browser with the following script tag:
 
 **Note:** Be wary of exposing your OS Data Hub API key when running osdatahub in the browser!
 
-You can find an example html page that uses the osdatahub package, here \[[Source](https://github.com/OrdnanceSurvey/osdatahub-js/tree/main/examples/browser_example.html)\].
+You can find an [example html page that uses the osdatahub package, here]() \[[Source](https://github.com/OrdnanceSurvey/osdatahub-js/tree/main/examples/browser_example.html)\].
 
 ![osdatahub browser demo](https://raw.githubusercontent.com/OrdnanceSurvey/osdatahub-js/main/media/browser_examples_screenshot.jpg)
 
