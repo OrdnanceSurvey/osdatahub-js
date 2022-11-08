@@ -1,6 +1,6 @@
 {
   "name": "osdatahub",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "A JavaScript wrapper for the Ordnance Survey NGD API, Names API and Places API.",
   "main": "build/index.js",
   "type": "module",
