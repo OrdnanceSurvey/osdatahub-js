@@ -137,7 +137,7 @@ Different APIs support different search operations. Let's explore them...
 
 The OS NGD API can be accessed via `osdatahub.ngd`. For further information on using the OS NGD API and its capabilities, please refer to the [OS Data Hub](https://osdatahub.os.uk/docs/ofa/overview) documentation and technical specification.
 
-#### **Features (Collection Items)**
+#### [**Features (Collection Items)**](https://ordnancesurvey.github.io/osdatahub-js/docs/functions/ngd.features.html)
 
 Get GeoJSON features from a specific product collection (e.g. Building Parts),
 using various parameter filters and/or geospatial filters
@@ -162,7 +162,7 @@ Optional Parameters (add as named arguments e.g. `{crs: 27700}`):
 - `filter` (string, default null) - Common Query Language (CQL) filter
 - `filterCRS` (string or number, default null) - CRS of filter if a spatial operation is used [null defaults to WGS84]
 
-#### **Feature (Single Collection Item)**
+#### [**Feature (Single Collection Item)**](https://ordnancesurvey.github.io/osdatahub-js/docs/functions/ngd.feature.html)
 
 Get a single GeoJSON feature from a specific product collection and feature Id
 
@@ -180,7 +180,7 @@ Optional Parameters (add as named arguments e.g. `{crs: 27700}`):
 
 - `crs` (string or number, default null) - CRS return GeoJSON [null defaults to WGS84]
 
-#### **Collections**
+#### [**Collections**](https://ordnancesurvey.github.io/osdatahub-js/docs/functions/ngd.collections.html)
 
 Get information about a specific collection - if no collection ID is given
 function returns a list of all available collections!
@@ -194,7 +194,7 @@ Parameters:
 
 - `collectionId`[Optional] (string) - A valid collection ID e.g. (bld-fts-buildingpart)
 
-#### **Schema**
+#### [**Schema**](https://ordnancesurvey.github.io/osdatahub-js/docs/functions/ngd.schema.html)
 
 Get details of the feature attributes (properties) in a given collection
 
@@ -206,7 +206,7 @@ Parameters:
 
 - `collectionId` (string) - A valid collection ID e.g. (bld-fts-buildingpart)
 
-#### **Queryables**
+#### [**Queryables**](https://ordnancesurvey.github.io/osdatahub-js/docs/functions/ngd.queryables.html)
 
 Get all queryable attributes in a given collection
 
@@ -224,7 +224,7 @@ Parameters:
 
 The OS Places API can be accessed via `osdatahub.placesAPI`. For further information on using the OS Places API and its capabilities, please refer to the [OS Data Hub](https://osdatahub.os.uk/docs/places/overview) documentation and technical specification.
 
-#### GeoJSON Polygon
+#### [**GeoJSON Polygon**](https://ordnancesurvey.github.io/osdatahub-js/docs/functions/placesAPI.polygon.html)
 
 Returns all features within the geometry up to the user-defined limit.
 
@@ -242,7 +242,7 @@ Optional Parameters (add as named arguments e.g. `{crs: 27700}`):
 - `offset` (integer, default 0) - The starting position to collect features
 - `limit` (integrer, default 1,000) - The maximum number of features to return
 
-#### Point-Based Radius
+#### [**Point-Based Radius**](https://ordnancesurvey.github.io/osdatahub-js/docs/functions/placesAPI.radius.html)
 
 Returns all features within the geometry (user-defined distance from a point) up to the user-defined limit.
 
@@ -261,7 +261,7 @@ Optional Parameters (add as named arguments e.g. `{crs: 27700}`):
 - `offset` (integer, default 0) - The starting position to collect features
 - `limit` (integrer, default 1,000) - The maximum number of features to return
 
-#### Nearest Feature
+#### [**Nearest Feature**](https://ordnancesurvey.github.io/osdatahub-js/docs/functions/placesAPI.nearest.html)
 
 Returns a single feature, the closest to the geometry (a point).
 
@@ -274,7 +274,7 @@ Parameters:
 - `apiKey` (string) - Your OS Data Hub API Key
 - `[lng, lat]` (array of numbers) - Point feature (in `ESPG:4326`)
 
-#### Bounding Box
+#### [**Bounding Box**](https://ordnancesurvey.github.io/osdatahub-js/docs/functions/placesAPI.bbox.html)
 
 Returns all features within the bbox geometry (up to 1km<sup>2</sup> in area), up to the user-defined limit.
 
@@ -292,7 +292,7 @@ Optional Parameters (add as named arguments e.g. `{crs: 27700}`):
 - `offset` (integer, default 0) - The starting position to collect features
 - `limit` (integrer, default 1,000) - The maximum number of features to return
 
-#### UPRN (Unique Property Reference Number)
+#### [**UPRN (Unique Property Reference Number)**](https://ordnancesurvey.github.io/osdatahub-js/docs/functions/placesAPI.uprn.html)
 
 Returns a single feature, matching the input UPRN identifier.
 
@@ -305,7 +305,7 @@ Parameters:
 - `apiKey` (string) - Your OS Data Hub API Key
 - `uprnIdentifier` (integer) - A valid UPRN identifer
 
-#### Postcode (Full or Partial)
+#### [**Postcode (Full or Partial)**](https://ordnancesurvey.github.io/osdatahub-js/docs/functions/placesAPI.postcode.html)
 
 Returns features matching the input postcode. A full (e.g, `SO16 0AS`) or partial (e.g, `OS16`) postcode can be provided, the number of features returned (up to the user-defined limit) can vary considerably.
 
@@ -323,7 +323,7 @@ Optional Parameters (add as named arguments e.g. `{crs: 27700}`):
 - `offset` (integer, default 0) - The starting position to collect features
 - `limit` (integrer, default 1,000) - The maximum number of features to return
 
-#### Find (Plain Text Search)
+#### [**Find (Plain Text Search)**](https://ordnancesurvey.github.io/osdatahub-js/docs/functions/placesAPI.find.html)
 
 Returns features matching the input text string provided. The number of features returned (up to the user-defined limit) can vary considerably.
 
@@ -349,7 +349,7 @@ Optional Parameters (add as named arguments e.g. `{crs: 27700}`):
 
 The OS Names API can be accessed via `osdatahub.namesAPI`. For further information on using the OS Names API and its capabilities, please refer to the [OS Data Hub](https://osdatahub.os.uk/docs/names/overview) documentation and technical specification.
 
-#### Nearest Feature
+#### [**Nearest Feature**](https://ordnancesurvey.github.io/osdatahub-js/docs/functions/namesAPI.nearest.html)
 
 Returns a single feature, the closest to the point geometry.
 
@@ -362,7 +362,7 @@ Parameters:
 - `apiKey` (string) - Your OS Data Hub API Key
 - `[lng, lat]` (array of numbers) - Point feature (in `ESPG:4326`)
 
-#### Find (Plain Text Search)
+#### [**Find (Plain Text Search)**](https://ordnancesurvey.github.io/osdatahub-js/docs/functions/namesAPI.find.html)
 
 Returns features matching the input text string provided. The number of features returned (up to the user-defined limit) can vary considerably.
 
