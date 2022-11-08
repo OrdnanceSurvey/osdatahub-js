@@ -7,12 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [[0.2.2](https://github.com/OrdnanceSurvey/osdatahub-js/releases/tag/v0.2.2)] - 2022-11-08
+
+### Added
+
+- Simple tests for browser bundle
+
 ### Changed
 
 - Updated README
 - Added typedoc auto-generated documentation
 - Refactored modules to export functions (not an object) - this will not change import pattern for the user!
-- Added tests for browser bundle
 
 ## [[0.2.1](https://github.com/OrdnanceSurvey/osdatahub-js/releases/tag/v0.2.1)] - 2022-11-04
 
@@ -45,6 +50,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - OGL License
 
 [Unreleased]: [https://github.com/OrdnanceSurvey/osdatahub-js/compare/main...dev ](https://github.com/OrdnanceSurvey/osdatahub-js/compare/main...dev)
+
+[0.2.2]: [https://github.com/OrdnanceSurvey/osdatahub-js/compare/v0.2.1...v0.2.2 ](https://github.com/OrdnanceSurvey/osdatahub-js/compare/v0.2.1...v0.2.2)
 
 [0.2.1]: [https://github.com/OrdnanceSurvey/osdatahub-js/compare/v0.2.0...v0.2.1 ](https://github.com/OrdnanceSurvey/osdatahub-js/compare/v0.2.0...v0.2.1)
 
