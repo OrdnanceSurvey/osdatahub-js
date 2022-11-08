@@ -35,9 +35,10 @@
 </a>
 <ul>
 <li>GitHub repo: <a href="https://github.com/OrdnanceSurvey/osdatahub-js">https://github.com/OrdnanceSurvey/osdatahub-js</a></li>
+<li>Documentation: <a href="https://ordnancesurvey.github.io/osdatahub-js/docs/index.html">https://ordnancesurvey.github.io/osdatahub-js/docs/index.html</a></li>
 <li>NPM: <a href="https://www.npmjs.com/package/osdatahub">https://www.npmjs.com/package/osdatahub</a></li>
 <li>Data Hub Explorer: <a href="https://labs.os.uk/prototyping/data-hub-explorer/">https://labs.os.uk/prototyping/data-hub-explorer/</a></li>
-<li>Free Software: Open Government License</li>
+<li>Free Software: <a href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/">Open Government License</a></li>
 </ul>
 <p><strong>Note:</strong> This package is under active development.</p>
 
@@ -146,7 +147,7 @@
 <p>The OS NGD API can be accessed via <code>osdatahub.ngd</code>. For further information on using the OS NGD API and its capabilities, please refer to the <a href="https://osdatahub.os.uk/docs/ofa/overview">OS Data Hub</a> documentation and technical specification.</p>
 
 <a href="#features-collection-items" id="features-collection-items" style="color: inherit; text-decoration: none;">
-  <h4><strong>Features (Collection Items)</strong></h4>
+  <h4><a href="https://ordnancesurvey.github.io/osdatahub-js/docs/functions/ngd.features.html"><strong>Features (Collection Items)</strong></a></h4>
 </a>
 <p>Get GeoJSON features from a specific product collection (e.g. Building Parts),
 using various parameter filters and/or geospatial filters</p>
@@ -170,7 +171,7 @@ using various parameter filters and/or geospatial filters</p>
 </ul>
 
 <a href="#feature-single-collection-item" id="feature-single-collection-item" style="color: inherit; text-decoration: none;">
-  <h4><strong>Feature (Single Collection Item)</strong></h4>
+  <h4><a href="https://ordnancesurvey.github.io/osdatahub-js/docs/functions/ngd.feature.html"><strong>Feature (Single Collection Item)</strong></a></h4>
 </a>
 <p>Get a single GeoJSON feature from a specific product collection and feature Id</p>
 <pre><code class="language-javascript"><span class="hl-4">osdatahub</span><span class="hl-0">.</span><span class="hl-4">ngd</span><span class="hl-0">.</span><span class="hl-12">feature</span><span class="hl-0">(</span><span class="hl-4">apiKey</span><span class="hl-0">, </span><span class="hl-4">collectionId</span><span class="hl-0">, </span><span class="hl-4">featureId</span><span class="hl-0">, {});</span>
@@ -187,7 +188,7 @@ using various parameter filters and/or geospatial filters</p>
 </ul>
 
 <a href="#collections" id="collections" style="color: inherit; text-decoration: none;">
-  <h4><strong>Collections</strong></h4>
+  <h4><a href="https://ordnancesurvey.github.io/osdatahub-js/docs/functions/ngd.collections.html"><strong>Collections</strong></a></h4>
 </a>
 <p>Get information about a specific collection - if no collection ID is given
 function returns a list of all available collections!</p>
@@ -199,7 +200,7 @@ function returns a list of all available collections!</p>
 </ul>
 
 <a href="#schema" id="schema" style="color: inherit; text-decoration: none;">
-  <h4><strong>Schema</strong></h4>
+  <h4><a href="https://ordnancesurvey.github.io/osdatahub-js/docs/functions/ngd.schema.html"><strong>Schema</strong></a></h4>
 </a>
 <p>Get details of the feature attributes (properties) in a given collection</p>
 <pre><code class="language-javascript"><span class="hl-4">osdatahub</span><span class="hl-0">.</span><span class="hl-4">ngd</span><span class="hl-0">.</span><span class="hl-12">schema</span><span class="hl-0">(</span><span class="hl-4">collectionId</span><span class="hl-0">);</span>
@@ -210,7 +211,7 @@ function returns a list of all available collections!</p>
 </ul>
 
 <a href="#queryables" id="queryables" style="color: inherit; text-decoration: none;">
-  <h4><strong>Queryables</strong></h4>
+  <h4><a href="https://ordnancesurvey.github.io/osdatahub-js/docs/functions/ngd.queryables.html"><strong>Queryables</strong></a></h4>
 </a>
 <p>Get all queryable attributes in a given collection</p>
 <pre><code class="language-javascript"><span class="hl-4">osdatahub</span><span class="hl-0">.</span><span class="hl-4">ngd</span><span class="hl-0">.</span><span class="hl-12">queryables</span><span class="hl-0">(</span><span class="hl-4">collectionId</span><span class="hl-0">);</span>
@@ -227,7 +228,7 @@ function returns a list of all available collections!</p>
 <p>The OS Places API can be accessed via <code>osdatahub.placesAPI</code>. For further information on using the OS Places API and its capabilities, please refer to the <a href="https://osdatahub.os.uk/docs/places/overview">OS Data Hub</a> documentation and technical specification.</p>
 
 <a href="#geojson-polygon" id="geojson-polygon" style="color: inherit; text-decoration: none;">
-  <h4>GeoJSON Polygon</h4>
+  <h4><a href="https://ordnancesurvey.github.io/osdatahub-js/docs/functions/placesAPI.polygon.html"><strong>GeoJSON Polygon</strong></a></h4>
 </a>
 <p>Returns all features within the geometry up to the user-defined limit.</p>
 <pre><code class="language-javascript"><span class="hl-4">osdatahub</span><span class="hl-0">.</span><span class="hl-4">placesAPI</span><span class="hl-0">.</span><span class="hl-12">polygon</span><span class="hl-0">(</span><span class="hl-4">apiKey</span><span class="hl-0">, </span><span class="hl-4">geoJson</span><span class="hl-0">, {});</span>
@@ -244,7 +245,7 @@ function returns a list of all available collections!</p>
 </ul>
 
 <a href="#point-based-radius" id="point-based-radius" style="color: inherit; text-decoration: none;">
-  <h4>Point-Based Radius</h4>
+  <h4><a href="https://ordnancesurvey.github.io/osdatahub-js/docs/functions/placesAPI.radius.html"><strong>Point-Based Radius</strong></a></h4>
 </a>
 <p>Returns all features within the geometry (user-defined distance from a point) up to the user-defined limit.</p>
 <pre><code class="language-javascript"><span class="hl-4">osdatahub</span><span class="hl-0">.</span><span class="hl-4">placesAPI</span><span class="hl-0">.</span><span class="hl-12">radius</span><span class="hl-0">(</span><span class="hl-4">apiKey</span><span class="hl-0">, [</span><span class="hl-4">lng</span><span class="hl-0">, </span><span class="hl-4">lat</span><span class="hl-0">], </span><span class="hl-4">searchRadius</span><span class="hl-0">, {});</span>
@@ -262,7 +263,7 @@ function returns a list of all available collections!</p>
 </ul>
 
 <a href="#nearest-feature" id="nearest-feature" style="color: inherit; text-decoration: none;">
-  <h4>Nearest Feature</h4>
+  <h4><a href="https://ordnancesurvey.github.io/osdatahub-js/docs/functions/placesAPI.nearest.html"><strong>Nearest Feature</strong></a></h4>
 </a>
 <p>Returns a single feature, the closest to the geometry (a point).</p>
 <pre><code class="language-javascript"><span class="hl-4">osdatahub</span><span class="hl-0">.</span><span class="hl-4">placesAPI</span><span class="hl-0">.</span><span class="hl-12">nearest</span><span class="hl-0">(</span><span class="hl-4">apiKey</span><span class="hl-0">, [</span><span class="hl-4">lng</span><span class="hl-0">, </span><span class="hl-4">lat</span><span class="hl-0">], {});</span>
@@ -274,7 +275,7 @@ function returns a list of all available collections!</p>
 </ul>
 
 <a href="#bounding-box" id="bounding-box" style="color: inherit; text-decoration: none;">
-  <h4>Bounding Box</h4>
+  <h4><a href="https://ordnancesurvey.github.io/osdatahub-js/docs/functions/placesAPI.bbox.html"><strong>Bounding Box</strong></a></h4>
 </a>
 <p>Returns all features within the bbox geometry (up to 1km<sup>2</sup> in area), up to the user-defined limit.</p>
 <pre><code class="language-javascript"><span class="hl-4">osdatahub</span><span class="hl-0">.</span><span class="hl-4">placesAPI</span><span class="hl-0">.</span><span class="hl-12">bbox</span><span class="hl-0">(</span><span class="hl-4">apiKey</span><span class="hl-0">, [</span><span class="hl-4">b</span><span class="hl-0">, </span><span class="hl-4">b</span><span class="hl-0">, </span><span class="hl-4">o</span><span class="hl-0">, </span><span class="hl-4">x</span><span class="hl-0">], {});</span>
@@ -291,7 +292,7 @@ function returns a list of all available collections!</p>
 </ul>
 
 <a href="#uprn-unique-property-reference-number" id="uprn-unique-property-reference-number" style="color: inherit; text-decoration: none;">
-  <h4>UPRN (Unique Property Reference Number)</h4>
+  <h4><a href="https://ordnancesurvey.github.io/osdatahub-js/docs/functions/placesAPI.uprn.html"><strong>UPRN (Unique Property Reference Number)</strong></a></h4>
 </a>
 <p>Returns a single feature, matching the input UPRN identifier.</p>
 <pre><code class="language-javascript"><span class="hl-4">osdatahub</span><span class="hl-0">.</span><span class="hl-4">placesAPI</span><span class="hl-0">.</span><span class="hl-12">uprn</span><span class="hl-0">(</span><span class="hl-4">apiKey</span><span class="hl-0">, </span><span class="hl-4">uprnIdentifer</span><span class="hl-0">, {});</span>
@@ -303,7 +304,7 @@ function returns a list of all available collections!</p>
 </ul>
 
 <a href="#postcode-full-or-partial" id="postcode-full-or-partial" style="color: inherit; text-decoration: none;">
-  <h4>Postcode (Full or Partial)</h4>
+  <h4><a href="https://ordnancesurvey.github.io/osdatahub-js/docs/functions/placesAPI.postcode.html"><strong>Postcode (Full or Partial)</strong></a></h4>
 </a>
 <p>Returns features matching the input postcode. A full (e.g, <code>SO16 0AS</code>) or partial (e.g, <code>OS16</code>) postcode can be provided, the number of features returned (up to the user-defined limit) can vary considerably.</p>
 <pre><code class="language-javascript"><span class="hl-4">osdatahub</span><span class="hl-0">.</span><span class="hl-4">placesAPI</span><span class="hl-0">.</span><span class="hl-12">postcode</span><span class="hl-0">(</span><span class="hl-4">apiKey</span><span class="hl-0">, </span><span class="hl-4">postcode</span><span class="hl-0">, {});</span>
@@ -320,7 +321,7 @@ function returns a list of all available collections!</p>
 </ul>
 
 <a href="#find-plain-text-search" id="find-plain-text-search" style="color: inherit; text-decoration: none;">
-  <h4>Find (Plain Text Search)</h4>
+  <h4><a href="https://ordnancesurvey.github.io/osdatahub-js/docs/functions/placesAPI.find.html"><strong>Find (Plain Text Search)</strong></a></h4>
 </a>
 <p>Returns features matching the input text string provided. The number of features returned (up to the user-defined limit) can vary considerably.</p>
 <pre><code class="language-javascript"><span class="hl-4">osdatahub</span><span class="hl-0">.</span><span class="hl-4">placesAPI</span><span class="hl-0">.</span><span class="hl-12">find</span><span class="hl-0">(</span><span class="hl-4">apiKey</span><span class="hl-0">, </span><span class="hl-4">query</span><span class="hl-0">, {});</span>
@@ -345,7 +346,7 @@ function returns a list of all available collections!</p>
 <p>The OS Names API can be accessed via <code>osdatahub.namesAPI</code>. For further information on using the OS Names API and its capabilities, please refer to the <a href="https://osdatahub.os.uk/docs/names/overview">OS Data Hub</a> documentation and technical specification.</p>
 
 <a href="#nearest-feature-1" id="nearest-feature-1" style="color: inherit; text-decoration: none;">
-  <h4>Nearest Feature</h4>
+  <h4><a href="https://ordnancesurvey.github.io/osdatahub-js/docs/functions/namesAPI.nearest.html"><strong>Nearest Feature</strong></a></h4>
 </a>
 <p>Returns a single feature, the closest to the point geometry.</p>
 <pre><code class="language-javascript"><span class="hl-4">osdatahub</span><span class="hl-0">.</span><span class="hl-4">namesAPI</span><span class="hl-0">.</span><span class="hl-12">nearest</span><span class="hl-0">(</span><span class="hl-4">apiKey</span><span class="hl-0">, [</span><span class="hl-4">lng</span><span class="hl-0">, </span><span class="hl-4">lat</span><span class="hl-0">], {});</span>
@@ -357,7 +358,7 @@ function returns a list of all available collections!</p>
 </ul>
 
 <a href="#find-plain-text-search-1" id="find-plain-text-search-1" style="color: inherit; text-decoration: none;">
-  <h4>Find (Plain Text Search)</h4>
+  <h4><a href="https://ordnancesurvey.github.io/osdatahub-js/docs/functions/namesAPI.find.html"><strong>Find (Plain Text Search)</strong></a></h4>
 </a>
 <p>Returns features matching the input text string provided. The number of features returned (up to the user-defined limit) can vary considerably.</p>
 <pre><code class="language-javascript"><span class="hl-4">osdatahub</span><span class="hl-0">.</span><span class="hl-4">namesAPI</span><span class="hl-0">.</span><span class="hl-12">find</span><span class="hl-0">(</span><span class="hl-4">apiKey</span><span class="hl-0">, </span><span class="hl-4">query</span><span class="hl-0">, {});</span>
@@ -428,7 +429,7 @@ run the following in your environment:</p>
 <p style="line-height: 28px;">Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a><br>
             <span id="generation-date"></span>
             <script>
-                window.GENERATION_DATE = 1667844189456;
+                window.GENERATION_DATE = 1667900645619;
 
                 (() => {
                     
