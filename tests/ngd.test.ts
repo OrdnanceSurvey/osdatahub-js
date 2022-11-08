@@ -7,7 +7,7 @@ import {
   Position,
 } from "geojson";
 import * as dotenv from "dotenv";
-import { ngd } from "../build/ngd.js";
+import { ngd } from "../build/index.js";
 import { type BBox } from "../src/types.js";
 import { validateParams, datetimeError } from "../src/utils/ngd/validate";
 import { testError } from "./utils";
