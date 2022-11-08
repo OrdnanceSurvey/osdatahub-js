@@ -19,10 +19,11 @@ Ordnance Survey is the national mapping agency for Great Britain and produces a 
 
 ## Links <!-- omit in toc -->
 
-- GitHub repo: https://github.com/OrdnanceSurvey/osdatahub-js
-- NPM: https://www.npmjs.com/package/osdatahub
-- Data Hub Explorer: https://labs.os.uk/prototyping/data-hub-explorer/
-- Free Software: Open Government License
+- GitHub repo: [https://github.com/OrdnanceSurvey/osdatahub-js](https://github.com/OrdnanceSurvey/osdatahub-js)
+- Documentation: [https://ordnancesurvey.github.io/osdatahub-js/docs/index.html](https://ordnancesurvey.github.io/osdatahub-js/docs/index.html)
+- NPM: [https://www.npmjs.com/package/osdatahub](https://www.npmjs.com/package/osdatahub)
+- Data Hub Explorer: [https://labs.os.uk/prototyping/data-hub-explorer/](https://labs.os.uk/prototyping/data-hub-explorer/)
+- Free Software: [Open Government License](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/)
 
 **Note:** This package is under active development.
 
