@@ -113,7 +113,11 @@ describe("Polygon Endpoint", () => {
     const requiredProperties = ["features", "header", "type"];
 
     const options: { offset?: number; limit?: number } = { limit: 7 };
-    const response = await placesAPI.polygon(apiKey, featureCollection, options);
+    const response = await placesAPI.polygon(
+      apiKey,
+      featureCollection,
+      options
+    );
     requiredProperties.map((prop: string) =>
       expect(response).toHaveProperty(prop)
     );

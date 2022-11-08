@@ -1,6 +1,6 @@
 // src/handlers/places.ts
 /**
- * This module provides a wrapper to Ordanance Survey's Places API. 
+ * This module provides a wrapper to Ordanance Survey's Places API.
  * @module
  */
 import { coords } from "./utils/coords.js";

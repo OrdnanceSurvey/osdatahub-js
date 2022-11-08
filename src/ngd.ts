@@ -1,6 +1,6 @@
 // src/handlers/ngd.ts
 /**
- * This module provides a wrapper to Ordanance Survey's NGD Features API. 
+ * This module provides a wrapper to Ordanance Survey's NGD Features API.
  * @module
  */
 import { request } from "./utils/ngd/request.js";
