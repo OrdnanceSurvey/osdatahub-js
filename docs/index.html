@@ -1,0 +1,444 @@
+<!DOCTYPE html><html class="default" lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>osdatahub</title><meta name="description" content="Documentation for osdatahub"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="assets/style.css"/><link rel="stylesheet" href="assets/highlight.css"/><script async src="assets/search.js" id="search-script"></script>	<link rel="icon" href="favicon-32x32.png" />
+</head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os"</script><header class="tsd-page-toolbar">
+<div class="tsd-toolbar-contents container">
+<div class="table-cell" id="tsd-search" data-base=".">
+<div class="field"><label for="tsd-search-field" class="tsd-widget tsd-toolbar-icon search no-caption"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M15.7824 13.833L12.6666 10.7177C12.5259 10.5771 12.3353 10.499 12.1353 10.499H11.6259C12.4884 9.39596 13.001 8.00859 13.001 6.49937C13.001 2.90909 10.0914 0 6.50048 0C2.90959 0 0 2.90909 0 6.49937C0 10.0896 2.90959 12.9987 6.50048 12.9987C8.00996 12.9987 9.39756 12.4863 10.5008 11.6239V12.1332C10.5008 12.3332 10.5789 12.5238 10.7195 12.6644L13.8354 15.7797C14.1292 16.0734 14.6042 16.0734 14.8948 15.7797L15.7793 14.8954C16.0731 14.6017 16.0731 14.1267 15.7824 13.833ZM6.50048 10.499C4.29094 10.499 2.50018 8.71165 2.50018 6.49937C2.50018 4.29021 4.28781 2.49976 6.50048 2.49976C8.71001 2.49976 10.5008 4.28708 10.5008 6.49937C10.5008 8.70852 8.71314 10.499 6.50048 10.499Z" fill="var(--color-text)"></path></svg></label><input type="text" id="tsd-search-field" aria-label="Search"/></div>
+<div class="field">
+<div id="tsd-toolbar-links"></div></div>
+<ul class="results">
+<li class="state loading">Preparing search index...</li>
+<li class="state failure">The search index is not available</li></ul><a href="index.html" class="title">osdatahub</a></div>
+<div class="table-cell" id="tsd-widgets"><a href="#" class="tsd-widget tsd-toolbar-icon menu no-caption" data-toggle="menu" aria-label="Menu"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="3" width="14" height="2" fill="var(--color-text)"></rect><rect x="1" y="7" width="14" height="2" fill="var(--color-text)"></rect><rect x="1" y="11" width="14" height="2" fill="var(--color-text)"></rect></svg></a></div></div></header>
+<div class="container container-main">
+<div class="col-8 col-content">
+<div class="tsd-page-title">
+<h2>osdatahub</h2></div>
+<div class="tsd-panel tsd-typography"><p><a href="https://github.com/OrdnanceSurvey/osdatahub-js/actions/workflows/node.js.yml"><img src="https://github.com/OrdnanceSurvey/osdatahub-js/actions/workflows/node.js.yml/badge.svg" alt="Tests Passing"></a>
+<img src="https://img.shields.io/badge/Node-v16%2B-brightgreen" alt="Node Version">
+<a href=""><img src="https://img.shields.io/badge/Browser%20Compatibility-Supported-brightgreen" alt="Browser Compatibility"></a></p>
+<p><a href="https://img.shields.io/github/languages/top/OrdnanceSurvey/osdatahub-js"><img src="https://img.shields.io/github/languages/top/OrdnanceSurvey/osdatahub-js" alt="Top Language"></a>
+<a href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"><img src="https://img.shields.io/badge/license-OGL-blue" alt="Open Government License"></a>
+<a href="https://github.com/OrdnanceSurvey/osdatahub-js/issues"><img src="https://img.shields.io/github/issues/OrdnanceSurvey/osdatahub-js" alt="GitHub issues"></a></p>
+
+<a href="#osdatahub-javascript" id="osdatahub-javascript" style="color: inherit; text-decoration: none;">
+  <h1>osdatahub (JavaScript)</h1>
+</a>
+<blockquote>
+<p>Coding in Python?<br><code>osdatahub</code> has a sibling package for Python developers with similar functionality, <a href="https://github.com/OrdnanceSurvey/osdatahub">check it out here</a>.</p>
+</blockquote>
+<p><code>osdatahub</code> is a JavaScript package from Ordnance Survey (OS) that makes it easier to interact with the OS Data Hub APIs. The package helps you get started with our data in GeoJSON format, and rapidly build prototypes, test new ideas, or collect data for analyses.</p>
+<p>Ordnance Survey is the national mapping agency for Great Britain and produces a large variety of mapping and geospatial products. Much of OS&#39; data is available via the <a href="https://osdatahub.os.uk">OS Data Hub</a>, a platform that hosts both free and premium data products. <code>osdatahub</code> provides a user-friendly way to interact with these data products.</p>
+<p><img src="https://raw.githubusercontent.com/OrdnanceSurvey/osdatahub-js/main/media/os-logo.png" alt="Ordnance Survey Logo"></p>
+
+<a href="#links-" id="links-" style="color: inherit; text-decoration: none;">
+  <h2>Links <!-- omit in toc --></h2>
+</a>
+<ul>
+<li>GitHub repo: <a href="https://github.com/OrdnanceSurvey/osdatahub-js">https://github.com/OrdnanceSurvey/osdatahub-js</a></li>
+<li>NPM: <a href="https://www.npmjs.com/package/osdatahub">https://www.npmjs.com/package/osdatahub</a></li>
+<li>Data Hub Explorer: <a href="https://labs.os.uk/prototyping/data-hub-explorer/">https://labs.os.uk/prototyping/data-hub-explorer/</a></li>
+<li>Free Software: Open Government License</li>
+</ul>
+<p><strong>Note:</strong> This package is under active development.</p>
+
+<a href="#contents-" id="contents-" style="color: inherit; text-decoration: none;">
+  <h2>Contents <!-- omit in toc --></h2>
+</a>
+<ul>
+<li><a href="#osdatahub-javascript">osdatahub (JavaScript)</a><ul>
+<li><a href="#supported-apis">Supported APIs</a></li>
+<li><a href="#features">Features</a></li>
+<li><a href="#installation">Installation</a><ul>
+<li><a href="#nodejs-via-npm">NodeJS (via NPM)</a></li>
+<li><a href="#browser">Browser</a></li>
+</ul>
+</li>
+<li><a href="#getting-started">Getting Started</a><ul>
+<li><a href="#os-ngd-api">OS NGD API</a></li>
+<li><a href="#os-places-api">OS Places API</a></li>
+<li><a href="#os-names-api">OS Names API</a></li>
+</ul>
+</li>
+<li><a href="#authors">Authors</a></li>
+<li><a href="#contribute">Contribute</a><ul>
+<li><a href="#support">Support</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+<a href="#supported-apis" id="supported-apis" style="color: inherit; text-decoration: none;">
+  <h2>Supported APIs</h2>
+</a>
+<p><code>osdatahub</code> (JavaScript) supports the following Ordnance Survey APIs:</p>
+<ul>
+<li>OS Names API</li>
+<li>OS Places API</li>
+<li>OS NGD Features API</li>
+</ul>
+
+<a href="#features" id="features" style="color: inherit; text-decoration: none;">
+  <h2>Features</h2>
+</a>
+<ul>
+<li><p><strong>Access to Ordnance Survey data in 2 lines of code</strong><br>This wrapper abstracts the HTTP request process, so you can get to work on your geospatial project without configuring API endpoints.</p>
+</li>
+<li><p><strong>Find features via geospatial and textual queries</strong><br>Use all available geospatial and textual search methods supported by each OS API to find and return data.</p>
+</li>
+<li><p><strong>Request as much data as you need with automatic API paging</strong><br>By default, <code>osdatahub</code> will attempt to return a maximum of 1000 features. You can customise this by setting custom start (<code>offset</code>) and end (<code>limit</code>) values. Where multiple requests are required, <code>osdatahub</code> will merge these into a single response object. <em>Please note that requesting a large amount of data may have cost implications.</em></p>
+</li>
+<li><p><strong>Developer-Friendly GeoJSON Responses</strong><br>The <code>osdatahub</code> package exclusively uses GeoJSON and lng/lat (<code>ESPG:4326</code>) coordinates for returning data, please note that British National Grid coordinates (<code>ESPG:27700</code>) <strong>are not supported</strong>. You can use tools such as <a href="http://bboxfinder.com/">bboxfinder.com</a> or <a href="https://geojson.io/">geojson.io</a> to collect input geometry for use in <code>osdatahub</code>. Responses from non-GeoJSON APIs are returned in specification-compliant GeoJSON format.</p>
+</li>
+<li><p><strong>Pre- and Post- Request Error Handing</strong><br><code>osdatahub</code> will handle some types of error prior to sending a request, such as invalid geometry, or a missing API key. Errors on the server (<code>HTTP 5**</code>/<code>4**</code> codes) are also handled.</p>
+</li>
+</ul>
+
+<a href="#installation" id="installation" style="color: inherit; text-decoration: none;">
+  <h2>Installation</h2>
+</a>
+<p>You&#39;ll need to sign-up for an account on the <a href="https://osdatahub.os.uk">OS Data Hub</a> to create an API key:</p>
+<ol>
+<li>Navigate to the <em>API Dashboard</em> located on the top navigation bar</li>
+<li>Go to <em>My Projects</em></li>
+<li>Click <em>Create a new project</em>, give your project a name, then click <em>Create project</em></li>
+<li>Select <em>Add an API to this project</em></li>
+<li>Choose the APIs you would like to use and click <em>Done</em></li>
+</ol>
+
+<a href="#nodejs-via-npm" id="nodejs-via-npm" style="color: inherit; text-decoration: none;">
+  <h3>NodeJS (via NPM)</h3>
+</a>
+<p>Install the <code>osdatahub</code> package into your project, via NPM:</p>
+<pre><code class="language-bash"><span class="hl-0">npm install osdatahub</span>
+</code></pre>
+<p>You can then import <code>osdatahub</code> into your code:</p>
+<pre><code class="language-javascript"><span class="hl-1">// option 1 - import all the things (suggested)</span><br/><span class="hl-2">import</span><span class="hl-0"> </span><span class="hl-3">*</span><span class="hl-0"> </span><span class="hl-2">as</span><span class="hl-0"> </span><span class="hl-4">osdatahub</span><span class="hl-0"> </span><span class="hl-2">from</span><span class="hl-0"> </span><span class="hl-5">&quot;osdatahub&quot;</span><span class="hl-0">;</span>
+</code></pre>
+<pre><code class="language-javascript"><span class="hl-1">// option 2 - import specific modules</span><br/><span class="hl-2">import</span><span class="hl-0"> { </span><span class="hl-4">placesAPI</span><span class="hl-0"> } </span><span class="hl-2">from</span><span class="hl-0"> </span><span class="hl-5">&quot;osdatahub&quot;</span><span class="hl-0">;</span>
+</code></pre>
+
+<a href="#browser" id="browser" style="color: inherit; text-decoration: none;">
+  <h3>Browser</h3>
+</a>
+<p>Use directly in the browser with the following script tag:</p>
+<pre><code class="language-html"><span class="hl-6">&lt;</span><span class="hl-7">script</span><span class="hl-8"> </span><span class="hl-9">src</span><span class="hl-8">=</span><span class="hl-10">&quot;https://unpkg.com/osdatahub/dist/bundle.min.js&quot;</span><span class="hl-6">&gt;&lt;/</span><span class="hl-7">script</span><span class="hl-6">&gt;</span>
+</code></pre>
+<p><strong>Note:</strong> Be wary of exposing your OS Data Hub API key when running osdatahub in the browser!</p>
+<p>You can find an <a href="https://ordnancesurvey.github.io/osdatahub-js/examples/browser_example.html">example html page that uses the osdatahub package, here</a> [<a href="https://github.com/OrdnanceSurvey/osdatahub-js/tree/main/examples/browser_example.html">Source</a>].</p>
+<p><img src="https://raw.githubusercontent.com/OrdnanceSurvey/osdatahub-js/main/media/browser_examples_screenshot.jpg" alt="osdatahub browser demo"></p>
+
+<a href="#getting-started" id="getting-started" style="color: inherit; text-decoration: none;">
+  <h2>Getting Started</h2>
+</a>
+<p>All <code>osdatahub</code> commands look something like this:</p>
+<pre><code class="language-javascript"><span class="hl-1">// Securely get API key (we recommend getting the key from environment variables/.env files)</span><br/><span class="hl-3">const</span><span class="hl-0"> </span><span class="hl-11">apiKey</span><span class="hl-0"> = </span><span class="hl-4">process</span><span class="hl-0">.</span><span class="hl-4">env</span><span class="hl-0">.</span><span class="hl-11">OS_API_KEY</span><br/><br/><span class="hl-1">// querying the places API via bbox:</span><br/><span class="hl-4">osdatahub</span><span class="hl-0">.</span><span class="hl-4">placesAPI</span><span class="hl-0">.</span><span class="hl-12">bbox</span><span class="hl-0">(</span><span class="hl-4">apiKey</span><span class="hl-0">, [-</span><span class="hl-13">1.4712</span><span class="hl-0">, </span><span class="hl-13">50.9381</span><span class="hl-0">, -</span><span class="hl-13">1.4788</span><span class="hl-0">, </span><span class="hl-13">50.9419</span><span class="hl-0">], {</span><br/><span class="hl-0">    </span><span class="hl-4">limit:</span><span class="hl-0"> </span><span class="hl-13">200</span><span class="hl-0">;</span><br/><span class="hl-0">})</span>
+</code></pre>
+<p>In the example above, we&#39;re querying the <strong>OS Places API</strong> using a <strong>Bounding Box</strong> (bbox), and we&#39;re specifying a maximum of <strong>200</strong> features should be returned (a total of two requests). Specifying a <code>limit</code> value is optional - optional parameters are stored within an object, which is passed in as the final parameter.</p>
+<p>Different APIs support different search operations. Let&#39;s explore them...</p>
+<br>
+
+
+<a href="#os-ngd-api" id="os-ngd-api" style="color: inherit; text-decoration: none;">
+  <h3>OS NGD API</h3>
+</a>
+<hr>
+<p>The OS NGD API can be accessed via <code>osdatahub.ngd</code>. For further information on using the OS NGD API and its capabilities, please refer to the <a href="https://osdatahub.os.uk/docs/ofa/overview">OS Data Hub</a> documentation and technical specification.</p>
+
+<a href="#features-collection-items" id="features-collection-items" style="color: inherit; text-decoration: none;">
+  <h4><strong>Features (Collection Items)</strong></h4>
+</a>
+<p>Get GeoJSON features from a specific product collection (e.g. Building Parts),
+using various parameter filters and/or geospatial filters</p>
+<pre><code class="language-javascript"><span class="hl-4">osdatahub</span><span class="hl-0">.</span><span class="hl-4">ngd</span><span class="hl-0">.</span><span class="hl-12">features</span><span class="hl-0">(</span><span class="hl-4">apiKey</span><span class="hl-0">, </span><span class="hl-4">collectionId</span><span class="hl-0">, {});</span>
+</code></pre>
+<p>Parameters:</p>
+<ul>
+<li><code>apiKey</code> (string) - Your OS Data Hub API Key</li>
+<li><code>collectionId</code> (string) - A valid collection ID e.g. (bld-fts-buildingpart)</li>
+</ul>
+<p>Optional Parameters (add as named arguments e.g. <code>{crs: 27700}</code>):</p>
+<ul>
+<li><code>offset</code> (integer, default 0) - The starting position to collect features</li>
+<li><code>limit</code> (integer, default 100) - The maximum number of features to return</li>
+<li><code>crs</code> (string or number, default null) - CRS return GeoJSON [null defaults to WGS84]</li>
+<li><code>bbox</code> (array, default null) - Bounding-box [West, South, East, North] to search within (in <code>ESPG:4326</code>)</li>
+<li><code>bboxCRS</code> (string or number, default null) - CRS of bbox [null defaults to WGS84]</li>
+<li><code>datetime</code> (string, default null) - A valid date-time with UTC time zone (Z) or an open or closed interval. Only features that have a temporal geometry (versionavailablefromdate or versionavailabletodate) that intersects the value in the datetime parameter are selected. <a href="https://www.rfc-editor.org/rfc/rfc3339#section-5.6">RFC 3339 Format</a></li>
+<li><code>filter</code> (string, default null) - Common Query Language (CQL) filter</li>
+<li><code>filterCRS</code> (string or number, default null) - CRS of filter if a spatial operation is used [null defaults to WGS84]</li>
+</ul>
+
+<a href="#feature-single-collection-item" id="feature-single-collection-item" style="color: inherit; text-decoration: none;">
+  <h4><strong>Feature (Single Collection Item)</strong></h4>
+</a>
+<p>Get a single GeoJSON feature from a specific product collection and feature Id</p>
+<pre><code class="language-javascript"><span class="hl-4">osdatahub</span><span class="hl-0">.</span><span class="hl-4">ngd</span><span class="hl-0">.</span><span class="hl-12">feature</span><span class="hl-0">(</span><span class="hl-4">apiKey</span><span class="hl-0">, </span><span class="hl-4">collectionId</span><span class="hl-0">, </span><span class="hl-4">featureId</span><span class="hl-0">, {});</span>
+</code></pre>
+<p>Parameters:</p>
+<ul>
+<li><code>apiKey</code> (string) - Your OS Data Hub API Key</li>
+<li><code>collectionId</code> (string) - A valid collection ID e.g. (bld-fts-buildingpart)</li>
+<li><code>featureId</code> (string) - A valid feature ID e.g. (00000016-e0a2-45ca-855a-645753d72716)</li>
+</ul>
+<p>Optional Parameters (add as named arguments e.g. <code>{crs: 27700}</code>):</p>
+<ul>
+<li><code>crs</code> (string or number, default null) - CRS return GeoJSON [null defaults to WGS84]</li>
+</ul>
+
+<a href="#collections" id="collections" style="color: inherit; text-decoration: none;">
+  <h4><strong>Collections</strong></h4>
+</a>
+<p>Get information about a specific collection - if no collection ID is given
+function returns a list of all available collections!</p>
+<pre><code class="language-javascript"><span class="hl-4">osdatahub</span><span class="hl-0">.</span><span class="hl-4">ngd</span><span class="hl-0">.</span><span class="hl-12">collections</span><span class="hl-0">(); </span><span class="hl-1">// View all available collections</span><br/><span class="hl-4">osdatahub</span><span class="hl-0">.</span><span class="hl-4">ngd</span><span class="hl-0">.</span><span class="hl-12">collections</span><span class="hl-0">(</span><span class="hl-4">collectionId</span><span class="hl-0">); </span><span class="hl-1">// Get info for specific collection</span>
+</code></pre>
+<p>Parameters:</p>
+<ul>
+<li><code>collectionId</code>[Optional] (string) - A valid collection ID e.g. (bld-fts-buildingpart)</li>
+</ul>
+
+<a href="#schema" id="schema" style="color: inherit; text-decoration: none;">
+  <h4><strong>Schema</strong></h4>
+</a>
+<p>Get details of the feature attributes (properties) in a given collection</p>
+<pre><code class="language-javascript"><span class="hl-4">osdatahub</span><span class="hl-0">.</span><span class="hl-4">ngd</span><span class="hl-0">.</span><span class="hl-12">schema</span><span class="hl-0">(</span><span class="hl-4">collectionId</span><span class="hl-0">);</span>
+</code></pre>
+<p>Parameters:</p>
+<ul>
+<li><code>collectionId</code> (string) - A valid collection ID e.g. (bld-fts-buildingpart)</li>
+</ul>
+
+<a href="#queryables" id="queryables" style="color: inherit; text-decoration: none;">
+  <h4><strong>Queryables</strong></h4>
+</a>
+<p>Get all queryable attributes in a given collection</p>
+<pre><code class="language-javascript"><span class="hl-4">osdatahub</span><span class="hl-0">.</span><span class="hl-4">ngd</span><span class="hl-0">.</span><span class="hl-12">queryables</span><span class="hl-0">(</span><span class="hl-4">collectionId</span><span class="hl-0">);</span>
+</code></pre>
+<p>Parameters:</p>
+<ul>
+<li><code>collectionId</code> (string) - A valid collection ID e.g. (bld-fts-buildingpart)</li>
+</ul>
+
+<a href="#os-places-api" id="os-places-api" style="color: inherit; text-decoration: none;">
+  <h3>OS Places API</h3>
+</a>
+<hr>
+<p>The OS Places API can be accessed via <code>osdatahub.placesAPI</code>. For further information on using the OS Places API and its capabilities, please refer to the <a href="https://osdatahub.os.uk/docs/places/overview">OS Data Hub</a> documentation and technical specification.</p>
+
+<a href="#geojson-polygon" id="geojson-polygon" style="color: inherit; text-decoration: none;">
+  <h4>GeoJSON Polygon</h4>
+</a>
+<p>Returns all features within the geometry up to the user-defined limit.</p>
+<pre><code class="language-javascript"><span class="hl-4">osdatahub</span><span class="hl-0">.</span><span class="hl-4">placesAPI</span><span class="hl-0">.</span><span class="hl-12">polygon</span><span class="hl-0">(</span><span class="hl-4">apiKey</span><span class="hl-0">, </span><span class="hl-4">geoJson</span><span class="hl-0">, {});</span>
+</code></pre>
+<p>Parameters:</p>
+<ul>
+<li><code>apiKey</code> (string) - Your OS Data Hub API Key</li>
+<li><code>geoJson</code> (object) - Either a Feature or FeatureCollection as an object (in <code>ESPG:4326</code>)</li>
+</ul>
+<p>Optional Parameters (add as named arguments e.g. <code>{crs: 27700}</code>):</p>
+<ul>
+<li><code>offset</code> (integer, default 0) - The starting position to collect features</li>
+<li><code>limit</code> (integrer, default 1,000) - The maximum number of features to return</li>
+</ul>
+
+<a href="#point-based-radius" id="point-based-radius" style="color: inherit; text-decoration: none;">
+  <h4>Point-Based Radius</h4>
+</a>
+<p>Returns all features within the geometry (user-defined distance from a point) up to the user-defined limit.</p>
+<pre><code class="language-javascript"><span class="hl-4">osdatahub</span><span class="hl-0">.</span><span class="hl-4">placesAPI</span><span class="hl-0">.</span><span class="hl-12">radius</span><span class="hl-0">(</span><span class="hl-4">apiKey</span><span class="hl-0">, [</span><span class="hl-4">lng</span><span class="hl-0">, </span><span class="hl-4">lat</span><span class="hl-0">], </span><span class="hl-4">searchRadius</span><span class="hl-0">, {});</span>
+</code></pre>
+<p>Parameters:</p>
+<ul>
+<li><code>apiKey</code> (string) - Your OS Data Hub API Key</li>
+<li><code>[lng, lat]</code> (array of numbers) - Point feature (in <code>ESPG:4326</code>)</li>
+<li><code>searchRadius</code> (number) - Distance (meters) to search around point (maximum 1,000)</li>
+</ul>
+<p>Optional Parameters (add as named arguments e.g. <code>{crs: 27700}</code>):</p>
+<ul>
+<li><code>offset</code> (integer, default 0) - The starting position to collect features</li>
+<li><code>limit</code> (integrer, default 1,000) - The maximum number of features to return</li>
+</ul>
+
+<a href="#nearest-feature" id="nearest-feature" style="color: inherit; text-decoration: none;">
+  <h4>Nearest Feature</h4>
+</a>
+<p>Returns a single feature, the closest to the geometry (a point).</p>
+<pre><code class="language-javascript"><span class="hl-4">osdatahub</span><span class="hl-0">.</span><span class="hl-4">placesAPI</span><span class="hl-0">.</span><span class="hl-12">nearest</span><span class="hl-0">(</span><span class="hl-4">apiKey</span><span class="hl-0">, [</span><span class="hl-4">lng</span><span class="hl-0">, </span><span class="hl-4">lat</span><span class="hl-0">], {});</span>
+</code></pre>
+<p>Parameters:</p>
+<ul>
+<li><code>apiKey</code> (string) - Your OS Data Hub API Key</li>
+<li><code>[lng, lat]</code> (array of numbers) - Point feature (in <code>ESPG:4326</code>)</li>
+</ul>
+
+<a href="#bounding-box" id="bounding-box" style="color: inherit; text-decoration: none;">
+  <h4>Bounding Box</h4>
+</a>
+<p>Returns all features within the bbox geometry (up to 1km<sup>2</sup> in area), up to the user-defined limit.</p>
+<pre><code class="language-javascript"><span class="hl-4">osdatahub</span><span class="hl-0">.</span><span class="hl-4">placesAPI</span><span class="hl-0">.</span><span class="hl-12">bbox</span><span class="hl-0">(</span><span class="hl-4">apiKey</span><span class="hl-0">, [</span><span class="hl-4">b</span><span class="hl-0">, </span><span class="hl-4">b</span><span class="hl-0">, </span><span class="hl-4">o</span><span class="hl-0">, </span><span class="hl-4">x</span><span class="hl-0">], {});</span>
+</code></pre>
+<p>Parameters:</p>
+<ul>
+<li><code>apiKey</code> (string) - Your OS Data Hub API Key</li>
+<li><code>[b,b,o,x]</code> (array of four numbers) - Bounding-box (West, South, East, North) to search within (in <code>ESPG:4326</code>)</li>
+</ul>
+<p>Optional Parameters (add as named arguments e.g. <code>{crs: 27700}</code>):</p>
+<ul>
+<li><code>offset</code> (integer, default 0) - The starting position to collect features</li>
+<li><code>limit</code> (integrer, default 1,000) - The maximum number of features to return</li>
+</ul>
+
+<a href="#uprn-unique-property-reference-number" id="uprn-unique-property-reference-number" style="color: inherit; text-decoration: none;">
+  <h4>UPRN (Unique Property Reference Number)</h4>
+</a>
+<p>Returns a single feature, matching the input UPRN identifier.</p>
+<pre><code class="language-javascript"><span class="hl-4">osdatahub</span><span class="hl-0">.</span><span class="hl-4">placesAPI</span><span class="hl-0">.</span><span class="hl-12">uprn</span><span class="hl-0">(</span><span class="hl-4">apiKey</span><span class="hl-0">, </span><span class="hl-4">uprnIdentifer</span><span class="hl-0">, {});</span>
+</code></pre>
+<p>Parameters:</p>
+<ul>
+<li><code>apiKey</code> (string) - Your OS Data Hub API Key</li>
+<li><code>uprnIdentifier</code> (integer) - A valid UPRN identifer</li>
+</ul>
+
+<a href="#postcode-full-or-partial" id="postcode-full-or-partial" style="color: inherit; text-decoration: none;">
+  <h4>Postcode (Full or Partial)</h4>
+</a>
+<p>Returns features matching the input postcode. A full (e.g, <code>SO16 0AS</code>) or partial (e.g, <code>OS16</code>) postcode can be provided, the number of features returned (up to the user-defined limit) can vary considerably.</p>
+<pre><code class="language-javascript"><span class="hl-4">osdatahub</span><span class="hl-0">.</span><span class="hl-4">placesAPI</span><span class="hl-0">.</span><span class="hl-12">postcode</span><span class="hl-0">(</span><span class="hl-4">apiKey</span><span class="hl-0">, </span><span class="hl-4">postcode</span><span class="hl-0">, {});</span>
+</code></pre>
+<p>Parameters:</p>
+<ul>
+<li><code>apiKey</code> (string) - Your OS Data Hub API Key</li>
+<li><code>postcode</code> (string) - Full/Partial postcode to search in</li>
+</ul>
+<p>Optional Parameters (add as named arguments e.g. <code>{crs: 27700}</code>):</p>
+<ul>
+<li><code>offset</code> (integer, default 0) - The starting position to collect features</li>
+<li><code>limit</code> (integrer, default 1,000) - The maximum number of features to return</li>
+</ul>
+
+<a href="#find-plain-text-search" id="find-plain-text-search" style="color: inherit; text-decoration: none;">
+  <h4>Find (Plain Text Search)</h4>
+</a>
+<p>Returns features matching the input text string provided. The number of features returned (up to the user-defined limit) can vary considerably.</p>
+<pre><code class="language-javascript"><span class="hl-4">osdatahub</span><span class="hl-0">.</span><span class="hl-4">placesAPI</span><span class="hl-0">.</span><span class="hl-12">find</span><span class="hl-0">(</span><span class="hl-4">apiKey</span><span class="hl-0">, </span><span class="hl-4">query</span><span class="hl-0">, {});</span>
+</code></pre>
+<p>Parameters:</p>
+<ul>
+<li><code>apiKey</code> (string) - Your OS Data Hub API Key</li>
+<li><code>query</code> (string) - A plain-text search string</li>
+</ul>
+<p>Optional Parameters (add as named arguments e.g. <code>{crs: 27700}</code>):</p>
+<ul>
+<li><code>offset</code> (integer, default 0) - The starting position to collect features</li>
+<li><code>limit</code> (integrer, default 1,000) - The maximum number of features to return</li>
+</ul>
+<br>
+
+
+<a href="#os-names-api" id="os-names-api" style="color: inherit; text-decoration: none;">
+  <h3>OS Names API</h3>
+</a>
+<hr>
+<p>The OS Names API can be accessed via <code>osdatahub.namesAPI</code>. For further information on using the OS Names API and its capabilities, please refer to the <a href="https://osdatahub.os.uk/docs/names/overview">OS Data Hub</a> documentation and technical specification.</p>
+
+<a href="#nearest-feature-1" id="nearest-feature-1" style="color: inherit; text-decoration: none;">
+  <h4>Nearest Feature</h4>
+</a>
+<p>Returns a single feature, the closest to the point geometry.</p>
+<pre><code class="language-javascript"><span class="hl-4">osdatahub</span><span class="hl-0">.</span><span class="hl-4">namesAPI</span><span class="hl-0">.</span><span class="hl-12">nearest</span><span class="hl-0">(</span><span class="hl-4">apiKey</span><span class="hl-0">, [</span><span class="hl-4">lng</span><span class="hl-0">, </span><span class="hl-4">lat</span><span class="hl-0">], {});</span>
+</code></pre>
+<p>Parameters:</p>
+<ul>
+<li><code>apiKey</code> (string) - Your OS Data Hub API Key</li>
+<li><code>[lng, lat]</code> (array of numbers) - Point feature (in <code>ESPG:4326</code>)</li>
+</ul>
+
+<a href="#find-plain-text-search-1" id="find-plain-text-search-1" style="color: inherit; text-decoration: none;">
+  <h4>Find (Plain Text Search)</h4>
+</a>
+<p>Returns features matching the input text string provided. The number of features returned (up to the user-defined limit) can vary considerably.</p>
+<pre><code class="language-javascript"><span class="hl-4">osdatahub</span><span class="hl-0">.</span><span class="hl-4">namesAPI</span><span class="hl-0">.</span><span class="hl-12">find</span><span class="hl-0">(</span><span class="hl-4">apiKey</span><span class="hl-0">, </span><span class="hl-4">query</span><span class="hl-0">, {});</span>
+</code></pre>
+<p>Parameters:</p>
+<ul>
+<li><code>apiKey</code> (string) - Your OS Data Hub API Key</li>
+<li><code>query</code> (string) - A plain-text search string</li>
+</ul>
+<p>Optional Parameters (add as named arguments e.g. <code>{crs: 27700}</code>):</p>
+<ul>
+<li><code>offset</code> (integer, default 0) - The starting position to collect features</li>
+<li><code>limit</code> (integrer, default 1,000) - The maximum number of features to return</li>
+</ul>
+
+<a href="#authors" id="authors" style="color: inherit; text-decoration: none;">
+  <h2>Authors</h2>
+</a>
+<p>The <code>osdatahub</code> (JavaScript) package has been built by:</p>
+<ul>
+<li><a href="https://github.com/abiddiscombe">@abiddiscombe</a></li>
+<li><a href="https://github.com/dchirst">@dchirst</a></li>
+<li><a href="https://github.com/jepooley">@jepooley</a></li>
+<li><a href="https://github.com/fhunt-os">@fhunt-os</a></li>
+<li><a href="https://github.com/BenDickens">@BenDickens</a></li>
+</ul>
+
+<a href="#contribute" id="contribute" style="color: inherit; text-decoration: none;">
+  <h2>Contribute</h2>
+</a>
+<p>This package is still under active development and we welcome contributions from the community via issues and pull requests.</p>
+<p>To install osdatahub, along with the tools you need to develop and run tests,
+run the following in your environment:</p>
+<pre><code class="language-bash"><span class="hl-0">git clone https://github.com/OrdnanceSurvey/osdatahub-js.git</span><br/><span class="hl-12">cd</span><span class="hl-0"> osdatahub-js</span><br/><span class="hl-0">npm i</span>
+</code></pre>
+
+<a href="#support" id="support" style="color: inherit; text-decoration: none;">
+  <h3>Support</h3>
+</a>
+<p>For any kind of issues or suggestions please see the <a href="https://osdatahub.os.uk/docs">OS Data Hub documention</a>, open a <strong><a href="https://github.com/OrdnanceSurvey/osdatahub/issues">github issue</a></strong> or contact us via Email <strong><a href="mailto:rapidprototyping@os.uk">rapidprototyping@os.uk</a></strong></p>
+</div></div>
+<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+<div class="tsd-navigation settings">
+<details class="tsd-index-accordion"><summary class="tsd-accordion-summary">
+<h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4.93896 8.531L12 15.591L19.061 8.531L16.939 6.409L12 11.349L7.06098 6.409L4.93896 8.531Z" fill="var(--color-text)"></path></svg> Settings</h3></summary>
+<div class="tsd-accordion-details">
+<div class="tsd-filter-visibility">
+<h4 class="uppercase">Member Visibility</h4><form>
+<ul id="tsd-filter-options">
+<li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-protected" name="protected"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Protected</span></label></li>
+<li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-private" name="private"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Private</span></label></li>
+<li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-inherited" name="inherited" checked/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Inherited</span></label></li>
+<li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-external" name="external"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>External</span></label></li></ul></form></div>
+<div class="tsd-theme-toggle">
+<h4 class="uppercase">Theme</h4><select id="theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></div></div></details></div>
+<nav class="tsd-navigation primary">
+<details class="tsd-index-accordion" open><summary class="tsd-accordion-summary">
+<h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4.93896 8.531L12 15.591L19.061 8.531L16.939 6.409L12 11.349L7.06098 6.409L4.93896 8.531Z" fill="var(--color-text)"></path></svg> Modules</h3></summary>
+<div class="tsd-accordion-details">
+<ul>
+<li class="current selected"><a href="modules.html">osdatahub</a>
+<ul>
+<li class="tsd-kind-namespace"><a href="modules/namesAPI.html">namesAPI</a></li>
+<li class="tsd-kind-namespace"><a href="modules/ngd.html">ngd</a></li>
+<li class="tsd-kind-namespace"><a href="modules/placesAPI.html">placesAPI</a></li></ul></li></ul></div></details></nav>
+<nav class="tsd-navigation secondary menu-sticky"></nav></div></div>
+<div class="container tsd-generator">
+<p style="line-height: 28px;">Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a><br>
+            <span id="generation-date"></span>
+            <script>
+                window.GENERATION_DATE = 1667844189456;
+
+                (() => {
+                    
+        const formatter = new Intl.DateTimeFormat(navigator.language, {
+            dateStyle: 'medium'
+        });
+
+        document.getElementById('generation-date').innerText = formatter.format(window.GENERATION_DATE);
+    
+                })();
+            </script>
+        </p></div>
+<div class="overlay"></div><script src="assets/main.js"></script></body></html>

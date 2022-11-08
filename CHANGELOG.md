@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Updated README
+- Added typedoc auto-generated documentation
+- Refactored modules to export functions (not an object) - this will not change import pattern for the user!
+
 ## [[0.2.1](https://github.com/OrdnanceSurvey/osdatahub-js/releases/tag/v0.2.1)] - 2022-11-04
 
 ### Changed

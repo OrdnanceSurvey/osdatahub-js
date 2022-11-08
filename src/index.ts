@@ -5,7 +5,7 @@
     osdatahub (JavaScript)
 
     Ordnance Survey GB
-    A JavaScript wrapper for the OS Names API and OS Places API.
+    A JavaScript wrapper for the OS NGD Features API, OS Names API and OS Places API.
 
     Contributors
     https://github.com/abiddiscombe
@@ -16,8 +16,8 @@
 
 */
 
-import { names as namesAPI } from "./names.js";
-import { places as placesAPI } from "./places.js";
-import { ngd } from "./ngd.js";
+import * as namesAPI from "./names.js";
+import * as placesAPI from "./places.js";
+import * as ngd from "./ngd.js";
 
 export { namesAPI, placesAPI, ngd };
