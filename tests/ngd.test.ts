@@ -229,7 +229,7 @@ describe("Collections Endpoint", () => {
 
   test("Collections Endpoint Passes w/ collectionId", async () => {
     const response = await ngd.collections("bld-fts-buildingline");
-    expect(response.id).toBe("bld-fts-buildingline");
+    expect(response.id).toBe("bld-fts-buildingline-1");
   });
 
   test("Collections fails with invalid collectionId", async () => {
