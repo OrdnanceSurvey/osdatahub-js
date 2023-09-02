@@ -134,7 +134,7 @@ Different APIs support different search operations. Let's explore them...
 
 ---
 
-The OS NGD API can be accessed via `osdatahub.ngd`. For further information on using the OS NGD API and its capabilities, please refer to the [OS Data Hub](https://osdatahub.os.uk/docs/ofa/overview) documentation and technical specification.
+The OS NGD (National Geographic Database) API can be accessed via `osdatahub.ngd`. For further information on using the OS NGD API and its capabilities, please refer to the [OS Data Hub](https://osdatahub.os.uk/docs/ofa/overview) documentation and technical specification.
 
 #### [**Features (Collection Items)**](https://ordnancesurvey.github.io/osdatahub-js/docs/functions/ngd.features.html)
 
