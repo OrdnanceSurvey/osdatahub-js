@@ -25,8 +25,6 @@ Ordnance Survey is the national mapping agency for Great Britain and produces a 
 - Data Hub Explorer: [https://labs.os.uk/prototyping/data-hub-explorer/](https://labs.os.uk/prototyping/data-hub-explorer/)
 - Free Software: [Open Government License](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/)
 
-**Note:** This package is under active development.
-
 ## Contents <!-- omit in toc -->
 
 - [osdatahub (JavaScript)](#osdatahub-javascript)
