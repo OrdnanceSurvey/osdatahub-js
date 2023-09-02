@@ -25,8 +25,6 @@ Ordnance Survey is the national mapping agency for Great Britain and produces a 
 - Data Hub Explorer: [https://labs.os.uk/prototyping/data-hub-explorer/](https://labs.os.uk/prototyping/data-hub-explorer/)
 - Free Software: [Open Government License](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/)
 
-**Note:** This package is under active development.
-
 ## Contents <!-- omit in toc -->
 
 - [osdatahub (JavaScript)](#osdatahub-javascript)
@@ -136,7 +134,7 @@ Different APIs support different search operations. Let's explore them...
 
 ---
 
-The OS NGD API can be accessed via `osdatahub.ngd`. For further information on using the OS NGD API and its capabilities, please refer to the [OS Data Hub](https://osdatahub.os.uk/docs/ofa/overview) documentation and technical specification.
+The OS NGD (National Geographic Database) API can be accessed via `osdatahub.ngd`. For further information on using the OS NGD API and its capabilities, please refer to the [OS Data Hub](https://osdatahub.os.uk/docs/ofa/overview) documentation and technical specification.
 
 #### [**Features (Collection Items)**](https://ordnancesurvey.github.io/osdatahub-js/docs/functions/ngd.features.html)
 
@@ -241,7 +239,7 @@ Parameters:
 Optional Parameters (add as named arguments e.g. `{crs: 27700}`):
 
 - `offset` (integer, default 0) - The starting position to collect features
-- `limit` (integrer, default 1,000) - The maximum number of features to return
+- `limit` (integer, default 1,000) - The maximum number of features to return
 
 #### [**Point-Based Radius**](https://ordnancesurvey.github.io/osdatahub-js/docs/functions/placesAPI.radius.html)
 
@@ -260,7 +258,7 @@ Parameters:
 Optional Parameters (add as named arguments e.g. `{crs: 27700}`):
 
 - `offset` (integer, default 0) - The starting position to collect features
-- `limit` (integrer, default 1,000) - The maximum number of features to return
+- `limit` (integer, default 1,000) - The maximum number of features to return
 
 #### [**Nearest Feature**](https://ordnancesurvey.github.io/osdatahub-js/docs/functions/placesAPI.nearest.html)
 
@@ -291,7 +289,7 @@ Parameters:
 Optional Parameters (add as named arguments e.g. `{crs: 27700}`):
 
 - `offset` (integer, default 0) - The starting position to collect features
-- `limit` (integrer, default 1,000) - The maximum number of features to return
+- `limit` (integer, default 1,000) - The maximum number of features to return
 
 #### [**UPRN (Unique Property Reference Number)**](https://ordnancesurvey.github.io/osdatahub-js/docs/functions/placesAPI.uprn.html)
 
@@ -304,7 +302,7 @@ osdatahub.placesAPI.uprn(apiKey, uprnIdentifer, {});
 Parameters:
 
 - `apiKey` (string) - Your OS Data Hub API Key
-- `uprnIdentifier` (integer) - A valid UPRN identifer
+- `uprnIdentifier` (integer) - A valid UPRN identifier
 
 #### [**Postcode (Full or Partial)**](https://ordnancesurvey.github.io/osdatahub-js/docs/functions/placesAPI.postcode.html)
 
@@ -322,7 +320,7 @@ Parameters:
 Optional Parameters (add as named arguments e.g. `{crs: 27700}`):
 
 - `offset` (integer, default 0) - The starting position to collect features
-- `limit` (integrer, default 1,000) - The maximum number of features to return
+- `limit` (integer, default 1,000) - The maximum number of features to return
 
 #### [**Find (Plain Text Search)**](https://ordnancesurvey.github.io/osdatahub-js/docs/functions/placesAPI.find.html)
 
@@ -340,7 +338,7 @@ Parameters:
 Optional Parameters (add as named arguments e.g. `{crs: 27700}`):
 
 - `offset` (integer, default 0) - The starting position to collect features
-- `limit` (integrer, default 1,000) - The maximum number of features to return
+- `limit` (integer, default 1,000) - The maximum number of features to return
 
 <br>
 
@@ -379,7 +377,7 @@ Parameters:
 Optional Parameters (add as named arguments e.g. `{crs: 27700}`):
 
 - `offset` (integer, default 0) - The starting position to collect features
-- `limit` (integrer, default 1,000) - The maximum number of features to return
+- `limit` (integer, default 1,000) - The maximum number of features to return
 
 ## Authors
 
