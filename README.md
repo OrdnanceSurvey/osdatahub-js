@@ -241,7 +241,7 @@ Parameters:
 Optional Parameters (add as named arguments e.g. `{crs: 27700}`):
 
 - `offset` (integer, default 0) - The starting position to collect features
-- `limit` (integrer, default 1,000) - The maximum number of features to return
+- `limit` (integer, default 1,000) - The maximum number of features to return
 
 #### [**Point-Based Radius**](https://ordnancesurvey.github.io/osdatahub-js/docs/functions/placesAPI.radius.html)
 
@@ -260,7 +260,7 @@ Parameters:
 Optional Parameters (add as named arguments e.g. `{crs: 27700}`):
 
 - `offset` (integer, default 0) - The starting position to collect features
-- `limit` (integrer, default 1,000) - The maximum number of features to return
+- `limit` (integer, default 1,000) - The maximum number of features to return
 
 #### [**Nearest Feature**](https://ordnancesurvey.github.io/osdatahub-js/docs/functions/placesAPI.nearest.html)
 
@@ -291,7 +291,7 @@ Parameters:
 Optional Parameters (add as named arguments e.g. `{crs: 27700}`):
 
 - `offset` (integer, default 0) - The starting position to collect features
-- `limit` (integrer, default 1,000) - The maximum number of features to return
+- `limit` (integer, default 1,000) - The maximum number of features to return
 
 #### [**UPRN (Unique Property Reference Number)**](https://ordnancesurvey.github.io/osdatahub-js/docs/functions/placesAPI.uprn.html)
 
@@ -304,7 +304,7 @@ osdatahub.placesAPI.uprn(apiKey, uprnIdentifer, {});
 Parameters:
 
 - `apiKey` (string) - Your OS Data Hub API Key
-- `uprnIdentifier` (integer) - A valid UPRN identifer
+- `uprnIdentifier` (integer) - A valid UPRN identifier
 
 #### [**Postcode (Full or Partial)**](https://ordnancesurvey.github.io/osdatahub-js/docs/functions/placesAPI.postcode.html)
 
@@ -322,7 +322,7 @@ Parameters:
 Optional Parameters (add as named arguments e.g. `{crs: 27700}`):
 
 - `offset` (integer, default 0) - The starting position to collect features
-- `limit` (integrer, default 1,000) - The maximum number of features to return
+- `limit` (integer, default 1,000) - The maximum number of features to return
 
 #### [**Find (Plain Text Search)**](https://ordnancesurvey.github.io/osdatahub-js/docs/functions/placesAPI.find.html)
 
@@ -340,7 +340,7 @@ Parameters:
 Optional Parameters (add as named arguments e.g. `{crs: 27700}`):
 
 - `offset` (integer, default 0) - The starting position to collect features
-- `limit` (integrer, default 1,000) - The maximum number of features to return
+- `limit` (integer, default 1,000) - The maximum number of features to return
 
 <br>
 
@@ -379,7 +379,7 @@ Parameters:
 Optional Parameters (add as named arguments e.g. `{crs: 27700}`):
 
 - `offset` (integer, default 0) - The starting position to collect features
-- `limit` (integrer, default 1,000) - The maximum number of features to return
+- `limit` (integer, default 1,000) - The maximum number of features to return
 
 ## Authors
 
