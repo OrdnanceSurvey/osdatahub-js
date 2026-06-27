@@ -749,7 +749,7 @@
           return r;
         }),
         (t.TokenSet.prototype.toArray = function () {
-          for (var e = [], n = [{ prefix: "", node: this }]; n.length; ) {
+          for (var e = [], n = [{ prefix: "", node: this }]; n.length;) {
             var r = n.pop(),
               i = Object.keys(r.node.edges),
               s = i.length;
@@ -1320,7 +1320,7 @@
             (this.escapeCharPositions = []));
         }),
         (t.QueryLexer.prototype.run = function () {
-          for (var e = t.QueryLexer.lexText; e; ) e = e(this);
+          for (var e = t.QueryLexer.lexText; e;) e = e(this);
         }),
         (t.QueryLexer.prototype.sliceString = function () {
           for (
@@ -1449,7 +1449,7 @@
         }),
         (t.QueryParser.prototype.parse = function () {
           (this.lexer.run(), (this.lexemes = this.lexer.lexemes));
-          for (var e = t.QueryParser.parseClause; e; ) e = e(this);
+          for (var e = t.QueryParser.parseClause; e;) e = e(this);
           return this.query;
         }),
         (t.QueryParser.prototype.peekLexeme = function () {
@@ -1792,8 +1792,8 @@
         i = this.anchors,
         s = i.length - 1,
         o = this.index;
-      for (; o > -1 && i[o].position > r; ) o -= 1;
-      for (; o < s && i[o + 1].position < r; ) o += 1;
+      for (; o > -1 && i[o].position > r;) o -= 1;
+      for (; o < s && i[o + 1].position < r;) o += 1;
       this.index != o &&
         (this.index > -1 &&
           this.anchors[this.index].link.classList.remove("focus"),
@@ -1940,7 +1940,7 @@
       i = [],
       s = 0,
       o = n.indexOf(r);
-    for (; o != -1; )
+    for (; o != -1;)
       (i.push(
         ie(t.substring(s, o)),
         `<b>${ie(t.substring(o, o + r.length))}</b>`,
