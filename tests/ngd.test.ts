@@ -22,7 +22,7 @@ beforeAll(() => {
   } else {
     throw Error(
       "OS_API_KEY not provided. Make sure you provide a valid api" +
-        "key either throw your environment variables or a .env file"
+        "key either throw your environment variables or a .env file",
     );
   }
 });
@@ -102,8 +102,8 @@ describe("Features Endpoint Fails", () => {
     });
     expect(error).toEqual(
       new Error(
-        "Invalid bounding box (bbox), expected [minLng, minLat, maxLng, maxLat] or [minLat, minLng, maxLat, maxLng]"
-      )
+        "Invalid bounding box (bbox), expected [minLng, minLat, maxLng, maxLat] or [minLat, minLng, maxLat, maxLng]",
+      ),
     );
   });
 
@@ -122,8 +122,8 @@ describe("Features Endpoint Fails", () => {
     });
     expect(error).toEqual(
       new Error(
-        "The feature collection 'bld-fts-buildingpjart' could not be found. Please check it is a supported collection."
-      )
+        "The feature collection 'bld-fts-buildingpjart' could not be found. Please check it is a supported collection.",
+      ),
     );
   });
 });
@@ -239,8 +239,8 @@ describe("Collections Endpoint", () => {
     });
     expect(error).toEqual(
       new Error(
-        "The feature collection 'bld-fts-buildingpjart' could not be found. Please check it is a supported collection."
-      )
+        "The feature collection 'bld-fts-buildingpjart' could not be found. Please check it is a supported collection.",
+      ),
     );
   });
 });
@@ -258,8 +258,8 @@ describe("Schema Endpoint", () => {
     });
     expect(error).toEqual(
       new Error(
-        "The feature collection 'bld-fts-buildingpjart' could not be found. Please check it is a supported collection."
-      )
+        "The feature collection 'bld-fts-buildingpjart' could not be found. Please check it is a supported collection.",
+      ),
     );
   });
 });
@@ -277,8 +277,8 @@ describe("Queryables Endpoint", () => {
     });
     expect(error).toEqual(
       new Error(
-        "The feature collection 'bld-fts-buildingpjart' could not be found. Please check it is a supported collection."
-      )
+        "The feature collection 'bld-fts-buildingpjart' could not be found. Please check it is a supported collection.",
+      ),
     );
   });
 });
@@ -300,7 +300,7 @@ describe("Feature Endpoint", () => {
       apiKey,
       collectionId,
       featureId,
-      options
+      options,
     );
     checkNotWGS84(response.geometry.coordinates);
   });
@@ -314,7 +314,7 @@ describe("Feature Endpoint", () => {
       apiKey,
       collectionId,
       featureId,
-      options
+      options,
     );
     checkNotWGS84(response.geometry.coordinates);
   });
@@ -347,8 +347,8 @@ describe("Feature Endpoint", () => {
     });
     expect(error).toEqual(
       new Error(
-        "The feature collection 'bld-fts-buildingsline' could not be found. Please check it is a supported collection."
-      )
+        "The feature collection 'bld-fts-buildingsline' could not be found. Please check it is a supported collection.",
+      ),
     );
   });
 });

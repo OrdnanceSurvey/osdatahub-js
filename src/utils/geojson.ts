@@ -23,7 +23,7 @@ function toGeoJSON(response: OSDataHubResponse): OSFeatureCollection {
 }
 
 function responseToFeatureCollection(
-  response: OSDataHubResponse
+  response: OSDataHubResponse,
 ): OSFeatureCollection {
   let features: Feature[];
   if ("DPA" in response.results[0]) {
@@ -53,7 +53,7 @@ function namesResponseToFeatures(response: NamesResponse): Feature[] {
           ],
         },
         properties: <GeoJsonProperties>feature.GAZETTEER_ENTRY,
-      }
+      },
   );
 }
 
@@ -67,6 +67,6 @@ function placesResponseToFeatures(response: PlacesResponse): Feature[] {
           coordinates: [feature.DPA.LNG, feature.DPA.LAT],
         },
         properties: <GeoJsonProperties>feature.DPA,
-      }
+      },
   );
 }
