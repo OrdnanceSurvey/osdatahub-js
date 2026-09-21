@@ -30,7 +30,7 @@ async function get(endpoint: string, key = ""): Promise<Response> {
 function getOffsetEndpointNGD(config: Config, featureCount: number): string {
   const limit = Math.min(
     config.paging.limitValue - config.paging.startValue - featureCount,
-    100
+    100,
   );
   return config.url + "&offset=" + config.paging.position + "&limit=" + limit;
 }

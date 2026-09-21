@@ -13,7 +13,7 @@ beforeAll(() => {
   } else {
     throw Error(
       "OS_API_KEY not provided. Make sure you provide a valid api" +
-        "key either throw your environment variables or a .env file"
+        "key either throw your environment variables or a .env file",
     );
   }
 });
@@ -41,8 +41,8 @@ describe("Nearest Endpoint", () => {
     });
     expect(error).toEqual(
       new Error(
-        "Invalid Point, not within the UK (Lng, Lat): [-7.910156, 49.781264, 2.043457, 59.164668]"
-      )
+        "Invalid Point, not within the UK (Lng, Lat): [-7.910156, 49.781264, 2.043457, 59.164668]",
+      ),
     );
   });
 });
