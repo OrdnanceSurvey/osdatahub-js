@@ -25,7 +25,7 @@ Expected either a local date, a date-time with UTC time zone (Z) or an open or c
     - A closed interval: '2021-12-12T00:00:00Z/2021-12-18T12:31:12Z'
     - Open intervals: '2021-12-12T00:00:00Z/..' or '../2021-12-18T12:31:12Z'
     - An interval until now: '2018-02-12T00:00:00Z/..' or '2018-02-12T00:00:00Z/'
-`
+`,
   );
 }
 
@@ -34,7 +34,7 @@ const validate: { [key: string]: Function } = {
   bbox: function (bbox: BBox) {
     if (bbox[0] > bbox[2] || bbox[1] > bbox[3]) {
       throw new Error(
-        "Invalid bounding box (bbox), expected [minLng, minLat, maxLng, maxLat] or [minLat, minLng, maxLat, maxLng]"
+        "Invalid bounding box (bbox), expected [minLng, minLat, maxLng, maxLat] or [minLat, minLng, maxLat, maxLng]",
       );
     }
     return true;

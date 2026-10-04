@@ -72,7 +72,7 @@ beforeAll(() => {
   } else {
     throw Error(
       "OS_API_KEY not provided. Make sure you provide a valid api key either throw your environment variables" +
-        "or a .env file"
+        "or a .env file",
     );
   }
 });
@@ -87,11 +87,11 @@ describe("Polygon Endpoint", () => {
     const response = await placesAPI.polygon(
       apiKey,
       <FeatureCollection>featureCollection,
-      options
+      options,
     );
     const requiredProperties = ["features", "header", "type"];
     requiredProperties.map((prop: string) =>
-      expect(response).toHaveProperty(prop)
+      expect(response).toHaveProperty(prop),
     );
     expect(response.features.length).toBeGreaterThanOrEqual(1);
   });
@@ -104,7 +104,7 @@ describe("Polygon Endpoint", () => {
     const response = await placesAPI.polygon(apiKey, <Polygon>polygon, options);
     const requiredProperties = ["features", "header", "type"];
     requiredProperties.map((prop: string) =>
-      expect(response).toHaveProperty(prop)
+      expect(response).toHaveProperty(prop),
     );
     expect(response.features.length).toBeGreaterThanOrEqual(1);
   });
@@ -116,10 +116,10 @@ describe("Polygon Endpoint", () => {
     const response = await placesAPI.polygon(
       apiKey,
       featureCollection,
-      options
+      options,
     );
     requiredProperties.map((prop: string) =>
-      expect(response).toHaveProperty(prop)
+      expect(response).toHaveProperty(prop),
     );
     expect(response.features.length).toEqual(7);
   });
@@ -171,21 +171,21 @@ describe("Radius Endpoint", () => {
       return await placesAPI.radius(apiKey, center, -1, options);
     });
     expect(error).toEqual(
-      new RangeError("Radius must be an integer between 1-1000m")
+      new RangeError("Radius must be an integer between 1-1000m"),
     );
 
     error = await testError(async () => {
       return await placesAPI.radius(apiKey, center, 5000, options);
     });
     expect(error).toEqual(
-      new RangeError("Radius must be an integer between 1-1000m")
+      new RangeError("Radius must be an integer between 1-1000m"),
     );
 
     error = await testError(async () => {
       return await placesAPI.radius(apiKey, center, 0.001, options);
     });
     expect(error).toEqual(
-      new Error("Radius must be an integer between 1-1000m")
+      new Error("Radius must be an integer between 1-1000m"),
     );
   });
 
@@ -238,13 +238,13 @@ describe("BBox Endpoint", () => {
       return await placesAPI.bbox(
         apiKey,
         [-1.907287, 52.479173, -1.917543, 52.485211],
-        options
+        options,
       );
     });
     expect(error).toEqual(
       new Error(
-        "Invalid bounding box (bbox), expected [minLng, minLat, maxLng, maxLat] or [minLat, minLng, maxLat, maxLng]"
-      )
+        "Invalid bounding box (bbox), expected [minLng, minLat, maxLng, maxLat] or [minLat, minLng, maxLat, maxLng]",
+      ),
     );
 
     // North and South are switched
@@ -252,13 +252,13 @@ describe("BBox Endpoint", () => {
       return await placesAPI.bbox(
         apiKey,
         [-1.917543, 52.485211, -1.907287, 52.479173],
-        options
+        options,
       );
     });
     expect(error).toEqual(
       new Error(
-        "Invalid bounding box (bbox), expected [minLng, minLat, maxLng, maxLat] or [minLat, minLng, maxLat, maxLng]"
-      )
+        "Invalid bounding box (bbox), expected [minLng, minLat, maxLng, maxLat] or [minLat, minLng, maxLat, maxLng]",
+      ),
     );
 
     // // Obviously not latitude and longitude
@@ -267,8 +267,8 @@ describe("BBox Endpoint", () => {
     });
     expect(error).toEqual(
       new Error(
-        "Invalid bounding box (bbox), not within the UK (Lng, Lat): [-7.910156, 49.781264, 2.043457, 59.164668]"
-      )
+        "Invalid bounding box (bbox), not within the UK (Lng, Lat): [-7.910156, 49.781264, 2.043457, 59.164668]",
+      ),
     );
 
     // // Invalid latitude values (need to be -90 <= x <= 90)
@@ -277,8 +277,8 @@ describe("BBox Endpoint", () => {
     });
     expect(error).toEqual(
       new Error(
-        "Invalid bounding box (bbox), not within the UK (Lng, Lat): [-7.910156, 49.781264, 2.043457, 59.164668]"
-      )
+        "Invalid bounding box (bbox), not within the UK (Lng, Lat): [-7.910156, 49.781264, 2.043457, 59.164668]",
+      ),
     );
   });
 });
@@ -310,8 +310,8 @@ describe("Nearest Endpoint", () => {
     });
     expect(error).toEqual(
       new Error(
-        "Invalid Point, not within the UK (Lng, Lat): [-7.910156, 49.781264, 2.043457, 59.164668]"
-      )
+        "Invalid Point, not within the UK (Lng, Lat): [-7.910156, 49.781264, 2.043457, 59.164668]",
+      ),
     );
   });
 });
@@ -329,7 +329,7 @@ describe("UPRN Endpoint", () => {
       return await placesAPI.uprn(apiKey, -1000);
     });
     expect(error).toEqual(
-      new Error("Invalid UPRN, should be a positive integer (max. 12 digits)")
+      new Error("Invalid UPRN, should be a positive integer (max. 12 digits)"),
     );
 
     // can't be a decimal
@@ -337,7 +337,7 @@ describe("UPRN Endpoint", () => {
       return await placesAPI.uprn(apiKey, 1.2345);
     });
     expect(error).toEqual(
-      new Error("Invalid UPRN, should be a positive integer (max. 12 digits)")
+      new Error("Invalid UPRN, should be a positive integer (max. 12 digits)"),
     );
 
     // can't be greater than 12 characters
@@ -345,7 +345,7 @@ describe("UPRN Endpoint", () => {
       return await placesAPI.uprn(apiKey, 1234567890123);
     });
     expect(error).toEqual(
-      new Error("Invalid UPRN, should be a positive integer (max. 12 digits)")
+      new Error("Invalid UPRN, should be a positive integer (max. 12 digits)"),
     );
   });
 });
@@ -373,8 +373,8 @@ describe("Postcode Endpoint", () => {
     });
     expect(error).toEqual(
       new Error(
-        "Invalid Postcode: The minimum for the resource is the area and district e.g. SO16"
-      )
+        "Invalid Postcode: The minimum for the resource is the area and district e.g. SO16",
+      ),
     );
 
     // Requested postcode must contain a minimum of the sector plus 1 digit of the district e.g. SO1
@@ -383,8 +383,8 @@ describe("Postcode Endpoint", () => {
     });
     expect(error).toEqual(
       new Error(
-        "Invalid Postcode: The minimum for the resource is the area and district e.g. SO16"
-      )
+        "Invalid Postcode: The minimum for the resource is the area and district e.g. SO16",
+      ),
     );
   });
 
