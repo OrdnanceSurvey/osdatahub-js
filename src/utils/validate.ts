@@ -21,13 +21,13 @@ interface ValidationParams {
 }
 
 function isFeature(
-  geojson: Feature | FeatureCollection | Polygon
+  geojson: Feature | FeatureCollection | Polygon,
 ): geojson is Feature {
   return "type" in geojson && geojson.type == "Feature";
 }
 
 function isFeatureCollection(
-  geojson: Feature | FeatureCollection | Polygon
+  geojson: Feature | FeatureCollection | Polygon,
 ): geojson is FeatureCollection {
   return "type" in geojson && geojson.type == "FeatureCollection";
 }
@@ -60,7 +60,7 @@ const validate: { [key: string]: Function } = {
         point[1] > 2.043457
       ) {
         throw new Error(
-          "Invalid Point, not within the UK (Lng, Lat): [-7.910156, 49.781264, 2.043457, 59.164668]"
+          "Invalid Point, not within the UK (Lng, Lat): [-7.910156, 49.781264, 2.043457, 59.164668]",
         );
       }
     } else {
@@ -71,7 +71,7 @@ const validate: { [key: string]: Function } = {
         point[0] > 2.043457
       ) {
         throw new Error(
-          "Invalid Point, not within the UK (Lng, Lat): [-7.910156, 49.781264, 2.043457, 59.164668]"
+          "Invalid Point, not within the UK (Lng, Lat): [-7.910156, 49.781264, 2.043457, 59.164668]",
         );
       }
     }
@@ -86,14 +86,14 @@ const validate: { [key: string]: Function } = {
       !isPolygon(polygon.features[0].geometry)
     ) {
       throw new Error(
-        `Expected Polygon, got ${polygon.features[0].geometry.type}`
+        `Expected Polygon, got ${polygon.features[0].geometry.type}`,
       );
     }
   },
   bbox: function (bbox: [number, number, number, number]) {
     if (bbox[0] > bbox[2] || bbox[1] > bbox[3]) {
       throw new Error(
-        "Invalid bounding box (bbox), expected [minLng, minLat, maxLng, maxLat] or [minLat, minLng, maxLat, maxLng]"
+        "Invalid bounding box (bbox), expected [minLng, minLat, maxLng, maxLat] or [minLat, minLng, maxLat, maxLng]",
       );
     }
 
@@ -106,7 +106,7 @@ const validate: { [key: string]: Function } = {
         bbox[3] > 2.043457
       ) {
         throw new Error(
-          "Invalid bounding box (bbox), not within the UK (Lng, Lat): [-7.910156, 49.781264, 2.043457, 59.164668]"
+          "Invalid bounding box (bbox), not within the UK (Lng, Lat): [-7.910156, 49.781264, 2.043457, 59.164668]",
         );
       }
     } else {
@@ -117,7 +117,7 @@ const validate: { [key: string]: Function } = {
         bbox[2] > 2.043457
       ) {
         throw new Error(
-          "Invalid bounding box (bbox), not within the UK (Lng, Lat): [-7.910156, 49.781264, 2.043457, 59.164668]"
+          "Invalid bounding box (bbox), not within the UK (Lng, Lat): [-7.910156, 49.781264, 2.043457, 59.164668]",
         );
       }
     }
@@ -128,14 +128,14 @@ const validate: { [key: string]: Function } = {
     const query = /^[A-Z]{1,2}[0-9][A-Z0-9]?( ?[0-9][A-Z]{2})?$/g;
     if (!query.test(postcode)) {
       throw new Error(
-        "Invalid Postcode: The minimum for the resource is the area and district e.g. SO16"
+        "Invalid Postcode: The minimum for the resource is the area and district e.g. SO16",
       );
     }
   },
   uprn: function (uprn: number) {
     if (!Number.isInteger(uprn) || uprn < 0 || uprn.toString().length > 12) {
       throw new Error(
-        "Invalid UPRN, should be a positive integer (max. 12 digits)"
+        "Invalid UPRN, should be a positive integer (max. 12 digits)",
       );
     }
   },
