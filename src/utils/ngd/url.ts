@@ -24,7 +24,7 @@ function buildUrl(
     crs?: null | number | string;
     bboxCRS?: null | number | string;
     filterCRS?: null | number | string;
-  } = {}
+  } = {},
 ) {
   const queryParams: {
     bbox?: string;
