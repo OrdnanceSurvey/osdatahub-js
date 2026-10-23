@@ -17,7 +17,7 @@ async function requestNames(config: Config): Promise<OSFeatureCollection> {
   responseObject.results.forEach((result) => {
     coordsTemp = coords.fromBNG(
       result.GAZETTEER_ENTRY.GEOMETRY_X,
-      result.GAZETTEER_ENTRY.GEOMETRY_Y
+      result.GAZETTEER_ENTRY.GEOMETRY_Y,
     );
     result.GAZETTEER_ENTRY.LNG = coordsTemp.lng;
     result.GAZETTEER_ENTRY.LAT = coordsTemp.lat;
@@ -35,7 +35,7 @@ async function requestNames(config: Config): Promise<OSFeatureCollection> {
  */
 export const nearest = async (
   apiKey: string,
-  point: [number, number]
+  point: [number, number],
 ): Promise<OSFeatureCollection> => {
   validateParams({ apiKey, point });
 
@@ -64,7 +64,7 @@ export const nearest = async (
 export const find = async (
   apiKey: string,
   query: string,
-  { offset = 0, limit = 100 }: { offset?: number; limit?: number } = {}
+  { offset = 0, limit = 100 }: { offset?: number; limit?: number } = {},
 ): Promise<OSFeatureCollection> => {
   validateParams({ apiKey, query, offset, limit });
 
