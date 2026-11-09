@@ -9,7 +9,7 @@ export { request, checkStatusCode, logEndConditions, continuePaging };
 async function post(
   endpoint: string,
   key: string,
-  body: string
+  body: string,
 ): Promise<Response> {
   logging.info("🔍 " + endpoint);
   return await fetch(endpoint, {
@@ -35,7 +35,7 @@ async function get(endpoint: string, key: string): Promise<Response> {
 function getOffsetEndpoint(config: Config, featureCount: number): string {
   const limit = Math.min(
     config.paging.limitValue - config.paging.startValue - featureCount,
-    100
+    100,
   );
   return (
     config.url + "&offset=" + config.paging.position + "&maxresults=" + limit
@@ -47,7 +47,7 @@ function checkStatusCode(statusCode: number): void {
     switch (statusCode) {
       case 400:
         throw new Error(
-          `HTTP 400 (Bad Request - Potential CQL/Bounding Geometry Error)`
+          `HTTP 400 (Bad Request - Potential CQL/Bounding Geometry Error)`,
         );
       case 401:
         throw new Error(`HTTP 401 (Unauthorized - Check Your API Key)`);
@@ -60,7 +60,7 @@ function checkStatusCode(statusCode: number): void {
 function logEndConditions(config: Config, featureCount: number): void {
   if (config.paging.position == config.paging.limitValue) {
     logging.warn(
-      `🔸 The hard limit (${config.paging.limitValue} features) was reached. Additional features may be available to collect.`
+      `🔸 The hard limit (${config.paging.limitValue} features) was reached. Additional features may be available to collect.`,
     );
   } else {
     logging.info(`🔹 All features (${featureCount}) have been collected.`);
