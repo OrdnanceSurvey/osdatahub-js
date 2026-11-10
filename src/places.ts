@@ -25,13 +25,13 @@ async function requestPlaces(config: Config): Promise<OSFeatureCollection> {
 }
 
 function isFeature(
-  geojson: Feature | FeatureCollection | Polygon
+  geojson: Feature | FeatureCollection | Polygon,
 ): geojson is Feature {
   return "type" in geojson && geojson.type == "Feature";
 }
 
 function isFeatureCollection(
-  geojson: Feature | FeatureCollection | Polygon
+  geojson: Feature | FeatureCollection | Polygon,
 ): geojson is FeatureCollection {
   return "type" in geojson && geojson.type == "FeatureCollection";
 }
@@ -41,7 +41,7 @@ function isPolygon(geom: Geometry): geom is Polygon {
 }
 
 function preprocessPlacesPolygon(
-  geoJson: Feature | FeatureCollection | Polygon
+  geoJson: Feature | FeatureCollection | Polygon,
 ) {
   try {
     if (isFeatureCollection(geoJson) && geoJson.features.length === 0) {
@@ -50,7 +50,7 @@ function preprocessPlacesPolygon(
       throw new Error(
         `Input feature collection has too many features. Expected 1, got ${
           (geoJson as FeatureCollection).features.length
-        }`
+        }`,
       );
     }
 
@@ -73,14 +73,14 @@ function preprocessPlacesPolygon(
     if (coords.isLngLat(geom.coordinates[0][0])) {
       geom.coordinates[0] = geom.coordinates[0].map(
         (coordinate) =>
-          <Position>coords.swivelPoint(coordinate as [number, number])
+          <Position>coords.swivelPoint(coordinate as [number, number]),
       );
     }
 
     return geom;
   } catch {
     throw new Error(
-      "Failed to read GeoJSON input. Does the GeoJSON input adhere to specification?"
+      "Failed to read GeoJSON input. Does the GeoJSON input adhere to specification?",
     );
   }
 }
@@ -98,7 +98,7 @@ function preprocessPlacesPolygon(
 export const polygon = async (
   apiKey: string,
   polygon: Feature | FeatureCollection | Polygon,
-  { offset = 0, limit = 100 }: { offset?: number; limit?: number } = {}
+  { offset = 0, limit = 100 }: { offset?: number; limit?: number } = {},
 ): Promise<OSFeatureCollection> => {
   validateParams({ apiKey, polygon, offset, limit });
 
@@ -131,7 +131,7 @@ export const radius = async (
   apiKey: string,
   point: [number, number],
   radius: number,
-  { offset = 0, limit = 100 }: { offset?: number; limit?: number } = {}
+  { offset = 0, limit = 100 }: { offset?: number; limit?: number } = {},
 ): Promise<OSFeatureCollection> => {
   validateParams({ apiKey, point, radius, offset, limit });
 
@@ -163,7 +163,7 @@ export const radius = async (
 export const bbox = async (
   apiKey: string,
   bbox: [number, number, number, number],
-  { offset = 0, limit = 100 }: { offset?: number; limit?: number } = {}
+  { offset = 0, limit = 100 }: { offset?: number; limit?: number } = {},
 ): Promise<OSFeatureCollection> => {
   validateParams({ apiKey, bbox, offset, limit });
 
@@ -190,7 +190,7 @@ export const bbox = async (
  */
 export const nearest = async (
   apiKey: string,
-  point: [number, number]
+  point: [number, number],
 ): Promise<OSFeatureCollection> => {
   validateParams({ apiKey, point });
 
@@ -218,7 +218,7 @@ export const nearest = async (
  */
 export const uprn = async (
   apiKey: string,
-  uprn: number
+  uprn: number,
 ): Promise<OSFeatureCollection> => {
   validateParams({ apiKey, uprn });
 
@@ -246,7 +246,7 @@ export const uprn = async (
 export const postcode = async (
   apiKey: string,
   postcode: string,
-  { offset = 0, limit = 100 }: { offset?: number; limit?: number } = {}
+  { offset = 0, limit = 100 }: { offset?: number; limit?: number } = {},
 ): Promise<OSFeatureCollection> => {
   validateParams({ apiKey, postcode, offset, limit });
 
@@ -273,7 +273,7 @@ export const postcode = async (
 export const find = async (
   apiKey: string,
   query: string,
-  { offset = 0, limit = 100 }: { offset?: number; limit?: number } = {}
+  { offset = 0, limit = 100 }: { offset?: number; limit?: number } = {},
 ): Promise<OSFeatureCollection> => {
   validateParams({ apiKey, query, offset, limit });
 
