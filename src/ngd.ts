@@ -58,7 +58,7 @@ export const features = async (
     crs?: null | string | number;
     bboxCRS?: null | string | number;
     filterCRS?: null | string | number;
-  } = {}
+  } = {},
 ): Promise<FeatureCollection> => {
   validateParams({ bbox, datetime });
   const config = initialiseConfig(apiKey, offset, limit);
@@ -81,7 +81,7 @@ export const features = async (
  * @return {Promise<NGDCollection | NGDCollection[]>} - Collection information
  */
 export const collections = async (
-  collectionId = ""
+  collectionId = "",
 ): Promise<NGDCollection | NGDCollections> => {
   const endpoint = root + `${collectionId}`;
   return (await get(endpoint).then((response) => response.json())) as Promise<
@@ -98,7 +98,7 @@ export const collections = async (
 export const schema = async (collectionId: string): Promise<NGDSchema> => {
   const endpoint = root + `${collectionId}/schema`;
   return (await get(endpoint).then((response) =>
-    response.json()
+    response.json(),
   )) as Promise<NGDSchema>;
 };
 
@@ -109,11 +109,11 @@ export const schema = async (collectionId: string): Promise<NGDSchema> => {
  * @return {Promise<NGDQueryables>} - JSON containing querable properties
  */
 export const queryables = async (
-  collectionId: string
+  collectionId: string,
 ): Promise<NGDQueryables> => {
   const endpoint = root + `${collectionId}/queryables`;
   return (await get(endpoint).then((response) =>
-    response.json()
+    response.json(),
   )) as Promise<NGDQueryables>;
 };
 
@@ -135,10 +135,10 @@ export const feature = async (
     crs = null,
   }: {
     crs?: null | string | number;
-  } = {}
+  } = {},
 ): Promise<Feature> => {
   const endpoint = buildUrl(collectionId, { featureId, crs });
   return (await get(endpoint, apiKey).then((response) =>
-    response.json()
+    response.json(),
   )) as Promise<Feature>;
 };
